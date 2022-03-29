@@ -16,10 +16,10 @@
         </style>
     </head>
     <body>
-        hello
+        Hello, world!
         <div id="app">
             <home></home>
         </div> 
     </body>
-<script src="{{mix('js/app.js')}}"></script>    
+<script src="/js/app.js"></script>
 </html>
