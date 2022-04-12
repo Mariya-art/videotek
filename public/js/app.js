@@ -2249,6 +2249,11 @@ __webpack_require__.r(__webpack_exports__);
     film: {
       type: Object
     }
+  },
+  methods: {
+    getImgUrl: function getImgUrl(img) {
+      return __webpack_require__("./resources/js/assets sync recursive ^\\.\\/.*$")("./" + img)["default"];
+    }
   }
 });
 
@@ -2265,12 +2270,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 //
 //
@@ -2331,18 +2344,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       filmData: null
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['getFilmsList'])), {}, {
+  mounted: function mounted() {
+    var _this = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var result;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return axios.get('/films/' + _this.$route.params.route);
+
+            case 2:
+              result = _context.sent;
+              _this.filmData = result.data;
+
+            case 4:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
+  methods: {
+    getImgUrl: function getImgUrl(img) {
+      return __webpack_require__("./resources/js/assets sync recursive ^\\.\\/.*$")("./" + img)["default"];
+    }
+  },
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['getFilmsList'])), {}, {
     filmsList: function filmsList() {
       return this.getFilmsList;
     }
   }),
   created: function created() {
-    var _this = this;
+    var _this2 = this;
 
     /* eslint-disable */
     var filmData = this.filmsList.find(function (filmData) {
-      return filmData.route == _this.$route.params.route;
-    });
+      return filmData.route == _this2.$route.params.route;
+    }); //const filmData = this.filmData;
 
     if (filmData) {
       this.filmData = filmData;
@@ -2364,13 +2406,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _CardFilm_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CardFilm.vue */ "./resources/js/components/CardFilm.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _CardFilm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CardFilm.vue */ "./resources/js/components/CardFilm.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 //
 //
@@ -2399,22 +2449,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ListFilms",
   components: {
-    CardFilm: _CardFilm_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    CardFilm: _CardFilm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
-    return {};
+    return {
+      filmsList: []
+    };
   },
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(["fetchFilms", "fetchCarousel"])),
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getFilmsList", "getCarouselList"])), {}, {
-    filmsList: function filmsList() {
-      return this.getFilmsList;
-    },
+  mounted: function mounted() {
+    var _this = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var result;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return axios.get('/films');
+
+            case 2:
+              result = _context.sent;
+              _this.filmsList = result.data; //axios.get('/films').then( result => this.filmsList = result.data);
+
+            case 4:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(["fetchCarousel"])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getCarouselList"])), {}, {
     carouselList: function carouselList() {
       return this.getCarouselList;
     }
   }),
   created: function created() {
-    this.fetchFilms();
     this.fetchCarousel();
   }
 });
@@ -2587,15 +2659,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
  // path to vuetify export
 
-console.log('is running'); //Vue.component('home', require('./components/Home.vue').default);
-//Vue.component('test-vuetify', require('./components/TestVuetify.vue').default);
-
-/*
-const app = new Vue({
-    vuetify: Vuetify,
-    el: "#app",
-});*/
-
 var app = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
   el: "#app",
   router: _router__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -2725,24 +2788,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _assets_avatar_jpeg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../assets/avatar.jpeg */ "./resources/js/assets/avatar.jpeg");
-/* harmony import */ var _assets_garri_jpeg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../assets/garri.jpeg */ "./resources/js/assets/garri.jpeg");
-/* harmony import */ var _assets_everest_jpeg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../assets/everest.jpeg */ "./resources/js/assets/everest.jpeg");
-/* harmony import */ var _assets_belo_jpeg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/belo.jpeg */ "./resources/js/assets/belo.jpeg");
-/* harmony import */ var _assets_matrica_jpeg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../assets/matrica.jpeg */ "./resources/js/assets/matrica.jpeg");
-/* harmony import */ var _assets_chel_jpeg__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../assets/chel.jpeg */ "./resources/js/assets/chel.jpeg");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
-
-
-
-
-
-
-vue__WEBPACK_IMPORTED_MODULE_6__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_7__["default"]);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_7__["default"].Store({
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     filmsList: [],
     carouselList: [],
@@ -2773,85 +2824,9 @@ vue__WEBPACK_IMPORTED_MODULE_6__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_7_
   actions: {
     fetchFilms: function fetchFilms(_ref) {
       var commit = _ref.commit;
-      return commit('setFilmsList', [{
-        id: 1,
-        img: _assets_avatar_jpeg__WEBPACK_IMPORTED_MODULE_0__["default"],
-        title: 'Аватар',
-        route: 'avatar',
-        score: '7.9',
-        age: 18,
-        year: 2009,
-        country: 'США',
-        genre: 'Фантастика',
-        director: 'Джеймс Кэмерон',
-        actors: 'Зои Салданой, Сэм Уортингтон,Зои Салдана,Сигурни Уивер',
-        description: 'По сюжету ресурсодобывающая корпорация угрожает существованию местного племени человекоподобных разумных существ — на’ви.'
-      }, {
-        id: 2,
-        img: _assets_garri_jpeg__WEBPACK_IMPORTED_MODULE_1__["default"],
-        title: 'Гарри Поттер и узник азкабана',
-        route: 'hurrypotter-azkaban',
-        score: '8.6',
-        age: 6,
-        year: 2004,
-        country: 'США, Великобритания',
-        genre: 'Фэнтези',
-        director: 'Альфонсо Куарон',
-        actors: 'Дэниел Рэдклифф, Руперт Гринт,Эмма Уотсон',
-        description: 'Третий год учёбы Гарри и его друзей в Хогвартсе.'
-      }, {
-        id: 3,
-        img: _assets_everest_jpeg__WEBPACK_IMPORTED_MODULE_2__["default"],
-        title: 'Эверест',
-        route: 'everest',
-        score: '7.2',
-        age: 18,
-        year: 2015,
-        country: 'США, Великобритания',
-        genre: 'Фильм-катастрофа',
-        director: 'Балтазар Кормакур',
-        actors: 'Джейсон Кларк, Джош Бролин, Джейк Джилленхол',
-        description: 'В основе фильма лежат реальные события, произошедшие в Гималаях в мае 1996 года.'
-      }, {
-        id: 4,
-        img: _assets_belo_jpeg__WEBPACK_IMPORTED_MODULE_3__["default"],
-        title: 'Белоснежка и охотник',
-        route: 'snowwhite',
-        score: '8.0',
-        age: 16,
-        year: 2012,
-        country: 'США',
-        genre: 'Фэнтези',
-        director: 'Руперт Сандерс',
-        actors: 'Кристен Стюарт,Шарлиз Терон,Крис Хемсворт',
-        description: 'В королевство Табор вторгается армия стеклянных солдат.Король Магнус разбивает врагов, освобождает прекрасную пленницу.'
-      }, {
-        id: 5,
-        img: _assets_matrica_jpeg__WEBPACK_IMPORTED_MODULE_4__["default"],
-        title: 'Матрица',
-        route: 'matrix',
-        score: '8.9',
-        age: 16,
-        year: 1999,
-        country: 'США,Австралия',
-        genre: 'Фантастика',
-        director: 'братья Вачовски',
-        actors: 'Киану Ривз, Лоуренс Фишборн, Керри-Энн Мосс, Хьюго Уивинг, Джо Пантолиано',
-        description: 'Фильм изображает будущее, в котором реальность, существующая для большинства людей, в действительности является симуляцией, созданной разумными машинами, чтобы подчинить и усмирить человечество, в то время как тепло и электрическая активность их тел используются машинами в качестве источника энергии. Немногие люди, высвободившиеся из «мира снов» и выбравшиеся в реальность, вступают в партизанскую войну против машин…'
-      }, {
-        id: 6,
-        img: _assets_chel_jpeg__WEBPACK_IMPORTED_MODULE_5__["default"],
-        title: 'Человек паук',
-        route: 'spiderman',
-        score: '8.5',
-        age: 16,
-        year: 2002,
-        country: 'США',
-        genre: 'Фантастика',
-        director: 'Йен Брайс',
-        actors: 'Тоби Магуайр,Клифф Робертсон,Кирстен Данст.',
-        description: 'Школьник-неудачник Питер Паркер становится супергероем. Тоби Магуайр в культовом кинокомиксе Сэма Рэйми.'
-      }]);
+      return axios.get('/films').then(function (result) {
+        commit('setFilmsList', result.data);
+      });
     },
     fetchCarousel: function fetchCarousel(_ref2) {
       var commit = _ref2.commit;
@@ -3139,6 +3114,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/assets/dzhjent.jpg":
+/*!*****************************************!*\
+  !*** ./resources/js/assets/dzhjent.jpg ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/dzhjent.jpg?d87d2232c070eca30ecf28f2e51176f1");
+
+/***/ }),
+
 /***/ "./resources/js/assets/everest.jpeg":
 /*!******************************************!*\
   !*** ./resources/js/assets/everest.jpeg ***!
@@ -3151,6 +3141,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/everest.jpeg?162ef9ff9e4113701e5f1a597a9a4297");
+
+/***/ }),
+
+/***/ "./resources/js/assets/fillm.jpeg":
+/*!****************************************!*\
+  !*** ./resources/js/assets/fillm.jpeg ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/fillm.jpeg?ecbcddef2ff3be776d25d5af7d1d60d0");
 
 /***/ }),
 
@@ -3169,6 +3174,66 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/assets/life.jpeg":
+/*!***************************************!*\
+  !*** ./resources/js/assets/life.jpeg ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/life.jpeg?b252b55f86f9aaca2219bd714a167af6");
+
+/***/ }),
+
+/***/ "./resources/js/assets/logo.png":
+/*!**************************************!*\
+  !*** ./resources/js/assets/logo.png ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/logo.png?26bd867dd65e26dbc77d1e151ffd36e0");
+
+/***/ }),
+
+/***/ "./resources/js/assets/logo.svg":
+/*!**************************************!*\
+  !*** ./resources/js/assets/logo.svg ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/logo.svg?cc3f3f7ab2ed8391148aafa66344c91e");
+
+/***/ }),
+
+/***/ "./resources/js/assets/mars.jpeg":
+/*!***************************************!*\
+  !*** ./resources/js/assets/mars.jpeg ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/mars.jpeg?a02cb925da710aef3007be4c4e8070dc");
+
+/***/ }),
+
 /***/ "./resources/js/assets/matrica.jpeg":
 /*!******************************************!*\
   !*** ./resources/js/assets/matrica.jpeg ***!
@@ -3181,6 +3246,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/matrica.jpeg?d8a0e1125c12760a485922f77afa5f80");
+
+/***/ }),
+
+/***/ "./resources/js/assets/pirat.jpeg":
+/*!****************************************!*\
+  !*** ./resources/js/assets/pirat.jpeg ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/pirat.jpeg?f2023f2f2bb17d45a6e4c4abed3fdc26");
 
 /***/ }),
 
@@ -22457,7 +22537,7 @@ var render = function () {
       },
     },
     [
-      _c("img", { attrs: { src: _vm.film.img, alt: "film" } }),
+      _c("img", { attrs: { src: _vm.getImgUrl(_vm.film.img), alt: "film" } }),
       _vm._v(" "),
       _c("p", { staticClass: "score" }, [_vm._v(_vm._s(_vm.film.score))]),
       _vm._v(" "),
@@ -22492,11 +22572,11 @@ var render = function () {
     _c("div", { staticClass: "film-page-content" }, [
       _c("div", { staticClass: "film-data-block" }, [
         _c("div", { staticClass: "poster" }, [
-          _c("img", { attrs: { src: _vm.filmData.img } }),
+          _c("img", { attrs: { src: _vm.getImgUrl(_vm.filmData.image) } }),
           _vm._v(" "),
-          _vm.filmData.age
+          _vm.filmData.age_limit
             ? _c("p", { staticClass: "age-boundary" }, [
-                _vm._v(_vm._s(_vm.filmData.age) + "+"),
+                _vm._v(_vm._s(_vm.filmData.age_limit) + "+"),
               ])
             : _vm._e(),
         ]),
@@ -22551,11 +22631,11 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _vm.filmData.route === "matrix"
+      _vm.filmData.slug === "matrix"
         ? _c("div", { staticClass: "player-text" }, [_vm._v("Трейлер")])
         : _vm._e(),
       _vm._v(" "),
-      _vm.filmData.route === "matrix"
+      _vm.filmData.slug === "matrix"
         ? _c("div", { staticClass: "player" }, [
             _c("iframe", {
               attrs: {
@@ -85595,6 +85675,51 @@ var index = {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (index);
 
 
+
+/***/ }),
+
+/***/ "./resources/js/assets sync recursive ^\\.\\/.*$":
+/*!********************************************!*\
+  !*** ./resources/js/assets/ sync ^\.\/.*$ ***!
+  \********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var map = {
+	"./avatar.jpeg": "./resources/js/assets/avatar.jpeg",
+	"./belo.jpeg": "./resources/js/assets/belo.jpeg",
+	"./chel.jpeg": "./resources/js/assets/chel.jpeg",
+	"./dzhjent.jpg": "./resources/js/assets/dzhjent.jpg",
+	"./everest.jpeg": "./resources/js/assets/everest.jpeg",
+	"./fillm.jpeg": "./resources/js/assets/fillm.jpeg",
+	"./garri.jpeg": "./resources/js/assets/garri.jpeg",
+	"./life.jpeg": "./resources/js/assets/life.jpeg",
+	"./logo.png": "./resources/js/assets/logo.png",
+	"./logo.svg": "./resources/js/assets/logo.svg",
+	"./mars.jpeg": "./resources/js/assets/mars.jpeg",
+	"./matrica.jpeg": "./resources/js/assets/matrica.jpeg",
+	"./pirat.jpeg": "./resources/js/assets/pirat.jpeg",
+	"./videotek.jpg": "./resources/js/assets/videotek.jpg"
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = "./resources/js/assets sync recursive ^\\.\\/.*$";
 
 /***/ })
 

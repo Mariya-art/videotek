@@ -28,22 +28,25 @@ export default {
   name: "ListFilms",
   components: { CardFilm },
   data() {
-    return {};
+    return {
+      filmsList: [],
+    };
+  },
+  async mounted() {
+    let result = await axios.get('/films');
+    this.filmsList = result.data;
+    //axios.get('/films').then( result => this.filmsList = result.data);
   },
   methods: {
-    ...mapActions(["fetchFilms", "fetchCarousel"]),
+    ...mapActions(["fetchCarousel"]),
   },
   computed: {
-    ...mapGetters(["getFilmsList", "getCarouselList"]),
-    filmsList() {
-      return this.getFilmsList;
-    },
+    ...mapGetters(["getCarouselList"]),
     carouselList() {
       return this.getCarouselList;
     },
   },
   created() {
-    this.fetchFilms();
     this.fetchCarousel();
   },
 };

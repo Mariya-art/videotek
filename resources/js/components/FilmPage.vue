@@ -3,8 +3,8 @@
     <div class="film-page-content" >
       <div class="film-data-block">
         <div class="poster">
-          <img :src="filmData.img"/>
-          <p v-if="filmData.age" class="age-boundary">{{ filmData.age }}+</p>
+          <img :src=getImgUrl(filmData.image) />
+          <p v-if="filmData.age_limit" class="age-boundary">{{ filmData.age_limit }}+</p>
         </div>
         <div class="film-data">
           <h1>{{ filmData.title }}</h1>
@@ -28,8 +28,8 @@
           </p>
         </div>
       </div>
-      <div v-if="filmData.route === 'matrix'" class="player-text">Трейлер</div>
-      <div v-if="filmData.route === 'matrix'" class="player">
+      <div v-if="filmData.slug === 'matrix'" class="player-text">Трейлер</div>
+      <div v-if="filmData.slug === 'matrix'" class="player">
         <iframe
           width="560"
           height="315"
@@ -59,12 +59,22 @@ export default {
       filmData: null
     }
   },
+    async mounted() {
+    let result = await axios.get('/films/' + this.$route.params.route);
+    this.filmData = result.data;
+  },
+    methods: {
+    getImgUrl(img) {
+      return require('../assets/' + img).default;
+    },
+  },
   computed: {
     ...mapGetters(['getFilmsList']),
     filmsList () {
       return this.getFilmsList
     }
   },
+  
   created () {
     /* eslint-disable */
     const filmData = this.filmsList.find(filmData => filmData.route == this.$route.params.route);

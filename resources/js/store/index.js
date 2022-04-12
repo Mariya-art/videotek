@@ -1,11 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Avatar from '../assets/avatar.jpeg'
-import Hurry from '../assets/garri.jpeg'
-import Everest from '../assets/everest.jpeg'
-import SnowWhite from '../assets/belo.jpeg'
-import Matrix from '../assets/matrica.jpeg'
-import Spiderman from '../assets/chel.jpeg'
 
 Vue.use(Vuex)
 
@@ -33,92 +27,10 @@ export default new Vuex.Store({
   },
   actions: {
     fetchFilms({ commit }) {
-      return commit('setFilmsList', [
-        {
-          id: 1,
-          img: Avatar,
-          title: 'Аватар',
-          route: 'avatar',
-          score: '7.9',
-          age: 18,
-          year: 2009,
-          country: 'США',
-          genre: 'Фантастика',
-          director: 'Джеймс Кэмерон',
-          actors: 'Зои Салданой, Сэм Уортингтон,Зои Салдана,Сигурни Уивер',
-          description: 'По сюжету ресурсодобывающая корпорация угрожает существованию местного племени человекоподобных разумных существ — на’ви.'
-        },
-        {
-          id: 2,
-          img: Hurry,
-          title: 'Гарри Поттер и узник азкабана',
-          route: 'hurrypotter-azkaban',
-          score: '8.6',
-          age: 6,
-          year: 2004,
-          country: 'США, Великобритания',
-          genre: 'Фэнтези',
-          director: 'Альфонсо Куарон',
-          actors: 'Дэниел Рэдклифф, Руперт Гринт,Эмма Уотсон',
-          description: 'Третий год учёбы Гарри и его друзей в Хогвартсе.'
-        },
-        {
-          id: 3,
-          img: Everest,
-          title: 'Эверест',
-          route: 'everest',
-          score: '7.2',
-          age: 18,
-          year: 2015,
-          country: 'США, Великобритания',
-          genre: 'Фильм-катастрофа',
-          director: 'Балтазар Кормакур',
-          actors: 'Джейсон Кларк, Джош Бролин, Джейк Джилленхол',
-          description: 'В основе фильма лежат реальные события, произошедшие в Гималаях в мае 1996 года.'
-        },
-        {
-          id: 4,
-          img: SnowWhite,
-          title: 'Белоснежка и охотник',
-          route: 'snowwhite',
-          score: '8.0',
-          age: 16,
-          year: 2012,
-          country: 'США',
-          genre: 'Фэнтези',
-          director: 'Руперт Сандерс',
-          actors: 'Кристен Стюарт,Шарлиз Терон,Крис Хемсворт',
-          description: 'В королевство Табор вторгается армия стеклянных солдат.Король Магнус разбивает врагов, освобождает прекрасную пленницу.'
-        },
-        {
-          id: 5,
-          img: Matrix,
-          title: 'Матрица',
-          route: 'matrix',
-          score: '8.9',
-          age: 16,
-          year: 1999,
-          country: 'США,Австралия',
-          genre: 'Фантастика',
-          director: 'братья Вачовски',
-          actors: 'Киану Ривз, Лоуренс Фишборн, Керри-Энн Мосс, Хьюго Уивинг, Джо Пантолиано',
-          description: 'Фильм изображает будущее, в котором реальность, существующая для большинства людей, в действительности является симуляцией, созданной разумными машинами, чтобы подчинить и усмирить человечество, в то время как тепло и электрическая активность их тел используются машинами в качестве источника энергии. Немногие люди, высвободившиеся из «мира снов» и выбравшиеся в реальность, вступают в партизанскую войну против машин…'
-        },
-        {
-          id: 6,
-          img: Spiderman,
-          title: 'Человек паук',
-          route: 'spiderman',
-          score: '8.5',
-          age: 16,
-          year: 2002,
-          country: 'США',
-          genre: 'Фантастика',
-          director: 'Йен Брайс',
-          actors: 'Тоби Магуайр,Клифф Робертсон,Кирстен Данст.',
-          description: 'Школьник-неудачник Питер Паркер становится супергероем. Тоби Магуайр в культовом кинокомиксе Сэма Рэйми.'
-        }
-      ])
+      return axios.get('/films').then( result => {
+        commit('setFilmsList', result.data);
+      })
+      
     },
     fetchCarousel({ commit }) {
       return commit('setCarouselList', [
