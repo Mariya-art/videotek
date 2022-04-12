@@ -1,19 +1,25 @@
 <template>
   <div class="card" @click="$router.push({name: 'filmPage' , params: { route: film.route }})">
-    <img :src="film.img" alt="film" />
+    <img :src=getImgUrl(film.img) alt="film" />
     <p class="score">{{ film.score }}</p>
     <p class="title">{{ film.title }}</p>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'CardFilm',
   props: {
     film: {
       type: Object
     }
-  }
+  },
+  methods: {
+    getImgUrl(img) {
+      return require('../assets/' + img).default;
+    },
+  },
 }
 </script>
 

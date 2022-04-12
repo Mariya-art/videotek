@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FilmController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [FilmController::class, 'index'])->name('index');
+Route::get('/films', [FilmController::class, 'films']);
+
+Route::get('/films/{slug}', [FilmController::class, 'film']);
+
+//Route::get('/types/{slug}', [TypeController::class, 'show'])->name('types.show');
