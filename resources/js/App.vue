@@ -1,5 +1,6 @@
 <template>
-  <div class="app">
+  <div class="app wrapper">
+    <div class="main-wrapper">
     <v-navigation-drawer
       app
       left
@@ -60,6 +61,7 @@
       </v-app-bar>
       <router-view />
     </v-main>
+    </div>
     <v-footer dark padless>
       <v-card class="lighten-1 white--text text-center flex" flat tile>
         <div class="footer">
@@ -124,6 +126,14 @@ export default {
 </script>
 
 <style>
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.main-wrapper {
+  flex-grow: 1;
+}
 .app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   background-color: black;

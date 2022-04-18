@@ -7,7 +7,7 @@
           <button class="btn">В избранное</button>
         </div>
         <div class="film-data">
-          <h1>{{ filmData.title }}</h1>
+          <h1>{{ filmData.title }} ({{ filmData.year }})</h1>
           <div class="score-block">
             Рейтинг: <strong>{{ filmData.score }}</strong>
           </div>
@@ -85,11 +85,14 @@
             color="#EB5804"
             variant="outlined"
             class="v-btn-style"
+            :disabled="isVoteDisabled"
+            @click="vote(item)"
           >
             {{ item }}
           </v-btn>
         </v-btn-toggle>
       </div>
+      <Comment :film="filmData.route" />
     </div>
   </div>
 </template>
@@ -97,11 +100,12 @@
 <script>
 import axios from "axios";
 import Player from './Player.vue';
+import Comment from './Comment.vue'
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "FilmPage",
-  components: { Player },
+  components: { Player,Comment},
   data() {
     return {
       filmData: null,
@@ -109,9 +113,19 @@ export default {
       filmDirectors: [],
       filmCategories: [],
       isTrailerVisible: false,
+      isVoteDisabled: false
     };
   },
   methods: {
+    vote (item) {
+      const data = {
+        vote: item,
+        id: this.filmData.id
+      }
+      console.log(data)
+      localStorage.setItem(this.filmData.id, JSON.stringify(data))
+      this.isVoteDisabled = true
+  },
     ...mapActions([
       "fetchItemActors",
       "fetchItemDirectors",
@@ -171,6 +185,10 @@ export default {
     if (filmData) {
       this.filmData = filmData;
       document.title = "VIDEOTEK - " + filmData.title;
+    }
+    const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
+    if (voteData.id === this.filmData.id) {
+      this.isVoteDisabled = true
     }
   },
 };
