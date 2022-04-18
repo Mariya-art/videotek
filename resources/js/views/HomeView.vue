@@ -1,22 +1,20 @@
 <template>
   <div>
     <Registration/>
-    <ListFilms />
+    <MainPage />
   </div>
 </template>
 
 <script>
-import ListFilms from '../components/ListFilms'
+import MainPage from '../components/MainPage.vue'
 import Registration from '../components/Registrations.vue'
 
 export default {
   name: 'HomeView',
 
   components: {
-    ListFilms,
-    Registration
+    MainPage,
+    Registration,
   },
-  data: () => ({
-  })
 }
 </script>

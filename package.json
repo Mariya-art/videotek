@@ -19,6 +19,7 @@
         "sass-loader": "^12.6.0"
     },
     "dependencies": {
+        "video.js": "^7.18.1",
         "vue": "^2.6.14",
         "vue-loader": "^15.9.8",
         "vue-router": "^3.5.2",
