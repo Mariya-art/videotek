@@ -1,11 +1,10 @@
 <template>
-  <v-carousel cycle :show-arrows="false">
+  <v-carousel cycle :show-arrows="false" height="60vh">
     <v-carousel-item
         v-for="(item, i) in carouselList"
         :key="i"
-        :src="item.src"
-        cover
-    ></v-carousel-item>
+    ><img :src="item.src" class="carouselImg">
+    </v-carousel-item>
   </v-carousel>
 </template>
 
@@ -31,11 +30,9 @@ export default {
 
 <style>
 .carouselImg {
-  object-fit: cover;
-  border-radius: 10px;
   width: 100%;
-  height: 600px;
-  margin-bottom: 10vh;
+  height: 100%;
+  object-fit:contain;
 }
 
 .carousel {
