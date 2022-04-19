@@ -5,14 +5,15 @@
       class="video-js vjs-big-play-centered"
       controls
       width="537"
-      height="240">
-      <source src="http://techslides.com/demos/sample-videos/small.mp4" type="video/mp4">
+      height="240"
+    >
+      <source :src="src" type="video/mp4" />
     </video>
   </div>
 </template>
 
 <script>
-import videojs from 'video.js'
+import videojs from 'video.js';
 
 export default {
   name: 'Player',
@@ -20,27 +21,31 @@ export default {
     options: {
       type: Object,
       default () {
-        return {
-        }
-      }
-    }
+        return {};
+      },
+    },
+    src: null,
   },
   data () {
     return {
-      player: null
-    }
+      player: null,
+    };
   },
   mounted () {
-    this.player = videojs(this.$refs.videoPlayer, this.options, function onPlayerReady () {
-      console.log('onPlayerReady', this)
-    })
+    this.player = videojs(
+      this.$refs.videoPlayer, 
+      this.options, 
+      function onPlayerReady () {
+      // console.log('onPlayerReady', this);
+      }
+    );
   },
   beforeDestroy () {
     if (this.player) {
-      this.player.dispose()
+      this.player.dispose();
     }
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -49,6 +54,6 @@ export default {
     margin-left: 50px;
     padding: 5px;
     width: 549px;
-    border: 1px solid white;
+    border: 3px solid #EB5804;
   }
 </style>

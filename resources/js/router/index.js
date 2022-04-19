@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import ListFilms from '../components/ListFilms.vue'
+import MainPage from '../components/MainPage.vue'
 import FilmPage from '../components/FilmPage.vue'
+import PersonPage from '../components/PersonPage.vue'
+import Films from '../components/Films.vue'
 
 Vue.use(VueRouter)
 
@@ -18,15 +20,31 @@ const routes = [
     component: () => import('../views/AboutView.vue')
   },
   {
+    path: '/main',
+    name: 'MainPage',
+    component: MainPage,
+  },
+  {
     path: '/films',
-    name: 'ListFilm',
-    component: ListFilms
+    name: 'Films',
+    component: Films,
   },
   {
     path: '/films/:route',
     name: 'filmPage',
-    component: FilmPage
-  }
+    component: FilmPage,
+  },
+  {
+    path: '/person',
+    name: 'PersonPage',
+    component: PersonPage,
+    children: [
+      {
+          path: '/person/:route',
+          component: PersonPage
+      },
+    ]
+  },
 ]
 
 const router = new VueRouter({

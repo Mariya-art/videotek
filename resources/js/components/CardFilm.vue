@@ -1,49 +1,58 @@
 <template>
-  <div class="card" @click="$router.push({name: 'filmPage' , params: { route: film.route }})">
-    <img :src=getImgUrl(film.img) alt="film" />
-    <p class="score">{{ film.score }}</p>
-    <p class="title">{{ film.title }}</p>
-  </div>
+  <figure class="card">
+    <router-link
+      class="routerLink"
+      :to="{ name: 'filmPage', params: { route: film.route } }"
+    >
+      <div class="poster">
+        <img :src="getImgUrl(film.img)" alt="film" />
+        <p class="score">{{ film.score }}</p>
+      </div>
+      <p class="title">{{ film.title }}</p>
+    </router-link>
+  </figure>
 </template>
 
 <script>
-
 export default {
-  name: 'CardFilm',
+  name: "CardFilm",
   props: {
     film: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   methods: {
     getImgUrl(img) {
-      return require('../assets/' + img).default;
+      return require("../assets/" + img).default;
     },
   },
-}
+};
 </script>
 
-<style scoped lang="scss">
+<style>
 .card {
-  position: relative;
+  transform: scale(0.9);
+  margin: 20px 40px;
 }
+
 .card:hover {
-  transform: scale(1.09);
+  transform: scale(0.95);
   cursor: pointer;
 }
-img {
-  border-radius: 0 10px 0 10px;
-  width: 250px;
-  height: 370px;
+
+.poster {
+  position: relative;
 }
+
 .title {
   margin-bottom: 0;
-  color: #ffffff;
+  color: white;
   font-weight: 700;
-  padding: 10px;
+  padding: 10px 0;
   font-size: 14pt;
   text-align: center;
 }
+
 .score {
   position: absolute;
   right: 0;
@@ -58,7 +67,7 @@ img {
   color: #ffffff;
   font-weight: 700;
   font-size: 20px;
-  border-radius: 0 10px 0 10px;
+  border-radius: 10px 0 10px 0;
   opacity: 0.7;
 }
 </style>

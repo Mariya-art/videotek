@@ -1,77 +1,83 @@
 <template>
-  <div class="carousel">
-    <v-carousel cycle :show-arrows="false">
-      <v-carousel-item
-        v-for="(item, i) in carouselList"
-        :key="i"
-        :src="item.src"
-        cover
-      ></v-carousel-item>
-    </v-carousel>
+  <div class="film-list-container">
+    <h1 class="header">{{ header }}</h1>
+    <div class="line-box">
+      <hr class="line"/>
+    </div>
     <div class="film-list">
-      <CardFilm
-        class="films"
-        v-for="film in filmsList"
-        :key="film.id"
-        :film="film"
-        :img="film.img"
-      />
+      <v-sheet>
+        <v-slide-group show-arrows dark class="slider-style">
+            <v-card>
+              <v-row
+                class="slider-style"
+                align="center"
+                justify="center"
+              >
+                <CardFilm
+                  v-for="film in filmsList"
+                  :key="film.id"
+                  :film="film"
+                  :img="film.img"
+                />
+              </v-row>
+            </v-card>
+        </v-slide-group>
+      </v-sheet>
     </div>
   </div>
 </template>
 
 <script>
-import CardFilm from "./CardFilm.vue";
-import { mapGetters, mapActions } from "vuex";
+import CardFilm from './CardFilm.vue'
 
 export default {
-  name: "ListFilms",
-  components: { CardFilm },
-  data() {
-    return {
-      filmsList: [],
-    };
-  },
-  async mounted() {
-    let result = await axios.get('/films');
-    this.filmsList = result.data;
-    //axios.get('/films').then( result => this.filmsList = result.data);
-  },
-  methods: {
-    ...mapActions(["fetchCarousel"]),
-  },
-  computed: {
-    ...mapGetters(["getCarouselList"]),
-    carouselList() {
-      return this.getCarouselList;
-    },
-  },
-  created() {
-    this.fetchCarousel();
-  },
-};
+  name: 'ListFilms',
+  props: ['header', 'filmsList'],
+  components: { CardFilm }
+}
 </script>
 
-<style lang="scss" scoped>
-.carouselImg {
-  object-fit: cover;
-  border-radius: 10px;
-  width: 100%;
-  height: 600px;
-  margin-bottom: 10vh;
+<style>
+:root {
+  --color-D: #EB5804;
+  --color-B: #d66c08;
 }
 
-.carousel {
+.film-list-container {
+  width: 1140px;
+  margin: 0 auto;
+}
+
+.header {
+  width: 1140px;
+  margin: 40px auto 10px;
+  padding-bottom: 6pt;
+  font-size: 25pt;
+}
+
+.line {
+  height: 3px;
+  color: var(--color-B);
+  background: linear-gradient(90deg, var(--color-D) 0%, black 90%);
+  margin-bottom: 35px;
+  border:none;
+}
+
+.line-box {
+  width: 1140px;
   margin: 0 auto;
 }
 
 .film-list {
-  width: 1140px;
-  margin: 200px auto 0;
-  display: grid;
-  grid-template-columns: repeat(3, 270px);
-  grid-template-rows: repeat(2, 1fr);
-  grid-column-gap: 15%;
-  grid-row-gap: 40px;
+  margin: 50px auto;
+}
+
+.slider-sheet-style {
+  max-width: 1140px;
+  color: black;
+}
+
+.slider-style {
+  background-color: black;
 }
 </style>

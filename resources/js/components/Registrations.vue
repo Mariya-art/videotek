@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { mapGetters, mapActions } from 'vuex'
+// import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Registration',
@@ -38,6 +38,8 @@ export default {
   },
   methods: {
     ...mapActions(['toggleIsVisible']),
+    onLog () {},
+    /*
     async onLog () {
       const result = await axios.post('http://localhost:8080/', {
         login: this.userName,
@@ -46,9 +48,10 @@ export default {
       console.log(result)
       this.$emit('VisibleCheng', false)
     },
+    */
     onClose () {
       this.toggleIsVisible(false)
-      this.$router.push({ name: 'ListFilm' })
+      this.$router.push('/main')
     }
   },
   computed: {
@@ -57,14 +60,14 @@ export default {
       return this.getIsVisible
     }
   }
-}
+};
 </script>
 
-<style lang="scss">
+<style>
 .form-registration-block {
   height: auto;
   position: fixed;
-  background-color: rgba(44, 44, 44, 0.6);
+  background-color: rgba(44, 44, 44, 0.9);
   top: 0;
   bottom: 0;
   width: 100%;

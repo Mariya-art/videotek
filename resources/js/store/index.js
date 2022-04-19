@@ -5,32 +5,124 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    filmsList: [],
+    films: [],
+    serials: [],
+    videos: [],
+    genres: [],
+    newItems: [],
+    ratingItems: [],
+    itemActors: [],
+    itemDirectors: [],
+    itemCategories: [],
     carouselList: [],
+    personList: [],
     isVisible: true
   },
   mutations: {
-    setFilmsList(state, payload) {
-      state.filmsList = payload
+    setNewItems(state, payload) {
+      state.newItems = payload
+    },
+    setRatingItems(state, payload) {
+      state.ratingItems = payload
+    },
+    setFilms(state, payload) {
+      state.films = payload
+    },
+    setSerials(state, payload) {
+      state.serials = payload
+    },
+    setVideos(state, payload) {
+      state.videos = payload
+    },
+    setGenres(state, payload) {
+      state.genres = payload
+    },
+    setItemActors(state, payload) {
+      state.itemActors = payload
+    },
+    setItemDirectors(state, payload) {
+      state.itemDirectors = payload
+    },
+    setItemCategories(state, payload) {
+      state.itemCategories = payload
     },
     setCarouselList(state, payload) {
       state.carouselList = payload
     },
     setIsVisible(state, payload) {
       state.isVisible = payload
-    }
+    },
+    setPersonList(state, payload) {
+      state.personList = payload
+    },
   },
   getters: {
-    getFilmsList: state => state.filmsList,
+    getNewItems: state => state.newItems,
+    getRatingItems: state => state.ratingItems,
+    getFilms: state => state.films,
+    getSerials: state => state.serials,
+    getVideos: state => state.videos,
+    getGenres: state => state.genres,
+    getItemActors: state => state.itemActors,
+    getItemDirectors: state => state.itemDirectors,
+    getItemCategories: state => state.itemCategories,
     getCarouselList: state => state.carouselList,
-    getIsVisible: state => state.isVisible
+    getIsVisible: state => state.isVisible,
+    getPersonsList: state => state.personList,
   },
   actions: {
+    fetchNewItems({ commit }) {
+      return axios.get('/main/new').then( result => {
+        commit('setNewItems', result.data);
+      })  
+    },
+    fetchRatingItems({ commit }) {
+      return axios.get('/main/rating').then( result => {
+        commit('setRatingItems', result.data);
+      })  
+    },
     fetchFilms({ commit }) {
       return axios.get('/films').then( result => {
-        commit('setFilmsList', result.data);
-      })
-      
+        commit('setFilms', result.data);
+      })  
+    },
+    fetchSerials({ commit }) {
+      return axios.get('/serials').then( result => {
+        commit('setSerials', result.data);
+      })  
+    },
+    fetchVideos({ commit }) {
+      return axios.get('/videos').then( result => {
+        commit('setVideos', result.data);
+      })  
+    },
+    fetchGenres({ commit }) {
+      return axios.get('/genres').then( result => {
+        commit('setGenres', result.data);
+      })  
+    },
+    fetchItemActors({ commit }, route) {
+      return axios.get('/films/' + route + '/actors').then( result => {
+        commit('setItemActors', result.data);
+      })  
+    },
+    fetchItemDirectors({ commit }, route) {
+      return axios.get('/films/' + route + '/directors').then( result => {
+        commit('setItemDirectors', result.data);
+      })  
+    },
+    fetchItemCategories({ commit }, route) {
+      return axios.get('/films/' + route + '/categories').then( result => {
+        commit('setItemCategories', result.data);
+      })  
+    },
+    fetchPerson({ commit }, payload) {
+      commit('setPersonList', payload)
+    },
+    fetchDirectors({ commit }, payload) {
+      console.log(...this.state.personList)
+      console.log(...payload)
+      commit('setPersonList', [...this.state.personList, ...payload])
     },
     fetchCarousel({ commit }) {
       return commit('setCarouselList', [
@@ -50,6 +142,6 @@ export default new Vuex.Store({
     },
     toggleIsVisible({ commit }, payload) {
       commit('setIsVisible', payload)
-    }
+    },
   }
 })
