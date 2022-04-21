@@ -31,12 +31,12 @@
             <em class="parameter">Режиссёр:</em>
             <ul class="inline-ul">
               <li
-                v-for="item in filmDirectors"
-                :key="item.name"
+                v-for="director in filmDirectors"
+                :key="director.id"
                 class="liName"
               >
-                <router-link class="routerLink" :to="'/person/' + item.route">
-                  {{ item.name }}
+                <router-link class="routerLink" :to="'/person/' + director.route">
+                  {{ director.name }}
                 </router-link>
               </li>
             </ul>
@@ -122,15 +122,11 @@ export default {
         vote: item,
         id: this.filmData.id
       }
-      console.log(data)
       localStorage.setItem(this.filmData.id, JSON.stringify(data))
       this.isVoteDisabled = true
   },
     ...mapActions([
-      "fetchItemActors",
-      "fetchItemDirectors",
-      "fetchItemCategories",
-      "fetchPerson",
+      "fetchActors",
       "fetchDirectors",
     ]),
     getImgUrl(img) {
@@ -141,9 +137,6 @@ export default {
     ...mapGetters([
       "getNewItems", 
       "getRatingItems",
-      "getItemActors",
-      "getItemDirectors",
-      "getItemCategories",
       ]),
     newItems() {
       return this.getNewItems;
@@ -159,21 +152,21 @@ export default {
   },
   mounted() {
     axios
-      .get("/films/" + this.$route.params.route + "/actors")
+      .get("/api/films/" + this.$route.params.id + "/actors")
       .then((result) => {
-        this.filmActors = result.data;
-        this.fetchPerson(result.data);
+        this.filmActors = result.data.data;
+        this.fetchActors(result.data.data);
       });
     axios
-      .get("/films/" + this.$route.params.route + "/directors")
+      .get("/api/films/" + this.$route.params.id + "/directors")
       .then((result) => {
-        this.filmDirectors = result.data;
-        this.fetchDirectors(result.data);
+        this.filmDirectors = result.data.data;
+        this.fetchDirectors(result.data.data);
       });
     axios
-      .get("/films/" + this.$route.params.route + "/categories")
+      .get("/api/films/" + this.$route.params.id + "/categories")
       .then((result) => {
-        this.filmCategories = result.data
+        this.filmCategories = result.data.data
           .map((item) => item.title.toLowerCase())
           .join(", ");
       });

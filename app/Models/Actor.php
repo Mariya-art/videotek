@@ -15,6 +15,14 @@ class Actor extends Model
         'id'
     ];
 
+            /**
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    */
+    public function films()
+    {
+        return $this->belongsToMany(Film::class);
+    }
+
     public function sluggable(): array
     {
         return [

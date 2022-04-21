@@ -4,6 +4,7 @@ use App\Http\Controllers\ActorController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\FilmController;
+use App\Http\Controllers\SpaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
 
@@ -18,22 +19,9 @@ use Illuminate\Support\Facades\Config;
 |
 */
 
-Route::get('/', [FilmController::class, 'index'])->name('index');
-Route::get('/main/new', [FilmController::class, 'getNewItems']);
-Route::get('/main/rating', [FilmController::class, 'getRatingItems']);
+//Route::get('/', [FilmController::class, 'index'])->name('index');
 
-Route::get('/films', [FilmController::class, 'getNewFilms']);
-Route::get('/serials', [FilmController::class, 'getNewSerials']);
-Route::get('/videos', [FilmController::class, 'getNewVideos']);
-
-Route::get('/genres', [CategoryController::class, 'getCategories']);
-Route::get('/films/{slug}', [FilmController::class, 'getCategoryFilms']);
-
-Route::get('/films/{slug}/actors', [ActorController::class, 'getItemActors']);
-Route::get('/films/{slug}/directors', [DirectorController::class, 'getItemDirectors']);
-Route::get('/films/{slug}/categories', [CategoryController::class, 'getItemCategories']);
-//Route::get('/films/{slug}', [FilmController::class, 'getFilm']);
-//Route::get('/types/{slug}', [TypeController::class, 'show'])->name('types.show');
+Route::get('/{any}', [SpaController::class, 'index'])->where('any', '.*');
 
 /*
 Route::get('/apiweb', function (){

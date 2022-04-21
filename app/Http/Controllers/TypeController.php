@@ -2,25 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TypeResource;
 use App\Models\Film;
 use App\Models\Type;
 use Illuminate\Http\Request;
 
 class TypeController extends Controller
 {
-    public function show(int $id) {
-        /*
-        $types = Type::query()->get();
-        $oneType = Type::findOrFail($id);
+    public function index()
+    {
+        return TypeResource::collection(Type::with('films')->get());
+    }
 
-        $films = Film::query()->select(Film::$availableFields)
-                            ->where('type_id', $id)
-                            ->paginate(6);
-        */
-        return view('films.show'/*, [
-            'types' => $types,
-            'films' => $films,
-            'oneType' => $oneType,
-        ]*/);
+    public function show(int $id)
+    {
+        return new TypeResource(Type::with('films')->findOrFail($id));
     }
 }

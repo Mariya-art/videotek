@@ -15,6 +15,35 @@ class Film extends Model
         'id'
     ];
 
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
+
+    /**
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+            /**
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    */
+    public function actors()
+    {
+        return $this->belongsToMany(Actor::class);
+    }
+
+            /**
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    */
+    public function directors()
+    {
+        return $this->belongsToMany(Director::class);
+    }
+
     public function sluggable(): array
     {
         return [
