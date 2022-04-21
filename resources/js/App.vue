@@ -104,6 +104,7 @@ import serials from "./assets/serials.png";
 import zvezda from "./assets/zvezda.png";
 import media from "./assets/media.png";
 import newfilm from "./assets/newfilm.png";
+import { mapActions } from "vuex";
 
 export default {
   name: 'App',
@@ -122,6 +123,14 @@ export default {
     newfilm,
     icons: ["mdi-odnoklassniki", "mdi-github", "mdi-trello", "mdi-discord"],
   }),
+    methods: {
+      ...mapActions(["fetchNewItems", "fetchRatingItems", "fetchFilms"])
+    },
+    created() {
+        this.fetchNewItems()
+        this.fetchRatingItems()
+        this.fetchFilms()
+    }
 };
 </script>
 

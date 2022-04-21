@@ -45,7 +45,7 @@ export default {
   data () {
     return {
       viz: false,
-      personData: {},
+      personData: {}
     };
   },
   methods: {
@@ -54,13 +54,28 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['getPersonsList']),
+    ...mapGetters(['getFilms']),
     personsList () {
-      return this.getPersonsList;
+      return this.getFilms;
     },
+    allActors () {
+      const arr = []
+      this.personsList.forEach(element => {
+        arr.push(...element.actors)
+      })
+      return arr
+    },
+    allDirectors () {
+      const arr = []
+      this.personsList.forEach(element => {
+        arr.push(...element.directors)
+      })
+      return arr
+    }
   },
   created () {
-    const personData = this.personsList.find(
+    const persons = [...this.allActors, ...this.allDirectors]
+    const personData = persons.find(
       (personData) => personData.route === this.$route.params.route
     );
 
