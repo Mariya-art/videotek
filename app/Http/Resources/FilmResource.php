@@ -30,6 +30,7 @@ class FilmResource extends JsonResource
             'genres' => CategoryResource::collection($this->categories),
             'actors' => ActorResource::collection($this->actors),
             'directors' => DirectorResource::collection($this->directors),
+            'seasons' => SeasonResource::collection($this->seasons),
         ];
     }
 }

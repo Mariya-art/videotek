@@ -44,6 +44,11 @@ class Film extends Model
         return $this->belongsToMany(Director::class);
     }
 
+    public function seasons()
+    {
+        return $this->hasMany(Season::class);
+    }
+
     public function sluggable(): array
     {
         return [

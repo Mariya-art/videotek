@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\ActorController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\FilmController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\TypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +34,10 @@ Route::get('/main/new', [FilmController::class, 'getNewItems']);
 Route::get('/films', [FilmController::class, 'getNewFilms']);
 Route::get('/serials', [FilmController::class, 'getNewSerials']);
 Route::get('/videos', [FilmController::class, 'getNewVideos']);
+Route::get('/news', [NewsController::class, 'index']);
+Route::get('/articles', [ArticleController::class, 'index']);
+Route::get('/news/{id}', [NewsController::class, 'show']);
+Route::get('/articles/{id}', [ArticleController::class, 'show']);
 
 Route::get('/genres', [CategoryController::class, 'getCategories']);
 Route::get('/films/{categoryId}', [FilmController::class, 'getCategoryFilms']);

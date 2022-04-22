@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\TypeResource;
-use App\Models\Film;
 use App\Models\Type;
 use Illuminate\Http\Request;
 
