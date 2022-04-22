@@ -23,8 +23,8 @@
           ><p><img :src="serials" class="iconList" />Сериалы</p></router-link
         >
         <hr class="line" />
-        <router-link class="link" to="/media"
-          ><p><img :src="newfilm" class="iconList" />Медиа</p></router-link
+        <router-link class="link" to="/"
+          ><p><img :src="newfilm" class="iconList" />Новинки</p></router-link
         >
         <hr class="line" />
         <router-link class="link" to="/"
@@ -33,7 +33,7 @@
           </p></router-link
         >
         <hr class="line" />
-        <router-link class="link" to="/"
+        <router-link class="link" to="/media"
           ><p><img :src="media" class="iconList" />Медиа</p></router-link
         >
         <hr class="line" />

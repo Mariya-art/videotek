@@ -6,6 +6,7 @@ import FilmPage from '../components/FilmPage.vue'
 import PersonPage from '../components/PersonPage.vue'
 import Films from '../components/Films.vue'
 import Serials from '../components/Serials.vue'
+import Media from '../components/Media.vue'
 
 Vue.use(VueRouter)
 
@@ -56,6 +57,11 @@ const routes = [
       },
     ]
   },
+  {
+    path: '/media',
+    name: 'Media',
+    component: Media
+  }
 ]
 
 const router = new VueRouter({
