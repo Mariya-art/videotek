@@ -58,23 +58,11 @@
           <hr class="line" />
         </div>
       </div>
-      <div
-        v-if="filmData.trailer"
-        class="player-text"
-        @click="isTrailerVisible = !isTrailerVisible"
-      >
-        Трейлер
+      <div>
+        <SerialWatchLine v-if="isSerial" :serialData="filmData" />
+        <FilmPlayers v-else :filmData="filmData" />
       </div>
-      <div
-        v-if="filmData.trailer"
-        v-show="isTrailerVisible"
-        class="player trailer-show"
-      >
-<!--        <div class="player"><player :src="filmData.trailer" /></div>-->
-      </div>
-      <div class="player">
-<!--        <div class="player"><player :src="filmData.link" /></div>-->
-      </div>
+
       <h1>Оцените фильм</h1>
       <hr class="line" />
       <div class="btn-toggle">
@@ -98,23 +86,22 @@
 </template>
 
 <script>
-// import axios from "axios";
-import Player from './Player.vue';
+import { mapGetters } from "vuex";
 import Comment from './Comment.vue'
-import { mapGetters, mapActions } from "vuex";
+import SerialWatchLine from './SerialWatchLine.vue'
+import FilmPlayers from './FilmPlayers.vue'
 
 export default {
   name: "FilmPage",
-  components: { Player,Comment},
-  data() {
-    return {
+  components: { Comment, SerialWatchLine, FilmPlayers},
+  data: () => ({
       filmData: null,
       filmDirectors: [],
       filmCategories: [],
       isTrailerVisible: false,
-      isVoteDisabled: false
-    };
-  },
+      isVoteDisabled: false,
+      isSerial: false
+  }),
   methods: {
     vote (item) {
       const data = {
@@ -123,11 +110,7 @@ export default {
       }
       localStorage.setItem(this.filmData.id, JSON.stringify(data))
       this.isVoteDisabled = true
-  },
-    ...mapActions([
-      "fetchActors",
-      "fetchDirectors",
-    ]),
+    },
     getImgUrl(img) {
       return require("../assets/" + img).default;
     },
@@ -153,41 +136,28 @@ export default {
       return array;
     },
   },
-  mounted() {
-    // axios
-    //   .get("/api/films/" + this.$route.params.id + "/actors")
-    //   .then((result) => {
-    //       console.log(this.$route.params.id)
-    //       console.log(result)
-    //     this.filmActors = result.data.data;
-    //     this.fetchActors(result.data.data);
-    //   });
-    // axios
-    //   .get("/api/films/" + this.$route.params.id + "/directors")
-    //   .then((result) => {
-    //     this.filmDirectors = result.data.data;
-    //     this.fetchDirectors(result.data.data);
-    //   });
-    // axios
-    //   .get("/api/films/" + this.$route.params.id + "/categories")
-    //   .then((result) => {
-    //     this.filmCategories = result.data.data
-    //       .map((item) => item.title.toLowerCase())
-    //       .join(", ");
-    //   });
-  },
   created() {
-    const filmData = this.allFilms.find((filmData) => filmData.id === +this.$route.params.id
+    let filmData = this.allFilms.find(
+      (item) => item.id === +this.$route.params.id
     );
+    if (!filmData) {
+      filmData = this.ratingItems.find(
+        (item) => item.id === +this.$route.params.id
+      );
+    }
+    if (!filmData) {
+      filmData = this.newItems.find(
+        (item) => item.id === +this.$route.params.id
+      );
+    }
     if (filmData) {
       this.filmData = filmData;
       this.filmCategories = filmData.genres.map((item) => item.title.toLowerCase()).join(", ")
       document.title = "VIDEOTEK - " + filmData.title;
+      this.isSerial = Boolean(+filmData.type_id === 2)
     }
     const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
-    if (voteData.id === this.filmData.id) {
-      this.isVoteDisabled = true
-    }
+    this.isVoteDisabled = Boolean(voteData.id === this.filmData.id)
   },
 };
 </script>
@@ -308,12 +278,6 @@ export default {
   margin: 15px 5px;
   font-size: 18pt;
   cursor: pointer;
-}
-
-.player {
-  display: flex;
-  justify-content: center;
-  margin: 50px 0;
 }
 
 .routerLink {

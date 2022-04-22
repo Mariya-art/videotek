@@ -17,9 +17,6 @@ export default {
     FilmCarousel,
     ListFilms
   },
-  methods: {
-    ...mapActions(['fetchNewItems', 'fetchRatingItems'])
-  },
   computed: {
     ...mapGetters(['getNewItems', 'getRatingItems']),
     ratingItems () {
@@ -28,10 +25,6 @@ export default {
     newItems () {
       return this.getNewItems
     }
-  },
-  created () {
-    this.fetchNewItems()
-    this.fetchRatingItems()
   }
 }
 </script>

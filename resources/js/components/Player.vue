@@ -4,8 +4,8 @@
       ref="videoPlayer"
       class="video-js vjs-big-play-centered"
       controls
-      width="537"
-      height="240"
+      :width="width"
+      :height="height"
     >
       <source :src="src" type="video/mp4" />
     </video>
@@ -25,6 +25,12 @@ export default {
       },
     },
     src: null,
+    width: {
+      default: 537,
+    },
+    height: {
+      default: 240,
+    }
   },
   data () {
     return {
@@ -33,8 +39,8 @@ export default {
   },
   mounted () {
     this.player = videojs(
-      this.$refs.videoPlayer, 
-      this.options, 
+      this.$refs.videoPlayer,
+      this.options,
       function onPlayerReady () {
       // console.log('onPlayerReady', this);
       }
@@ -51,9 +57,6 @@ export default {
 <style scoped>
   @import "video.js/dist/video-js.css";
   .video {
-    margin-left: 50px;
-    padding: 5px;
-    width: 549px;
     border: 3px solid #EB5804;
   }
 </style>
