@@ -6,11 +6,11 @@
 </template>
 
 <script>
-import MainPage from '../components/MainPage.vue'
-import Registration from '../components/Registrations.vue'
+import MainPage from './MainPage.vue'
+import Registration from './Registration.vue'
 
 export default {
-  name: 'HomeView',
+  name: 'Welcome',
 
   components: {
     MainPage,

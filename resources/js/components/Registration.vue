@@ -25,7 +25,6 @@
 </template>
 
 <script>
-// import axios from 'axios'
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
@@ -39,16 +38,6 @@ export default {
   methods: {
     ...mapActions(['toggleIsVisible']),
     onLog () {},
-    /*
-    async onLog () {
-      const result = await axios.post('http://localhost:8080/', {
-        login: this.userName,
-        password: this.password
-      })
-      console.log(result)
-      this.$emit('VisibleCheng', false)
-    },
-    */
     onClose () {
       this.toggleIsVisible(false)
       this.$router.push('/main')

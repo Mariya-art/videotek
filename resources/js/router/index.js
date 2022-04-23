@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Welcome from '../components/Welcome.vue'
 import MainPage from '../components/MainPage.vue'
 import FilmPage from '../components/FilmPage.vue'
 import PersonPage from '../components/PersonPage.vue'
@@ -11,13 +11,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    component: () => import('../views/AboutView.vue')
+    name: 'WelcomePage',
+    component: Welcome
   },
   {
     path: '/main',
@@ -30,20 +25,14 @@ const routes = [
     component: Films,
   },
   {
-    path: '/films/:id',
-    name: 'filmPage',
+    path: '/films/:route',
+    name: 'FilmPage',
     component: FilmPage,
   },
   {
-    path: '/person',
+    path: '/person/:route',
     name: 'PersonPage',
     component: PersonPage,
-    children: [
-      {
-          path: '/person/:route',
-          component: PersonPage
-      },
-    ]
   },
 ]
 
