@@ -13,8 +13,7 @@ export default new Vuex.Store({
     newItems: [],
     carouselList: [],
     personList: [],
-    commentList: [],
-    isVisible: true
+    commentList: []
   },
   mutations: {
     setRatingItems(state, payload) {
@@ -38,9 +37,6 @@ export default new Vuex.Store({
     setCarouselList(state, payload) {
       state.carouselList = payload
     },
-    setIsVisible(state, payload) {
-      state.isVisible = payload
-    },
     setPersonList(state, payload) {
       state.personList = payload
     },
@@ -59,7 +55,6 @@ export default new Vuex.Store({
     getVideos: state => state.videos,
     getGenres: state => state.genres,
     getCarouselList: state => state.carouselList,
-    getIsVisible: state => state.isVisible,
     getPersonsList: state => state.personList,
     getCommentList: state => state.commentList,
   },
@@ -115,9 +110,6 @@ export default new Vuex.Store({
           src: 'billions.jpg'
         }
       ])
-    },
-    toggleIsVisible({ commit }, payload) {
-      commit('setIsVisible', payload)
     },
     fetchComments ({ commit }) {
       return commit('setCommentList', [
