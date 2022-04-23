@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isVisible" class="form-registration-block">
+  <div v-if="pageVisible" class="form-registration-block">
     <div class="form-registration">
       <input
         type="text"
@@ -25,28 +25,20 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-
 export default {
   name: 'Registration',
   data () {
     return {
       userName: '',
-      password: ''
+      password: '',
+      pageVisible: true
     }
   },
   methods: {
-    ...mapActions(['toggleIsVisible']),
     onLog () {},
     onClose () {
-      this.toggleIsVisible(false)
+      this.pageVisible = false;
       this.$router.push('/main')
-    }
-  },
-  computed: {
-    ...mapGetters(['getIsVisible']),
-    isVisible () {
-      return this.getIsVisible
     }
   }
 };
