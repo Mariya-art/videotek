@@ -99,7 +99,7 @@ export default {
     commentOutput () {
       this.commentArray = this.commentList.filter(item => item.filmRoute === this.film)
     },
-    ...mapActions(['fetchComments', 'fetchAddComment'])
+    ...mapActions(['fetchAddComment'])
   },
   computed: {
     ...mapGetters(['getCommentList']),
@@ -108,7 +108,6 @@ export default {
     }
   },
   created () {
-    this.fetchComments()
     this.commentOutput()
   }
 }
