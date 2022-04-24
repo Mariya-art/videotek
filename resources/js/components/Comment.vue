@@ -62,15 +62,6 @@ export default {
     film: String
   },
   methods: {
-    /* async sendComment () {
-      console.log(this.film, this.username, this.message)
-      const result = await axios.post('http://localhost:8080/', {
-        filmId: this.film,
-        username: this.username,
-        comment: this.message
-      })
-      console.log(result)
-    }, */
     textReplacer (text) {
       return text
         .replace(/\.\.\./g, '…')

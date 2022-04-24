@@ -3,7 +3,7 @@
         <h1 @click="show=!show">Жанры кино</h1>
           <hr class="line" />
         <div class="filter" v-show="show">
-            <button class="btn" @click="handlerValue(item)" v-for="(item,index) in genres"
+            <button class="btn" @click="handlerValue(item)" v-for="(item, index) in genres"
               :key="index" v-bind:value='item'>{{item.title}}
             </button>
         </div>
@@ -29,18 +29,14 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Films',
-  data () {
-    return {
+  data: () => ({
       genreFilms: null,
+      genres: [],
       show: false
-    }
-  },
+  }),
   components: { CardFilm },
   methods: {
-    ...mapActions([
-      'fetchFilms', 
-      'fetchGenres',
-    ]),
+    ...mapActions([ 'fetchFilms' ]),
     handlerValue (item) {
       axios
         .get("/api/films/" + item.id)
@@ -50,20 +46,16 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'getFilms', 
-      'getGenres',
-    ]),
+    ...mapGetters([ 'getFilms' ]),
     filmsList () {
       return this.getFilms
-    },
-    genres () {
-      return this.getGenres
     }
   },
   created () {
     this.fetchFilms()
-    this.fetchGenres()
+    axios
+      .get('/api/genres')
+      .then( result => { this.genres = result.data.data } );
   }
 };
 </script>
