@@ -2,7 +2,7 @@
   <figure class="card">
     <router-link
       class="routerLink"
-      :to="{ name: 'filmPage', params: { route: film.route } }"
+      :to="{ name: 'filmPage', params: { id: film.id, route: film.route } }"
     >
       <div class="poster">
         <img :src="getImgUrl(film.img)" alt="film" />

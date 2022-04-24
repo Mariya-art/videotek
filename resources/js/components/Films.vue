@@ -42,12 +42,11 @@ export default {
       'fetchGenres',
     ]),
     handlerValue (item) {
-      console.log(item)
-            axios
-                .get("/films/" + item.route)
-                .then((result) => {
-                    this.genreFilms = result.data;
-                });
+      axios
+        .get("/api/films/" + item.id)
+        .then((result) => {
+          this.genreFilms = result.data.data;
+        });
     }
   },
   computed: {

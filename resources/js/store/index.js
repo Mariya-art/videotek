@@ -9,22 +9,19 @@ export default new Vuex.Store({
     serials: [],
     videos: [],
     genres: [],
-    newItems: [],
     ratingItems: [],
-    itemActors: [],
-    itemDirectors: [],
-    itemCategories: [],
+    newItems: [],
     carouselList: [],
     personList: [],
     commentList: [],
     isVisible: true
   },
   mutations: {
-    setNewItems(state, payload) {
-      state.newItems = payload
-    },
     setRatingItems(state, payload) {
       state.ratingItems = payload
+    },
+    setNewItems(state, payload) {
+      state.newItems = payload
     },
     setFilms(state, payload) {
       state.films = payload
@@ -37,15 +34,6 @@ export default new Vuex.Store({
     },
     setGenres(state, payload) {
       state.genres = payload
-    },
-    setItemActors(state, payload) {
-      state.itemActors = payload
-    },
-    setItemDirectors(state, payload) {
-      state.itemDirectors = payload
-    },
-    setItemCategories(state, payload) {
-      state.itemCategories = payload
     },
     setCarouselList(state, payload) {
       state.carouselList = payload
@@ -64,72 +52,52 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    getNewItems: state => state.newItems,
     getRatingItems: state => state.ratingItems,
+    getNewItems: state => state.newItems,
     getFilms: state => state.films,
     getSerials: state => state.serials,
     getVideos: state => state.videos,
     getGenres: state => state.genres,
-    getItemActors: state => state.itemActors,
-    getItemDirectors: state => state.itemDirectors,
-    getItemCategories: state => state.itemCategories,
     getCarouselList: state => state.carouselList,
     getIsVisible: state => state.isVisible,
     getPersonsList: state => state.personList,
     getCommentList: state => state.commentList,
   },
   actions: {
-    fetchNewItems({ commit }) {
-      return axios.get('/main/new').then( result => {
-        commit('setNewItems', result.data);
+    fetchRatingItems({ commit }) {
+      return axios.get('/api/main/rating').then( result => {
+        commit('setRatingItems', result.data.data);
       })  
     },
-    fetchRatingItems({ commit }) {
-      return axios.get('/main/rating').then( result => {
-        commit('setRatingItems', result.data);
+    fetchNewItems({ commit }) {
+      return axios.get('/api/main/new').then( result => {
+        commit('setNewItems', result.data.data);
       })  
     },
     fetchFilms({ commit }) {
-      return axios.get('/films').then( result => {
-        commit('setFilms', result.data);
+      return axios.get('/api/films').then( result => {
+        commit('setFilms', result.data.data);
       })  
     },
     fetchSerials({ commit }) {
-      return axios.get('/serials').then( result => {
-        commit('setSerials', result.data);
+      return axios.get('/api/serials').then( result => {
+        commit('setSerials', result.data.data);
       })  
     },
     fetchVideos({ commit }) {
-      return axios.get('/videos').then( result => {
-        commit('setVideos', result.data);
+      return axios.get('/api/videos').then( result => {
+        commit('setVideos', result.data.data);
       })  
     },
     fetchGenres({ commit }) {
-      return axios.get('/genres').then( result => {
-        commit('setGenres', result.data);
+      return axios.get('/api/genres').then( result => {
+        commit('setGenres', result.data.data);
       })  
     },
-    fetchItemActors({ commit }, route) {
-      return axios.get('/films/' + route + '/actors').then( result => {
-        commit('setItemActors', result.data);
-      })  
-    },
-    fetchItemDirectors({ commit }, route) {
-      return axios.get('/films/' + route + '/directors').then( result => {
-        commit('setItemDirectors', result.data);
-      })  
-    },
-    fetchItemCategories({ commit }, route) {
-      return axios.get('/films/' + route + '/categories').then( result => {
-        commit('setItemCategories', result.data);
-      })  
-    },
-    fetchPerson({ commit }, payload) {
+    fetchActors({ commit }, payload) {
       commit('setPersonList', payload)
     },
     fetchDirectors({ commit }, payload) {
-      console.log(...this.state.personList)
-      console.log(...payload)
       commit('setPersonList', [...this.state.personList, ...payload])
     },
     fetchCarousel({ commit }) {

@@ -16,6 +16,11 @@ class Type extends Model
         'slug',
     ];
 
+    public function films()
+    {
+        return $this->hasMany(Film::class);
+    }
+
     public function sluggable(): array
     {
         return [
