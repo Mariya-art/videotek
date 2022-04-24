@@ -24,14 +24,14 @@
           <p v-if="filmData.year">
             <em class="parameter">Год выпуска:</em> {{ filmData.year }}
           </p>
-          <p v-if="filmCategories">
+          <p v-if="filmData.genres">
             <em class="parameter">Жанр:</em> {{ filmCategories }}
           </p>
-          <div v-if="filmDirectors">
+          <div v-if="filmData.directors">
             <em class="parameter">Режиссёр:</em>
             <ul class="inline-ul">
               <li
-                v-for="director in filmDirectors"
+                v-for="director in filmData.directors"
                 :key="director.id"
                 class="liName"
               >
@@ -41,11 +41,11 @@
               </li>
             </ul>
           </div>
-          <div v-if="filmActors">
+          <div v-if="filmData.actors">
             <em class="parameter">В главных ролях:</em>
             <ul class="inline-ul">
               <li
-                v-for="actor in filmActors"
+                v-for="actor in filmData.actors"
                 :key="actor.id"
                 class="liName"
               >
@@ -70,10 +70,10 @@
         v-show="isTrailerVisible"
         class="player trailer-show"
       >
-        <div class="player"><player :src="filmData.trailer" /></div>
+<!--        <div class="player"><player :src="filmData.trailer" /></div>-->
       </div>
       <div class="player">
-        <div class="player"><player :src="filmData.link" /></div>
+<!--        <div class="player"><player :src="filmData.link" /></div>-->
       </div>
       <h1>Оцените фильм</h1>
       <hr class="line" />
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import Player from './Player.vue';
 import Comment from './Comment.vue'
 import { mapGetters, mapActions } from "vuex";
@@ -109,7 +109,6 @@ export default {
   data() {
     return {
       filmData: null,
-      filmActors: [],
       filmDirectors: [],
       filmCategories: [],
       isTrailerVisible: false,
@@ -135,14 +134,18 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "getNewItems", 
+      "getNewItems",
       "getRatingItems",
+      "getFilms"
       ]),
     newItems() {
       return this.getNewItems;
     },
     ratingItems() {
       return this.getRatingItems;
+    },
+    allFilms() {
+      return this.getFilms
     },
     score: () => {
       const array = [];
@@ -151,32 +154,34 @@ export default {
     },
   },
   mounted() {
-    axios
-      .get("/api/films/" + this.$route.params.id + "/actors")
-      .then((result) => {
-        this.filmActors = result.data.data;
-        this.fetchActors(result.data.data);
-      });
-    axios
-      .get("/api/films/" + this.$route.params.id + "/directors")
-      .then((result) => {
-        this.filmDirectors = result.data.data;
-        this.fetchDirectors(result.data.data);
-      });
-    axios
-      .get("/api/films/" + this.$route.params.id + "/categories")
-      .then((result) => {
-        this.filmCategories = result.data.data
-          .map((item) => item.title.toLowerCase())
-          .join(", ");
-      });
+    // axios
+    //   .get("/api/films/" + this.$route.params.id + "/actors")
+    //   .then((result) => {
+    //       console.log(this.$route.params.id)
+    //       console.log(result)
+    //     this.filmActors = result.data.data;
+    //     this.fetchActors(result.data.data);
+    //   });
+    // axios
+    //   .get("/api/films/" + this.$route.params.id + "/directors")
+    //   .then((result) => {
+    //     this.filmDirectors = result.data.data;
+    //     this.fetchDirectors(result.data.data);
+    //   });
+    // axios
+    //   .get("/api/films/" + this.$route.params.id + "/categories")
+    //   .then((result) => {
+    //     this.filmCategories = result.data.data
+    //       .map((item) => item.title.toLowerCase())
+    //       .join(", ");
+    //   });
   },
   created() {
-    const filmData = this.newItems.find(
-      (filmData) => filmData.route === this.$route.params.route
+    const filmData = this.allFilms.find((filmData) => filmData.id === +this.$route.params.id
     );
     if (filmData) {
       this.filmData = filmData;
+      this.filmCategories = filmData.genres.map((item) => item.title.toLowerCase()).join(", ")
       document.title = "VIDEOTEK - " + filmData.title;
     }
     const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')

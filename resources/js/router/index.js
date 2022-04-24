@@ -31,7 +31,7 @@ const routes = [
     component: Films,
   },
   {
-    path: '/films/:route',
+    path: '/films/:id',
     name: 'filmPage',
     component: FilmPage,
   },
