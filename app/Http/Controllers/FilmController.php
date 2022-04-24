@@ -25,37 +25,53 @@ class FilmController extends Controller
     }*/
 
     public function getRatingItems() {
-        return FilmResource::collection(Film::with(['categories', 'actors', 'directors'])->orderBy('rating', 'desc')->get());
+        return FilmResource::collection(Film::with([
+            'categories', 'actors', 'directors', 'seasons', 'seasons.series'
+        ])->orderBy('rating', 'desc')->get());
     }
 
     public function getNewItems() {
-        return FilmResource::collection(Film::with(['categories', 'actors', 'directors'])->orderBy('year', 'desc')->get());
+        return FilmResource::collection(Film::with([
+            'categories', 'actors', 'directors', 'seasons', 'seasons.series'
+        ])->orderBy('year', 'desc')->get());
     }
 
     public function getNewFilms() {
-        return FilmResource::collection(Film::with(['categories', 'actors', 'directors'])->where('type_id', 1)->orderBy('year', 'desc')->get());
+        return FilmResource::collection(Film::with([
+            'categories', 'actors', 'directors', 'seasons', 'seasons.series'
+        ])->where('type_id', 1)->orderBy('year', 'desc')->get());
     }
     
     public function getNewSerials() {
-        return FilmResource::collection(Film::with(['categories', 'actors', 'directors'])->where('type_id', 2)->orderBy('year', 'desc')->get());
+        return FilmResource::collection(Film::with([
+            'categories', 'actors', 'directors', 'seasons', 'seasons.series'
+        ])->where('type_id', 2)->orderBy('year', 'desc')->get());
     }
 
     public function getNewVideos() {
-        return FilmResource::collection(Film::with(['categories', 'actors', 'directors'])->where('type_id', 3)->orderBy('year', 'desc')->get());
+        return FilmResource::collection(Film::with([
+            'categories', 'actors', 'directors', 'seasons', 'seasons.series'
+        ])->where('type_id', 3)->orderBy('year', 'desc')->get());
     }
 
     public function getCategoryFilms($id) {
-        $category = new CategoryResource(Category::with(['films.categories', 'films.actors', 'films.directors'])->findOrFail($id));
+        $category = new CategoryResource(Category::with([
+            'films.categories', 'films.actors', 'films.directors', 'films.seasons', 'films.seasons.series'
+        ])->findOrFail($id));
         return FilmResource::collection($category->films->where('type_id', 1));
     }
 
     public function getCategorySerials($id) {
-        $category = new CategoryResource(Category::with(['films.categories', 'films.actors', 'films.directors'])->findOrFail($id));
+        $category = new CategoryResource(Category::with([
+            'films.categories', 'films.actors', 'films.directors', 'films.seasons', 'films.seasons.series'
+        ])->findOrFail($id));
         return FilmResource::collection($category->films->where('type_id', 2));
     }
 
     public function getCategoryVideos($id) {
-        $category = new CategoryResource(Category::with(['films.categories', 'films.actors', 'films.directors'])->findOrFail($id));
+        $category = new CategoryResource(Category::with([
+            'films.categories', 'films.actors', 'films.directors', 'films.seasons', 'films.seasons.series'
+        ])->findOrFail($id));
         return FilmResource::collection($category->films->where('type_id', 3));
     }
     /*

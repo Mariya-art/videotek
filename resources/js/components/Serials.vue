@@ -1,6 +1,6 @@
 <template>
     <div class="container-list">
-        <h1 @click="show=!show">Жанры</h1>
+        <h1 @click="show=!show">Жанры<br/><br/>Жанрики</h1>
           <hr class="line" />
         <div class="filter" v-show="show">
             <button class="btn" @click="handlerValue(item)" v-for="(item,index) in genres"
@@ -42,12 +42,11 @@ export default {
       'fetchGenres',
     ]),
     handlerValue (item) {
-      // console.log(item)
-            axios
-                .get("/serials/" + item.route)
-                .then((result) => {
-                    this.genreFilms = result.data;
-                });
+      axios
+        .get("/api/serials/" + item.id)
+        .then((result) => {
+          this.genreFilms = result.data.data;
+        });
     }
   },
   computed: {
