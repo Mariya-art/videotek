@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from "vuex"
 import Comment from './Comment.vue'
 import SerialWatchLine from './SerialWatchLine.vue'
 import FilmPlayers from './FilmPlayers.vue'
@@ -98,8 +98,6 @@ export default {
   components: { Comment, SerialWatchLine, FilmPlayers},
   data: () => ({
       filmData: null,
-      filmDirectors: [],
-      filmCategories: [],
       isTrailerVisible: false,
       isVoteDisabled: false,
       isSerial: false
@@ -114,43 +112,23 @@ export default {
       this.isVoteDisabled = true
     },
     getImgUrl(img) {
-      return require("../assets/" + img).default;
+      return require("../assets/" + img).default
     },
   },
   computed: {
-    ...mapGetters([
-      "getNewItems",
-      "getRatingItems",
-      "getFilms"
-      ]),
-    newItems() {
-      return this.getNewItems;
-    },
-    ratingItems() {
-      return this.getRatingItems;
-    },
-    allFilms() {
-      return this.getFilms
-    },
+    ...mapGetters(["getFilmToShow"]),
     score: () => {
-      const array = [];
-      for (let i = 1; i < 11; i++) array.push(i);
-      return array;
+      const array = []
+      for (let i = 1; i < 11; i++) array.push(i)
+      return array
     },
   },
-  created() {
-    const thisRoute = this.$route.params.route
-    let filmData = this.allFilms.find( (item) => item.route === thisRoute );
-    if (!filmData) {
-      filmData = this.ratingItems.find( (item) => item.route === thisRoute );
-    }
-    if (!filmData) {
-      filmData = this.newItems.find( (item) => item.route === thisRoute );
-    }
+  created () {
+    const filmData = this.getFilmToShow
     if (filmData) {
       this.filmData = filmData;
       this.filmCategories = filmData.genres.map((item) => item.title.toLowerCase()).join(", ")
-      document.title = "VIDEOTEK - " + filmData.title;
+      document.title = "VIDEOTEK - " + filmData.title
       this.isSerial = Boolean(+filmData.type_id === 2)
     }
     const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')

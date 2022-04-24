@@ -6,19 +6,15 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     films: [],
-    ratingItems: [],
-    newItems: [],
+    filmToShow: {},
     commentList: []
   },
   mutations: {
     setFilms(state, payload) {
       state.films = payload
     },
-    setRatingItems(state, payload) {
-      state.ratingItems = payload
-    },
-    setNewItems(state, payload) {
-      state.newItems = payload
+    setFilmToShow(state, payload) {
+      state.filmToShow = payload
     },
     setCommentList (state, payload) {
       state.commentList = payload
@@ -29,24 +25,16 @@ export default new Vuex.Store({
   },
   getters: {
     getFilms: state => state.films,
-    getRatingItems: state => state.ratingItems,
-    getNewItems: state => state.newItems,
+    getFilmToShow: state => state.filmToShow,
     getCommentList: state => state.commentList,
   },
   actions: {
+    fetchFilmToShow({ commit }, payload) {
+        commit('setFilmToShow', payload)
+    },
     fetchFilms({ commit }) {
       return axios.get('/api/films').then( result => {
-        commit('setFilms', result.data.data);
-      })
-    },
-    fetchRatingItems({ commit }) {
-      return axios.get('/api/main/rating').then( result => {
-        commit('setRatingItems', result.data.data);
-      })
-    },
-    fetchNewItems({ commit }) {
-      return axios.get('/api/main/new').then( result => {
-        commit('setNewItems', result.data.data);
+        commit('setFilms', result.data.data)
       })
     },
     fetchComments ({ commit }, payload) {

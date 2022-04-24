@@ -171,15 +171,13 @@ export default {
       ]
   }),
     methods: {
-      ...mapActions(['fetchNewItems', 'fetchRatingItems', 'fetchFilms', 'fetchComments'])
+      ...mapActions(['fetchFilms', 'fetchComments'])
     },
     beforeCreate () {
       document.body.className = 'app'
     },
     created() {
         this.fetchComments(this.comments)
-        this.fetchNewItems()
-        this.fetchRatingItems()
         this.fetchFilms()
     }
 };

@@ -4,7 +4,7 @@
       class="routerLink"
       :to="{ name: 'FilmPage', params: { route: film.route } }"
     >
-      <div class="poster">
+      <div class="poster" @click="onClick">
         <img :src="getImgUrl(film.img)" alt="film" />
         <p class="score">{{ film.score }}</p>
       </div>
@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "CardFilm",
   props: {
@@ -22,10 +24,14 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['fetchFilmToShow']),
+    onClick () {
+      this.fetchFilmToShow(this.film)
+    },
     getImgUrl(img) {
       return require("../assets/" + img).default;
-    },
-  },
+    }
+  }
 };
 </script>
 

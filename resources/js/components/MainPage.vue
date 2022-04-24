@@ -9,7 +9,6 @@
 <script>
 import FilmCarousel from './FilmCarousel.vue'
 import ListFilms from './ListFilms.vue'
-import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'MainPage',
@@ -17,14 +16,17 @@ export default {
     FilmCarousel,
     ListFilms
   },
-  computed: {
-    ...mapGetters(['getNewItems', 'getRatingItems']),
-    ratingItems () {
-      return this.getRatingItems
-    },
-    newItems () {
-      return this.getNewItems
-    }
+  data: () => ({
+    ratingItems: [],
+    newItems: []
+  }),
+  created () {
+      axios
+        .get('/api/main/rating')
+        .then( result => { this.ratingItems = result.data.data })
+      axios
+        .get('/api/main/new')
+        .then( result => { this.newItems = result.data.data })
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="c">
+  <div>
     <h1>Отзывы</h1>
     <hr class="line"/>
     <div class="comment-box">
@@ -13,7 +13,6 @@
             label="Имя пользователя"
           ></v-text-field>
         </v-col>
-
       </div>
       <v-col cols="12" md="6">
         <v-textarea
