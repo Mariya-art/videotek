@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     getImgUrl(img) {
-      return require("../assets/" + img).default;
+      return require("../assets/" + img).default
     },
   },
 };

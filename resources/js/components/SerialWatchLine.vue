@@ -4,13 +4,14 @@
       Сезоны:
       <v-btn-toggle group dark>
         <v-btn
-          v-for="item in [1, 2, 3, 4, 5]"
-          :key="item"
+          v-for="item in serialData.seasons"
+          :key="item.number"
           color="#EB5804"
           variant="outlined"
           class="v-btn-style"
+          @click="activate(item)"
         >
-          {{ item }}
+          {{ item.number }}
         </v-btn>
       </v-btn-toggle>
     </div>
@@ -23,10 +24,10 @@
                 align="center"
                 justify="center"
               >
-                  <div v-for="item in [1, 2, 3, 4, 5, 6, 7, 8, 9]" :key="item">
+                  <div v-for="item in getSeries" :key="item.number">
                     <div class="player-card">
-                       <Player :src="serialData.link" width="215" height="96" />
-                        Серия {{ item }}
+                       <Player :src="item.link" width="215" height="96" />
+                        Серия {{ item.number }}: {{item.title}}
                     </div>
                   </div>
               </v-row>
@@ -47,6 +48,19 @@ export default {
     serialData: {
       type: Object
     }
+  },
+  data: () => ({
+    activeSeason: 1
+  }),
+  methods: {
+    activate (item) {
+      this.activeSeason = item.number
+    }
+  },
+  computed: {
+    getSeries () {
+      return this.serialData.seasons[this.activeSeason - 1].series
+    }
   }
 }
 </script>
@@ -60,6 +74,7 @@ export default {
 .player-card {
   padding: 0 40px;
   margin: 20px 0;
+  width: 300px;
   display: flex;
   flex-direction: column;
 }

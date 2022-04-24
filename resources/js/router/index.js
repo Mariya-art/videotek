@@ -37,12 +37,12 @@ const routes = [
   },
   {
     path: '/serials',
-    name: 'serials',
+    name: 'Serials',
     component: Serials,
   },
   {
     path: '/serials/:route',
-    name: 'serials',
+    name: 'SerialPage',
     component: FilmPage,
   },
   {

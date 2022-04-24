@@ -16,7 +16,8 @@
           <p v-if="filmData.description" class="film-page-description">
             {{ filmData.description }}
           </p>
-          <h1>О фильме</h1>
+          <h1 v-if="isSerial">О сериале</h1>
+          <h1 v-else>О фильме</h1>
           <hr class="line" />
           <p v-if="filmData.country">
             <em class="parameter">Страна:</em> {{ filmData.country }}
