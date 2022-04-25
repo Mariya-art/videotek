@@ -27,6 +27,11 @@ v-for='item in news'
     />
 </div>
 </v-tab-item>
+<v-tab-item class="tab-item">
+    <div class="list-video">
+<Player v-for = "item in films" :key= "item.id" :src="item.trailer"/>
+    </div>
+</v-tab-item>
         </v-tabs>
 <div class="line-media">
 <hr class="line" />
@@ -40,19 +45,23 @@ v-for='item in news'
 import { mapGetters, mapActions } from 'vuex'
 import NewsCard from '../components/NewsCard.vue'
 import ArticlesCard from '../components/ArticlesCard.vue'
+import Player from '../components/Player.vue'
 export default {
   name: 'Media',
-  components: { NewsCard, ArticlesCard },
+  components: { NewsCard, ArticlesCard,Player },
   methods: {
     ...mapActions(['fetchNews', 'fetchArticles'])
   },
   computed: {
-    ...mapGetters(['getNews', 'getArticles']),
+    ...mapGetters(['getNews', 'getArticles','getFilms']),
     news () {
       return this.getNews
     },
     articles () {
       return this.getArticles
+    },
+    films () {
+        return this.getFilms
     }
   },
   created () {
@@ -75,10 +84,13 @@ export default {
     grid-auto-flow: dense;
     grid-gap: 0.5rem;
 }
-.list-cardNews div:nth-child(1){
+.list-cardNews div:first-child{
  grid-column: span 2;
 }
-.list-cardNews div:nth-child(6){
+.list-cardNews div:nth-child(5n+1){
+ grid-column: span 2;
+}
+.list-cardNews div:last-child{
  grid-column: span 2;
 }
 .btn-bottom-media{
@@ -101,7 +113,7 @@ export default {
 }
 .list-articles{
     width: 1140px;
-    margin: 0 auto;
+    margin: 10px auto;
     display: grid;
     grid-template-columns: repeat(4,1fr);
     grid-template-rows: repeat(1fr);
@@ -110,6 +122,17 @@ export default {
 }
 .list-articles div:nth-child(1){
     grid-column: span 2;
+}
+.list-articles div:last-child{
+ grid-column: span 2;
+}
+.list-video{
+    width: 1140px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-auto-flow: dense;
+    grid-gap: 1rem;
 }
 .line-media{
     margin: 0 auto;

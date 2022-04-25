@@ -2,10 +2,10 @@
     <div>
        <router-link class="routerLink" to='/'>
       <div class="articles-card">
-      <img  class="img-articles" :src="item.img"/>
+      <img  class="img-articles" :src="getImgUrl(item.img)"/>
       <p class="type-title">{{item.typetitle}}</p>
       <h2 class="articles-title">{{item.title}}</h2>
-      <p class="articles-date">{{item.datetime}}</p>
+      <p class="articles-date">{{this.datetime}}</p>
       </div>
        </router-link>
     </div>
@@ -18,7 +18,23 @@ export default {
     item: {
       type: Object
     }
-  }
+  },
+  data:()=>({
+    datetime:null
+  }),
+   methods: {
+    getImgUrl(img) {
+      return require("../assets/media/" + img).default
+    },
+  },
+   created(){
+    const monthNames = ["января", "февраля", "марта", "апреля", "мая", "июня",
+  "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+   let date =new Date(Date.parse(this.item.created_at))
+    let day=date.getDate()
+    let month=monthNames[date.getMonth()]
+    return this.datetime=`${day} ${month}`
+}
 }
 </script>
 <style scoped>
@@ -44,6 +60,7 @@ export default {
   color: black;
   font-size: 13pt;
   padding-bottom: 6pt;
+  padding-top: 6pt;
   text-align: center;
 }
 .type-title{
@@ -52,10 +69,11 @@ export default {
   padding-bottom: 6pt;
 }
 .articles-date{
-  color: black;
+  color: rgb(48, 45, 45);
   position: absolute;
   right: 15px;
   bottom: 4px;
+  font-size: 10pt;
 }
 .articles-card:hover{
     transform: scale(0.95);

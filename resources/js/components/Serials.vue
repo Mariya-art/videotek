@@ -1,6 +1,6 @@
 <template>
     <div class="container-list">
-        <h1 @click="show=!show">Жанры<br/><br/>Жанрики</h1>
+        <h1 @click="show=!show">Жанры<br/></h1>
           <hr class="line" />
         <div class="filter" v-show="show">
             <button class="btn" @click="handlerValue(item)" v-for="(item,index) in genres"

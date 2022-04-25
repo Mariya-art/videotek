@@ -63,8 +63,8 @@
         <SerialWatchLine v-if="isSerial" :serialData="filmData" />
         <FilmPlayers v-else :filmData="filmData" />
       </div>
-
-      <h1>Оцените фильм</h1>
+      <h1 v-if="isSerial">Оцените сериал</h1>
+      <h1 v-else>Оцените фильм</h1>
       <hr class="line" />
       <div class="btn-toggle">
         <v-btn-toggle group dark>
