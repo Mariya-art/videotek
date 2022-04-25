@@ -36,9 +36,10 @@
                 :key="director.id"
                 class="liName"
               >
-                <router-link class="routerLink" :to="'/person/' + director.route">
-                  {{ director.name }}
-                </router-link>
+                <router-link
+                  class="routerLink"
+                  :to="'/person/' + director.route"
+                >{{ director.name }}</router-link>
               </li>
             </ul>
           </div>
@@ -50,9 +51,10 @@
                 :key="actor.id"
                 class="liName"
               >
-                <router-link class="routerLink" :to="'/person/' + actor.route">
-                  {{ actor.name }}
-                </router-link>
+                <router-link
+                  class="routerLink"
+                  :to="'/person/' + actor.route"
+                  >{{ actor.name }}</router-link>
               </li>
             </ul>
           </div>
@@ -63,8 +65,8 @@
         <SerialWatchLine v-if="isSerial" :serialData="filmData" />
         <FilmPlayers v-else :filmData="filmData" />
       </div>
-
-      <h1>Оцените фильм</h1>
+      <h1 v-if="isSerial">Оцените сериал</h1>
+      <h1 v-else>Оцените фильм</h1>
       <hr class="line" />
       <div class="btn-toggle">
         <v-btn-toggle group dark>
@@ -138,17 +140,18 @@ export default {
     },
   },
   created() {
+    const filmRoute = this.$route.params.route
     let filmData = this.allFilms.find(
-      (item) => item.id === +this.$route.params.id
+      (item) => item.route === filmRoute
     );
     if (!filmData) {
       filmData = this.ratingItems.find(
-        (item) => item.id === +this.$route.params.id
+        (item) => item.route === filmRoute
       );
     }
     if (!filmData) {
       filmData = this.newItems.find(
-        (item) => item.id === +this.$route.params.id
+        (item) => item.route === filmRoute
       );
     }
     if (filmData) {

@@ -6,6 +6,7 @@ import FilmPage from '../components/FilmPage.vue'
 import PersonPage from '../components/PersonPage.vue'
 import Films from '../components/Films.vue'
 import Serials from '../components/Serials.vue'
+import Media from '../components/Media.vue'
 
 Vue.use(VueRouter)
 
@@ -23,39 +24,38 @@ const routes = [
   {
     path: '/main',
     name: 'MainPage',
-    component: MainPage,
+    component: MainPage
   },
   {
     path: '/films',
     name: 'Films',
-    component: Films,
+    component: Films
   },
   {
-    path: '/films/:id',
+    path: '/films/:route',
     name: 'filmPage',
-    component: FilmPage,
+    component: FilmPage
   },
   {
     path: '/serials',
     name: 'Serials',
-    component: Serials,
+    component: Serials
   },
   {
     path: '/serials/:route',
     name: 'SerialPage',
-    component: FilmPage,
+    component: FilmPage
   },
   {
-    path: '/person',
+    path: '/person/:route',
     name: 'PersonPage',
-    component: PersonPage,
-    children: [
-      {
-          path: '/person/:route',
-          component: PersonPage
-      },
-    ]
+    component: PersonPage
   },
+  {
+    path: '/media',
+    name: 'Media',
+    component: Media
+  }
 ]
 
 const router = new VueRouter({

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="person-page" v-if="viz">
+  <div class="person-page" v-if="personData">
     <div class="person-page-content">
       <div class="person-data-block">
         <div class="left-column" >
@@ -44,7 +44,6 @@ export default {
   name: 'PersonPage',
   data () {
     return {
-      viz: false,
       personData: {}
     };
   },
@@ -52,35 +51,47 @@ export default {
     getImgUrl(img) {
       return require("../assets/" + img).default;
     },
+    search(filmArray, personRoute) {
+      let person = null
+      filmArray.forEach(film => {
+          const candidate = film.actors.find(
+           (actor) => actor.route === personRoute
+          )
+          if (candidate) person = candidate
+        }
+      )
+      if (!person) filmArray.forEach(film => {
+          const candidate = film.directors.find(
+           (director) => director.route === personRoute
+          )
+          if (candidate) person = candidate
+        }
+      )
+      return person
+    }
   },
   computed: {
-    ...mapGetters(['getFilms']),
-    personsList () {
-      return this.getFilms;
+    ...mapGetters([
+      "getNewItems",
+      "getRatingItems",
+      "getFilms"
+      ]),
+    newItems() {
+      return this.getNewItems;
     },
-    allActors () {
-      const arr = []
-      this.personsList.forEach(element => {
-        arr.push(...element.actors)
-      })
-      return arr
+    ratingItems() {
+      return this.getRatingItems;
     },
-    allDirectors () {
-      const arr = []
-      this.personsList.forEach(element => {
-        arr.push(...element.directors)
-      })
-      return arr
+    allFilms() {
+      return this.getFilms
     }
   },
   created () {
-    const persons = [...this.allActors, ...this.allDirectors]
-    const personData = persons.find(
-      (personData) => personData.route === this.$route.params.route
-    );
-
+    const personRoute = this.$route.params.route
+    let personData = this.search(this.allFilms, personRoute)
+    if (!personData) personData = this.search(this.getNewItems, personRoute)
+    if (!personData) personData = this.search(this.getRatingItems, personRoute)
     if (personData) {
-      this.viz = true;
       this.personData = personData;
       document.title = 'VIDEOTEK - ' + personData.name;
     }

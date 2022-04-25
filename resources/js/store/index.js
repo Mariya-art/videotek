@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
+
 
 Vue.use(Vuex)
 
@@ -14,6 +16,8 @@ export default new Vuex.Store({
     carouselList: [],
     personList: [],
     commentList: [],
+    news:[],
+    articles: [],
     isVisible: true
   },
   mutations: {
@@ -28,6 +32,12 @@ export default new Vuex.Store({
     },
     setSerials(state, payload) {
       state.serials = payload
+    },
+    setNews (state, payload) {
+      state.news = payload
+    },
+    setArticles (state, payload) {
+      state.articles = payload
     },
     setVideos(state, payload) {
       state.videos = payload
@@ -52,6 +62,8 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    getNews: state => state.news,
+    getArticles: state => state.articles,
     getRatingItems: state => state.ratingItems,
     getNewItems: state => state.newItems,
     getFilms: state => state.films,
@@ -175,5 +187,15 @@ export default new Vuex.Store({
     fetchAddComment ({ commit }, payload) {
       commit('addComment', payload)
     },
+    fetchNews ({ commit }) {
+      return axios.get('api/news').then(result=>{
+        commit('setNews',result.data.data)
+      })
+    },
+    fetchArticles ({ commit }) {
+      return axios.get('api/articles').then(result=>{
+        commit('setArticles',result.data.data)
+      })
+    }
   }
 })
