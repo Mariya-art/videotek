@@ -3,8 +3,8 @@
       <router-link class="routerLink" to='/'>
     <div class="news-card">
             <img class="news-img" :src="getImgUrl(item.img)" alt="news"/>
-        <h2 class="title-news">{{item.title}}</h2>
-        <p class="date-news">{{this.datetime}}</p>
+       <div class="title-block"> <h2 class="title-news">{{item.title}}</h2></div>
+        <div class="date-block"><p class="date-news">{{this.datetime}}</p></div>
     </div>
       </router-link>
     </div>
@@ -37,29 +37,32 @@ export default {
 </script>
 <style scoped>
 .news-card{
-    transform: scale(0.90);
+    position: relative;
     width: auto;
-    height: 390px;
+    height: 420px;
     background-color:#DCDCDC;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 10px 0 10px 0;
 }
+.title-block{
+margin:10px;
+}
 .title-news{
-    position: relative;
     color: black;
     font-size: 13pt;
-    padding-top: 6pt;
-    padding-bottom: 6pt;
-    text-align: center;
+    text-align: left;
+}
+.title-news:hover{
+  color:#EB5804;
 }
 .date-news{
-    color: rgb(48, 45, 45);
     position: absolute;
-    right: 15px;
+    color: rgb(48, 45, 45);
+    font-size: 12pt;
     bottom: 4px;
-    font-size: 10pt;
+    left:15px;
 }
 .news-img{
     width: 100%;
@@ -69,7 +72,7 @@ export default {
     border-radius: 10px 0  0;
 }
 .news-card:hover{
-    transform: scale(0.95);
+    transform: scale(1.02);
     cursor: pointer;
 }
 </style>

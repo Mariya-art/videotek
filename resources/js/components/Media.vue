@@ -77,12 +77,12 @@ export default {
 }
 .list-cardNews{
     width: 1140px;
-    margin: 10px auto;
+    margin: 30px auto;
     display: grid;
     grid-template-columns: repeat(4,1fr);
     grid-template-rows: repeat(1fr);
     grid-auto-flow: dense;
-    grid-gap: 0.5rem;
+    grid-gap:30px;
 }
 .list-cardNews div:first-child{
  grid-column: span 2;
@@ -113,12 +113,12 @@ export default {
 }
 .list-articles{
     width: 1140px;
-    margin: 10px auto;
+    margin: 30px auto;
     display: grid;
     grid-template-columns: repeat(4,1fr);
     grid-template-rows: repeat(1fr);
     grid-auto-flow: dense;
-    grid-gap: 0.5rem;
+    grid-gap:30px;
 }
 .list-articles div:nth-child(1){
     grid-column: span 2;
@@ -128,11 +128,11 @@ export default {
 }
 .list-video{
     width: 1140px;
-    margin: 20px auto;
+    margin: 30px auto;
     display: grid;
     grid-template-columns: repeat(2,1fr);
     grid-auto-flow: dense;
-    grid-gap: 1rem;
+    grid-gap:30px;
 }
 .line-media{
     margin: 0 auto;

@@ -3,9 +3,8 @@
        <router-link class="routerLink" to='/'>
       <div class="articles-card">
       <img  class="img-articles" :src="getImgUrl(item.img)"/>
-      <p class="type-title">{{item.typetitle}}</p>
-      <h2 class="articles-title">{{item.title}}</h2>
-      <p class="articles-date">{{this.datetime}}</p>
+       <div class="article-block"><h2 class="articles-title">{{item.title}}</h2></div>
+      <div><p class="articles-date">{{this.datetime}}</p></div>
       </div>
        </router-link>
     </div>
@@ -39,9 +38,9 @@ export default {
 </script>
 <style scoped>
 .articles-card{
-   transform: scale(0.90);
+    position: relative;
     width: auto;
-    height: 400px;
+    height: 420px;
     background-color:#DCDCDC;
     display: flex;
     flex-direction: column;
@@ -55,28 +54,26 @@ export default {
     margin: 0 auto;
     border-radius: 10px 0  0;
 }
-.articles-title{
-  position: relative;
-  color: black;
-  font-size: 13pt;
-  padding-bottom: 6pt;
-  padding-top: 6pt;
-  text-align: center;
+.article-block{
+  margin:10px;
 }
-.type-title{
-  color: #EB5804;
-  font-size: 11pt;
-  padding-bottom: 6pt;
+.articles-title{
+    color: black;
+    font-size: 13pt;
+    text-align: left;
+}
+.articles-title:hover{
+  color:#EB5804;
 }
 .articles-date{
-  color: rgb(48, 45, 45);
-  position: absolute;
-  right: 15px;
-  bottom: 4px;
-  font-size: 10pt;
+    position: absolute;
+    color: rgb(48, 45, 45);
+    font-size: 12pt;
+    bottom: 4px;
+    left:15px;
 }
 .articles-card:hover{
-    transform: scale(0.95);
+    transform: scale(1.02);
     cursor: pointer;
 }
 </style>
