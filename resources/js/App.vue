@@ -1,66 +1,65 @@
 <template>
   <div class="app wrapper">
     <div class="main-wrapper">
-    <v-navigation-drawer
-      app
-      left
-      dark
-      absolute
-      temporary
-      height="50%"
-      v-model="drawer"
-    >
-      <div class="listLink">
-        <router-link class="logo link" to="/main"
-          ><h1>VIDEOTEK</h1></router-link
-        >
-        <hr class="line" />
-        <router-link class="link" to="/films"
-          ><p><img :src="filmicon" class="iconList" />Фильмы</p></router-link
-        >
-        <hr class="line" />
-        <router-link class="link" to="/serials"
-          ><p><img :src="serials" class="iconList" />Сериалы</p></router-link
-        >
-        <hr class="line" />
-        <router-link class="link" to="/"
+      <v-navigation-drawer
+        app
+        left
+        dark
+        absolute
+        temporary
+        height="39%"
+        v-model="drawer"
+      >
+        <div class="listLink">
+          <router-link class="logo link" to="/main"
+            ><h1>VIDEOTEK</h1></router-link
+          >
+          <hr class="line" />
+          <router-link class="link" to="/films"
+            ><p><img :src="filmicon" class="iconList" />Фильмы</p></router-link
+          >
+          <hr class="line" />
+          <router-link class="link" to="/serials"
+            ><p><img :src="serials" class="iconList" />Сериалы</p></router-link
+          >
+          <hr class="line" />
+          <router-link class="link" to="/media"
+            ><p><img :src="media" class="iconList" />Медиа</p></router-link
+          >
+          <!-- <router-link class="link" to="/"
           ><p><img :src="newfilm" class="iconList" />Новинки</p></router-link
-        >
-        <hr class="line" />
-        <router-link class="link" to="/"
-          ><p>
-            <img :src="zvezda" class="iconList" />Ваша подборка
-          </p></router-link
-        >
-        <hr class="line" />
-        <router-link class="link" to="/media"
-          ><p><img :src="media" class="iconList" />Медиа</p></router-link
-        >
-        <hr class="line" />
-      </div>
-    </v-navigation-drawer>
-    <v-main>
-      <v-app-bar color="deep-purple accent-4" dense dark height="60vh">
-        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-        <router-link to="/main"
-          ><img :src="logo" alt="logo" class="nav-logo"
-        /></router-link>
-        <v-toolbar-title>
-          <router-link to="/main" class="logo">VIDEOTEK</router-link>
-        </v-toolbar-title>
+        > -->
+          <hr class="line" />
+          <router-link class="link" to="/"
+            ><p>
+              <img :src="zvezda" class="iconList" />Ваша подборка
+            </p></router-link
+          >
+          <hr class="line" />
+        </div>
+      </v-navigation-drawer>
+      <v-main>
+        <v-app-bar color="deep-purple accent-4" dense dark height="60vh">
+          <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+          <router-link to="/main"
+            ><img :src="logo" alt="logo" class="nav-logo"
+          /></router-link>
+          <v-toolbar-title>
+            <router-link to="/main" class="logo">VIDEOTEK</router-link>
+          </v-toolbar-title>
 
-        <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-        <v-btn icon>
-          <v-icon>mdi-heart</v-icon>
-        </v-btn>
+          <v-btn icon>
+            <v-icon>mdi-heart</v-icon>
+          </v-btn>
 
-        <v-btn icon>
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-      </v-app-bar>
-      <router-view />
-    </v-main>
+          <v-btn icon>
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+        </v-app-bar>
+        <router-view />
+      </v-main>
     </div>
     <v-footer dark padless>
       <v-card class="lighten-1 white--text text-center flex" flat tile>
@@ -98,7 +97,7 @@
 </template>
 
 <script>
-import logo from './assets/videotek.jpg'
+import logo from "./assets/videotek.jpg";
 import filmicon from "./assets/filmicon.png";
 import serials from "./assets/serials.png";
 import zvezda from "./assets/zvezda.png";
@@ -107,9 +106,9 @@ import newfilm from "./assets/newfilm.png";
 import { mapActions } from "vuex";
 
 export default {
-  name: 'App',
-  beforeCreate () {
-    document.body.className = 'app'
+  name: "App",
+  beforeCreate() {
+    document.body.className = "app";
   },
 
   data: () => ({
@@ -123,14 +122,14 @@ export default {
     newfilm,
     icons: ["mdi-odnoklassniki", "mdi-github", "mdi-trello", "mdi-discord"],
   }),
-    methods: {
-      ...mapActions(["fetchNewItems", "fetchRatingItems", "fetchFilms"])
-    },
-    created() {
-        this.fetchNewItems()
-        this.fetchRatingItems()
-        this.fetchFilms()
-    }
+  methods: {
+    ...mapActions(["fetchNewItems", "fetchRatingItems", "fetchFilms"]),
+  },
+  created() {
+    this.fetchNewItems();
+    this.fetchRatingItems();
+    this.fetchFilms();
+  },
 };
 </script>
 
@@ -158,7 +157,7 @@ export default {
   height: 20px;
 }
 .logo {
-  font-family: 'Roboto', serif;
+  font-family: "Roboto", serif;
   font-weight: 900;
   text-decoration: none;
   color: white;
