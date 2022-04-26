@@ -7,15 +7,14 @@
           <button class="btn">В избранное</button>
         </div>
         <div class="film-data">
-          <h1>{{ filmData.title }} ({{ filmData.year }})</h1>
+          <h1>{{ filmData.title }}</h1>
           <div class="score-block">
             Рейтинг: <strong>{{ filmData.score }}</strong>
           </div>
           <hr class="line" />
           <p v-if="filmData.age" class="age-boundary">{{ filmData.age }}+</p>
-          <p v-if="filmData.description" class="film-page-description">
-            {{ filmData.description }}
-          </p>
+          <p class="film-page-description">Описание<br/>и снова описание</p>
+          <div v-if="filmData.description" v-html="filmData.description" class="film-page-description"></div>
           <h1 v-if="isSerial">О сериале</h1>
           <h1 v-else>О фильме</h1>
           <hr class="line" />
