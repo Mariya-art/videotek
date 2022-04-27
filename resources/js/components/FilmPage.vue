@@ -155,9 +155,12 @@ export default {
     }
     if (filmData) {
       this.filmData = filmData;
+      window.sessionStorage.setItem('filmData', JSON.stringify(this.filmData))
       this.filmCategories = filmData.genres.map((item) => item.title.toLowerCase()).join(", ")
       document.title = "VIDEOTEK - " + filmData.title;
       this.isSerial = Boolean(+filmData.type_id === 2)
+    } else {
+      this.filmData = JSON.parse(window.sessionStorage.getItem('filmData'))
     }
     const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
     this.isVoteDisabled = Boolean(voteData.id === this.filmData.id)
