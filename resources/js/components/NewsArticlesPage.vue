@@ -1,31 +1,36 @@
 <template>
-<div class="list-block">
-  <h1 class="title-text">{{listNewsArticles.title}}</h1>
-  <p class="datetime">{{this.datetime}}</p>
-  <hr class="line-block" />
-<div class="block-img">
-  <img class="fon-img" :src="getImgUrl(listNewsArticles.img)"/>
-</div>
-<div v-if="listNewsArticles.text" v-html="listNewsArticles.text" :class="$style.text">
-  <p>{{listNewsArticles.text}}</p>
-</div>
-<hr class="line-block" />
+<div class="centered-block">
+  <div class="list-block">
+    <h1 class="title-text">{{listNewsArticles.title}}</h1>
+    <p class="datetime">{{this.datetime}}</p>
+    <hr class="line-block" />
+    <div class="block-img">
+      <img class="fon-img" :src="getImgUrl(listNewsArticles.img)"/>
+    </div>
+    <div v-if="listNewsArticles.text" v-html="listNewsArticles.text" :class="$style.text">
+      <p>{{listNewsArticles.text}}</p>
+    </div>
+    <hr class="line-block" />
+  </div>
+  <div class="link-container">
+    <router-link class="back-link" to="/media">Назад</router-link>
+  </div>
 </div>
 </template>
 
 <script>
 import { mapGetters} from 'vuex'
-export default({
+export default {
     name: 'NewsArticlesPage',
-    data:()=>({
-        listNewsArticles:null,
-        datetime:null
+    data: () => ({
+        listNewsArticles: null,
+        datetime: null
     }),
     methods: {
       getImgUrl(img) {
         return require("../assets/media/" + img).default
       },
-      async getNews() {
+      async getNewsMethod() {
         return await this.news
       }
     },
@@ -39,48 +44,55 @@ export default({
       }
     },
     created () {
-      let listNewsArticles = this.getNews.find(item=>item.route===this.$route.params.route)
-      console.log(listNewsArticles)
-      if( listNewsArticles ) {
-          this.listNewsArticles = listNewsArticles
-      } else {
-          let listNewsArticles = this.articles.find(item=>item.route===this.$route.params.route)
-          this.listNewsArticles = istNewsArticles
+      this.listNewsArticles = this.getNews.find(item=>item.route === this.$route.params.route)
+      if( ! this.listNewsArticles ) {
+          this.listNewsArticles = this.articles.find(item=>item.route === this.$route.params.route)
       }
-      console.log(listNewsArticles)
+      if ( this.listNewsArticles ) {
+        window.sessionStorage.setItem('listNewsArticles', JSON.stringify(this.listNewsArticles))
+      } else {
+        this.listNewsArticles = JSON.parse(window.sessionStorage.getItem('listNewsArticles'))
+      }
 
-      const monthNames = ["января", "февраля", "марта", "апреля", "мая", "июня",
-      "июля", "августа", "сентября", "октября", "ноября", "декабря"];
-      let date = new Date(Date.parse(this.listNewsArticles.created_at))
-      let day = date.getDate()
-      let month = monthNames[date.getMonth()]
-      return this.datetime = `${day} ${month}`
+      if (this.listNewsArticles) {
+        console.log(this.listNewsArticles)
+        const date = new Date(this.listNewsArticles.created_at)
+        // this.datetime = new Intl.DateTimeFormat('ru', {dateStyle: 'full'}).format(date)
+        // this.datetime = new Intl.DateTimeFormat('ru', {dateStyle: 'long'}).format(date)
+         this.datetime = new Intl.DateTimeFormat('ru', {day: 'numeric', month: 'long'}).format(date)
+      }
     }
-})
+}
 </script>
 <style scoped>
-.list-block{
+.centered-block {
     width: 800px;
     margin: 30px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.list-block {
     background-color: white;
     border-radius: 10px 0 10px 0;
 }
-.fon-img{
+
+.fon-img {
     object-fit: contain;
     width:100%;
     height: 370px;
     margin: 10px auto;
 }
-.title-text{
+
+.title-text {
     text-align: center;
     font-size:16pt;
     margin:20px 20px 5px 20px;
     color:black;
 }
-.line-block{
+
+.line-block {
     width: 100%;
     height: 3px;
     color: #eb5804;
@@ -89,18 +101,39 @@ export default({
     margin-left:35px;
     border: none;
 }
-.datetime{
+
+.datetime {
     color: rgb(48, 45, 45);
     font-size: 12pt;
-    text-align: left;
+    text-align: center;
+}
+
+.link-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.back-link {
+  border: 1px solid #eb5804;
+  padding: 5px 30px;
+  margin: 20px 30px;
+  color: #eb5804;
+  transition: all 0.2s ease-in;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  background-color: #eb5804;
+  color: black;
 }
 </style>
 
 <style module>
 .text {
-    color:black;
+    color: black;
     font-size: 14pt;
     text-align: justify;
-    margin:20px
+    margin: 20px
 }
 </style>

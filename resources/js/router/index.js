@@ -58,7 +58,7 @@ const routes = [
     component: Media
   },
   {
-    path: '/media:route',
+    path: '/media/:route',
     name: 'NewsArticlesPage',
     component: NewsArticlesPage
   }
