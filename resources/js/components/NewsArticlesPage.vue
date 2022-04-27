@@ -1,13 +1,13 @@
 <template>
-<div class="list-block"> 
-    <h1 class="title-text">{{listNewsArticles.title}}</h1>
-   <p class="datetime">{{this.datetime}}</p>
-    <hr class="line-block" />
-<div class="block-img"> 
-    <img class="fon-img" :src="getImgUrl(listNewsArticles.img)"/>
+<div class="list-block">
+  <h1 class="title-text">{{listNewsArticles.title}}</h1>
+  <p class="datetime">{{this.datetime}}</p>
+  <hr class="line-block" />
+<div class="block-img">
+  <img class="fon-img" :src="getImgUrl(listNewsArticles.img)"/>
 </div>
 <div v-if="listNewsArticles.text" v-html="listNewsArticles.text" :class="$style.text">
-    <p >{{listNewsArticles.text}}</p>
+  <p>{{listNewsArticles.text}}</p>
 </div>
 <hr class="line-block" />
 </div>
@@ -22,34 +22,39 @@ export default({
         datetime:null
     }),
     methods: {
-    getImgUrl(img) {
-      return require("../assets/media/" + img).default
-    }
+      getImgUrl(img) {
+        return require("../assets/media/" + img).default
+      },
+      async getNews() {
+        return await this.news
+      }
     },
-    computed:{
+    computed: {
         ...mapGetters(['getNews','getArticles']),
-    news (){
+      news () {
         return this.getNews
-    },
-    articles(){
+      },
+      articles() {
         return this.getArticles
-    }
+      }
     },
-    created(){
-        let listNewsArticles=this.news.find(item=>item.route===this.$route.params.route)
-        if(listNewsArticles){
-            this.listNewsArticles=listNewsArticles
-        }else{
-            let listNewsArticles=this.articles.find(item=>item.route===this.$route.params.route)
-            this.listNewsArticles=listNewsArticles
-        }
+    created () {
+      let listNewsArticles = this.getNews.find(item=>item.route===this.$route.params.route)
+      console.log(listNewsArticles)
+      if( listNewsArticles ) {
+          this.listNewsArticles = listNewsArticles
+      } else {
+          let listNewsArticles = this.articles.find(item=>item.route===this.$route.params.route)
+          this.listNewsArticles = istNewsArticles
+      }
+      console.log(listNewsArticles)
 
-    const monthNames = ["января", "февраля", "марта", "апреля", "мая", "июня",
-    "июля", "августа", "сентября", "октября", "ноября", "декабря"];
-   let date =new Date(Date.parse(this.listNewsArticles.created_at))
-    let day=date.getDate()
-    let month=monthNames[date.getMonth()]
-    return this.datetime=`${day} ${month}`
+      const monthNames = ["января", "февраля", "марта", "апреля", "мая", "июня",
+      "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+      let date = new Date(Date.parse(this.listNewsArticles.created_at))
+      let day = date.getDate()
+      let month = monthNames[date.getMonth()]
+      return this.datetime = `${day} ${month}`
     }
 })
 </script>
