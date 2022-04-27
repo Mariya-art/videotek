@@ -98,6 +98,17 @@ export default {
     flex-direction: column;
     align-items: center;
 }
+.btn{
+    border: 1px solid #eb5804;
+    padding: 5px 30px;
+    margin: 20px 30px;
+    color: #eb5804;
+    transition: all 0.3s ease-in;
+}
+.btn:hover{
+    background: #eb5804;
+    color: black
+}
 .text-tab{
     font-size: 13pt;
 }

@@ -7,6 +7,7 @@ import PersonPage from '../components/PersonPage.vue'
 import Films from '../components/Films.vue'
 import Serials from '../components/Serials.vue'
 import Media from '../components/Media.vue'
+import NewsArticlesPage from '../components/NewsArticlesPage.vue'
 
 Vue.use(VueRouter)
 
@@ -55,6 +56,11 @@ const routes = [
     path: '/media',
     name: 'Media',
     component: Media
+  },
+  {
+    path: '/media:route',
+    name: 'NewsArticlesPage',
+    component: NewsArticlesPage
   }
 ]
 
