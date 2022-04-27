@@ -39,12 +39,7 @@ const routes = [
   {
     path: '/serials',
     name: 'Serials',
-    component: Serials
-  },
-  {
-    path: '/serials/:route',
-    name: 'SerialPage',
-    component: FilmPage
+    component: Films,
   },
   {
     path: '/person/:route',

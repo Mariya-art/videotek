@@ -8,7 +8,6 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     films: [],
-    serials: [],
     videos: [],
     genres: [],
     ratingItems: [],
@@ -28,10 +27,12 @@ export default new Vuex.Store({
       state.newItems = payload
     },
     setFilms(state, payload) {
+      state.films = []
       state.films = payload
     },
     setSerials(state, payload) {
-      state.serials = payload
+      state.films = []
+      state.films = payload
     },
     setNews (state, payload) {
       state.news = payload
@@ -67,7 +68,7 @@ export default new Vuex.Store({
     getRatingItems: state => state.ratingItems,
     getNewItems: state => state.newItems,
     getFilms: state => state.films,
-    getSerials: state => state.serials,
+    // getSerials: state => state.serials,
     getVideos: state => state.videos,
     getGenres: state => state.genres,
     getCarouselList: state => state.carouselList,

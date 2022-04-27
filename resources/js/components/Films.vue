@@ -1,7 +1,8 @@
-<template>
-  <div class="container-list">
-    <h1 @click="show = !show">Жанры</h1>
+ <template> 
+ <div class="container-list">
+    <h1 @click="show = !show">Жанры </h1>
     <hr class="line" />
+    <h2>{{genre}}</h2>
     <div class="filter" v-show="show">
       <button
         class="btn"
@@ -39,16 +40,39 @@ export default {
     return {
       genreFilms: null,
       show: false,
+      page: '',
+      genre: '',
     };
   },
   components: { CardFilm },
   methods: {
-    ...mapActions(["fetchFilms", "fetchGenres"]),
+    ...mapActions(["fetchFilms", 'fetchSerials', "fetchGenres"]),
     handlerValue(item) {
-      axios.get("/api/films/" + item.id).then((result) => {
+      if (this.$route.name == 'Films'){
+        axios.get("/api/films/" + item.id).then((result) => {
         this.genreFilms = result.data.data;
-      });
+        })
+      }
+      if (this.$route.name == 'Serials'){
+        axios.get("/api/serials/" + item.id).then((result) => {
+          this.genreFilms = result.data.data;
+      }) 
+      }
+      this.show = false;
+      this.genre = item.title;
     },
+    updateStor () {
+      if (this.$route.name == 'Films' && this.page != 'Films'){
+        this.page = 'Films'
+        this.genreFilms = null
+        this.fetchFilms()
+      }
+      if (this.$route.name == 'Serials' && this.page != 'Serials'){
+        this.page = 'Serials'
+        this.genreFilms = null
+        this.fetchSerials()
+      }
+    } 
   },
   computed: {
     ...mapGetters(["getFilms", "getGenres"]),
@@ -56,13 +80,21 @@ export default {
       return this.getFilms;
     },
     genres() {
-      return this.getGenres;
+      // Для запуска хука updated, без этого работает не каректно
+      if (this.$route.name == 'Serials') {
+        return this.getGenres;
+      } else {
+        return this.getGenres;
+      }
     },
   },
   created() {
-    this.fetchFilms();
+    this.updateStor ()
     this.fetchGenres();
-  },
+   },
+  updated () {
+    this.updateStor ()
+  }, 
 };
 </script>
 
@@ -85,9 +117,9 @@ export default {
   grid-row-gap: 10px;
 }
 .btn {
-  border: 1px solid #eb5804;
-  padding: 5px 30px;
-  margin: 20px 30px;
+  margin: 1px;
+  padding: 0;
+  border: 0;
   color: #eb5804;
   transition: all 0.3s ease-in;
 }
