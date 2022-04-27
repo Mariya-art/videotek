@@ -59,7 +59,10 @@ export default {
         const date = new Date(this.listNewsArticles.created_at)
         // this.datetime = new Intl.DateTimeFormat('ru', {dateStyle: 'full'}).format(date)
         // this.datetime = new Intl.DateTimeFormat('ru', {dateStyle: 'long'}).format(date)
-         this.datetime = new Intl.DateTimeFormat('ru', {day: 'numeric', month: 'long'}).format(date)
+        // this.datetime = new Intl.DateTimeFormat('ru', {day: 'numeric', month: 'long'}).format(date)
+        this.datetime = new Intl
+          .DateTimeFormat('ru', {weekday: 'long', day: 'numeric', month: 'long'})
+          .format(date)
       }
     }
 }
