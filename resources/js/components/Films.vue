@@ -59,15 +59,20 @@ export default {
       }
       this.genre = item.title;
     },
-    updateStor () {
+    clearData() {
+        this.genreFilms = null
+        this.show = false
+        this.genre= ''
+    },
+    updateStore () {
       if (this.$route.name == 'Films' && this.page != 'Films'){
         this.page = 'Films'
-        this.genreFilms = null
+        this.clearData()
         this.fetchFilms()
       }
       if (this.$route.name == 'Serials' && this.page != 'Serials'){
         this.page = 'Serials'
-        this.genreFilms = null
+        this.clearData()
         this.fetchSerials()
       }
     }
@@ -87,11 +92,11 @@ export default {
     },
   },
   created() {
-    this.updateStor ()
+    this.updateStore ()
     this.fetchGenres();
    },
   updated () {
-    this.updateStor ()
+    this.updateStore ()
   },
 };
 </script>
