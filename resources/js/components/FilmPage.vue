@@ -13,7 +13,6 @@
           </div>
           <hr class="line" />
           <p v-if="filmData.age" class="age-boundary">{{ filmData.age }}+</p>
-          <p class="film-page-description">Описание<br/>и снова описание</p>
           <div v-if="filmData.description" v-html="filmData.description" class="film-page-description"></div>
           <h1 v-if="filmData.type_id==3">Об этом видео</h1>
           <h1 v-if="isSerial">О сериале</h1>
