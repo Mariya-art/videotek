@@ -4,7 +4,7 @@
     <hr class="line" />
     <div class="filter" v-show="show">
       <button
-        class="btn"
+        class="btn-filter"
         @click="handlerValue(item)"
         v-for="(item, index) in genres"
         :key="index"
@@ -126,7 +126,6 @@ export default {
   color: #eb5804;
   transition: all 0.3s ease-in;
 }
-
 .btn:hover {
   background: #eb5804;
   color: black;
@@ -134,6 +133,7 @@ export default {
 .filter {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  column-gap: 10px;
 }
 .btn-bottom {
   margin: 0 auto;

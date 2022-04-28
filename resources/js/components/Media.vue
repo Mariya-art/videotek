@@ -10,9 +10,9 @@
 <v-tab-item class="tab-item">
 <div class="list-cardNews">
 <NewsCard
-v-for='item in news'
-:key='item.id'
-:img='item.img'
+v-for="item in news"
+:key="item.id"
+:img="item.img"
 :item=item
  />
 </div>
@@ -29,7 +29,10 @@ v-for='item in news'
 </v-tab-item>
 <v-tab-item class="tab-item">
     <div class="list-video">
-<Player v-for = "item in films" :key= "item.id" :src="item.trailer"/>
+<FilmCardMedia v-for="film in isType"
+:key="film.id"
+:film="film"
+:img="film.img"/>
     </div>
 </v-tab-item>
         </v-tabs>
@@ -45,15 +48,19 @@ v-for='item in news'
 import { mapGetters, mapActions } from 'vuex'
 import NewsCard from '../components/NewsCard.vue'
 import ArticlesCard from '../components/ArticlesCard.vue'
-import Player from '../components/Player.vue'
+import FilmCardMedia from '../components/FilmCardMedia.vue'
+
 export default {
   name: 'Media',
-  components: { NewsCard, ArticlesCard,Player },
+  components: { NewsCard, ArticlesCard,FilmCardMedia },
+  data: () => ({
+    isType:[]
+  }),
   methods: {
     ...mapActions(['fetchNews', 'fetchArticles'])
   },
   computed: {
-    ...mapGetters(['getNews', 'getArticles','getFilms']),
+    ...mapGetters(['getNews', 'getArticles','getFilms','getNewItems']),
     news () {
       return this.getNews
     },
@@ -62,12 +69,20 @@ export default {
     },
     films () {
         return this.getFilms
+    },
+    newItems () {
+        return this.getNewItems
     }
+
   },
   created () {
     this.fetchNews()
     this.fetchArticles()
-  }
+    const isType=this.newItems.map(istype=>{
+        if(istype.type_id == 3){
+            this.isType.push(istype)}
+        })
+    }
 }
 </script>
 
@@ -97,6 +112,17 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.btn{
+    border: 1px solid #eb5804;
+    padding: 5px 30px;
+    margin: 20px 30px;
+    color: #eb5804;
+    transition: all 0.3s ease-in;
+}
+.btn:hover{
+    background: #eb5804;
+    color: black
 }
 .text-tab{
     font-size: 13pt;
@@ -132,7 +158,7 @@ export default {
     display: grid;
     grid-template-columns: repeat(2,1fr);
     grid-auto-flow: dense;
-    grid-gap:30px;
+    grid-gap:10px;
 }
 .line-media{
     margin: 0 auto;

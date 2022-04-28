@@ -7,7 +7,7 @@
         dark
         absolute
         temporary
-        height="39%"
+        height="100%"
         v-model="drawer"
       >
         <div class="listLink">

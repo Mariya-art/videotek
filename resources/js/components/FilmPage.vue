@@ -14,8 +14,9 @@
           <hr class="line" />
           <p v-if="filmData.age" class="age-boundary">{{ filmData.age }}+</p>
           <div v-if="filmData.description" v-html="filmData.description" class="film-page-description"></div>
+          <h1 v-if="filmData.type_id==3">Об этом видео</h1>
           <h1 v-if="isSerial">О сериале</h1>
-          <h1 v-else>О фильме</h1>
+          <h1 v-if="filmData.type_id==1">О фильме</h1>
           <hr class="line" />
           <p v-if="filmData.country">
             <em class="parameter">Страна:</em> {{ filmData.country }}
@@ -63,8 +64,9 @@
         <SerialWatchLine v-if="isSerial" :serialData="filmData" />
         <FilmPlayers v-else :filmData="filmData" />
       </div>
+      <h1 v-if="filmData.type_id==3">Оцените видео</h1>
       <h1 v-if="isSerial">Оцените сериал</h1>
-      <h1 v-else>Оцените фильм</h1>
+      <h1 v-if="filmData.type_id==1">Оцените фильм</h1>
       <hr class="line" />
       <div class="btn-toggle">
         <v-btn-toggle group dark>
@@ -154,10 +156,14 @@ export default {
     }
     if (filmData) {
       this.filmData = filmData;
+      window.sessionStorage.setItem('filmData', JSON.stringify(this.filmData))
       this.filmCategories = filmData.genres.map((item) => item.title.toLowerCase()).join(", ")
       document.title = "VIDEOTEK - " + filmData.title;
-      this.isSerial = Boolean(+filmData.type_id === 2)
+    } else {
+      this.filmData = JSON.parse(window.sessionStorage.getItem('filmData'))
     }
+    this.isSerial = Boolean(+this.filmData.type_id === 2)
+
     const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
     this.isVoteDisabled = Boolean(voteData.id === this.filmData.id)
   },
