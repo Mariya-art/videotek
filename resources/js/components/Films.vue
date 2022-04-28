@@ -1,8 +1,7 @@
- <template> 
+ <template>
  <div class="container-list">
-    <h1 @click="show = !show">Жанры </h1>
+    <h1 @click="show = !show">Жанр<span v-if="genre">: {{genre.toLowerCase()}}</span><span v-else>ы</span></h1>
     <hr class="line" />
-    <h2>{{genre}}</h2>
     <div class="filter" v-show="show">
       <button
         class="btn"
@@ -56,9 +55,8 @@ export default {
       if (this.$route.name == 'Serials'){
         axios.get("/api/serials/" + item.id).then((result) => {
           this.genreFilms = result.data.data;
-      }) 
+      })
       }
-      this.show = false;
       this.genre = item.title;
     },
     updateStor () {
@@ -72,7 +70,7 @@ export default {
         this.genreFilms = null
         this.fetchSerials()
       }
-    } 
+    }
   },
   computed: {
     ...mapGetters(["getFilms", "getGenres"]),
@@ -94,7 +92,7 @@ export default {
    },
   updated () {
     this.updateStor ()
-  }, 
+  },
 };
 </script>
 
