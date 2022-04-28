@@ -4,14 +4,14 @@
       Сезоны:
       <v-btn-toggle group dark>
         <v-btn
-          v-for="item in serialData.seasons"
-          :key="item.number"
+          v-for="season in serialData.seasons"
+          :key="season.number"
           color="#EB5804"
           variant="outlined"
           class="v-btn-style"
-          @click="activate(item)"
+          @click="activate(season)"
         >
-          {{ item.number }}
+          {{ season.number }}
         </v-btn>
       </v-btn-toggle>
     </div>
@@ -26,7 +26,7 @@
               >
                   <div v-for="item in getSeries" :key="item.number">
                     <div class="player-card">
-                       <Player :src="item.link" width="215" height="96" />
+                       <Player :src="item.link" width="215" height="96" :key="item.number + activeSeason"/>
                         Серия {{ item.number }}: {{item.title}}
                     </div>
                   </div>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import Player from './Player.vue';
+import Player from './Player.vue'
 
 export default {
   name: 'SerialWatchLine',
@@ -55,10 +55,13 @@ export default {
   methods: {
     activate (item) {
       this.activeSeason = item.number
+      this.$forceUpdate()
     }
   },
   computed: {
     getSeries () {
+      /* const linklog = this.serialData.seasons[this.activeSeason - 1].series.map(s => s.link)
+      console.log(linklog) */
       return this.serialData.seasons[this.activeSeason - 1].series
     }
   }

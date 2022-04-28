@@ -1,6 +1,6 @@
 <template>
     <div>
-       <router-link class="routerLink" to='/'>
+       <router-link class="routerLink" :to="{ name: 'NewsArticlesPage', params: { route: item.route } }">
       <div class="articles-card">
       <img  class="img-articles" :src="getImgUrl(item.img)"/>
        <div class="article-block"><h2 class="articles-title">{{item.title}}</h2></div>

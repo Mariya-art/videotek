@@ -1,6 +1,6 @@
 <template>
     <div>
-      <router-link class="routerLink" to='/'>
+      <router-link class="routerLink" :to="{ name: 'NewsArticlesPage', params: { route: item.route } }">
     <div class="news-card">
             <img class="news-img" :src="getImgUrl(item.img)" alt="news"/>
        <div class="title-block"> <h2 class="title-news">{{item.title}}</h2></div>
@@ -27,11 +27,12 @@ export default {
   },
   created(){
     const monthNames = ["января", "февраля", "марта", "апреля", "мая", "июня",
-  "июля", "августа", "сентября", "октября", "ноября", "декабря"];
-   let date =new Date(Date.parse(this.item.created_at))
+    "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+    let date =new Date(Date.parse(this.item.created_at))
     let day=date.getDate()
     let month=monthNames[date.getMonth()]
     return this.datetime=`${day} ${month}`
+     
 }
 }
 </script>

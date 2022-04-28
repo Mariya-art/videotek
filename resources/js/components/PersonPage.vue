@@ -93,7 +93,10 @@ export default {
     if (!personData) personData = this.search(this.getRatingItems, personRoute)
     if (personData) {
       this.personData = personData;
+      window.sessionStorage.setItem('personData', JSON.stringify(this.personData))
       document.title = 'VIDEOTEK - ' + personData.name;
+    } else {
+      this.personData = JSON.parse(window.sessionStorage.getItem('personData'))
     }
   }
 }

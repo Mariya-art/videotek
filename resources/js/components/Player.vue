@@ -44,7 +44,8 @@ export default {
       function onPlayerReady () {
       // console.log('onPlayerReady', this);
       }
-    );
+    )
+    // console.log(this.src)
   },
   beforeDestroy () {
     if (this.player) {
