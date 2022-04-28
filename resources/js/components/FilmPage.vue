@@ -141,27 +141,26 @@ export default {
   },
   created() {
     const filmRoute = this.$route.params.route
-    let filmData = this.allFilms.find(
+    this.filmData = this.allFilms.find(
       (item) => item.route === filmRoute
     );
-    if (!filmData) {
-      filmData = this.ratingItems.find(
+    if (!this.filmData) {
+      this.filmData = this.ratingItems.find(
         (item) => item.route === filmRoute
       );
     }
-    if (!filmData) {
-      filmData = this.newItems.find(
+    if (!this.filmData) {
+      this.filmData = this.newItems.find(
         (item) => item.route === filmRoute
       );
     }
-    if (filmData) {
-      this.filmData = filmData;
+    if (this.filmData) {
       window.sessionStorage.setItem('filmData', JSON.stringify(this.filmData))
-      this.filmCategories = filmData.genres.map((item) => item.title.toLowerCase()).join(", ")
-      document.title = "VIDEOTEK - " + filmData.title;
     } else {
       this.filmData = JSON.parse(window.sessionStorage.getItem('filmData'))
     }
+    this.filmCategories = this.filmData.genres.map((item) => item.title.toLowerCase()).join(", ")
+    document.title = "VIDEOTEK - " + this.filmData.title;
     this.isSerial = Boolean(+this.filmData.type_id === 2)
 
     const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
