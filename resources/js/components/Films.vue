@@ -4,7 +4,7 @@
     <hr class="line" />
     <div class="filter" v-show="show">
       <button
-        class="btn-filter"
+        class="btn"
         @click="handlerValue(item)"
         v-for="(item, index) in genres"
         :key="index"
