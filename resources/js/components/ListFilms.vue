@@ -59,7 +59,6 @@ export default {
   height: 3px;
   color: var(--color-B);
   background: linear-gradient(90deg, var(--color-D) 0%, black 90%);
-  margin-bottom: 35px;
   border:none;
 }
 
@@ -69,7 +68,7 @@ export default {
 }
 
 .film-list {
-  margin: 50px auto;
+  margin: 20px auto;
 }
 
 .slider-sheet-style {

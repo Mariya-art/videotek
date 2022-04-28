@@ -31,6 +31,7 @@ Route::get('/types/{id}', [TypeController::class, 'show']);
 Route::get('/main/rating', [FilmController::class, 'getRatingItems']);
 Route::get('/main/new', [FilmController::class, 'getNewItems']);
 
+Route::get('/filmsPageCount', [FilmController::class, 'getFilmsPageCount']);
 Route::get('/films', [FilmController::class, 'getNewFilms']);
 Route::get('/serials', [FilmController::class, 'getNewSerials']);
 Route::get('/videos', [FilmController::class, 'getNewVideos']);
@@ -39,7 +40,8 @@ Route::get('/articles', [ArticleController::class, 'index']);
 Route::get('/news/{id}', [NewsController::class, 'show']);
 Route::get('/articles/{id}', [ArticleController::class, 'show']);
 
-Route::get('/genres', [CategoryController::class, 'getCategories']);
+Route::get('/filmsGenres', [CategoryController::class, 'getFilmsCategories']);
+Route::get('/serialsGenres', [CategoryController::class, 'getSerialsCategories']);
 Route::get('/films/{categoryId}', [FilmController::class, 'getCategoryFilms']);
 Route::get('/serials/{categoryId}', [FilmController::class, 'getCategorySerials']);
 Route::get('/videos/{categoryId}', [FilmController::class, 'getCategoryVideos']);

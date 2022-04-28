@@ -31,21 +31,22 @@ export default {
 
 <style>
 .card {
-  transform: scale(0.9);
-  margin: 20px 40px;
+  transform: scale(0.80);
+  margin: 35px 12px;
+  position: relative;
 }
 
 .card:hover {
-  transform: scale(0.95);
+  transform: scale(0.88);
   cursor: pointer;
 }
 
 .poster {
   margin: 0 auto;
-  width: 250px;
   position: relative;
 }
-.poster img{
+.poster img {
+  height: 370px;
   margin: 0 auto;
 }
 
@@ -56,6 +57,10 @@ export default {
   padding: 10px 0;
   font-size: 14pt;
   text-align: center;
+
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
 .score {

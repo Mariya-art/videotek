@@ -13,7 +13,6 @@
           </div>
           <hr class="line" />
           <p v-if="filmData.age" class="age-boundary">{{ filmData.age }}+</p>
-          <p class="film-page-description">Описание<br/>и снова описание</p>
           <div v-if="filmData.description" v-html="filmData.description" class="film-page-description"></div>
           <h1 v-if="isSerial">О сериале</h1>
           <h1 v-else>О фильме</h1>
@@ -37,7 +36,7 @@
               >
                 <router-link
                   class="routerLink"
-                  :to="'/person/' + director.route"
+                  :to="'/director/' + director.directorRoute"
                 >{{ director.name }}</router-link>
               </li>
             </ul>
@@ -52,7 +51,7 @@
               >
                 <router-link
                   class="routerLink"
-                  :to="'/person/' + actor.route"
+                  :to="'/actor/' + actor.actorRoute"
                   >{{ actor.name }}</router-link>
               </li>
             </ul>

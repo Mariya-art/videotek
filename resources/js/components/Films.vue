@@ -15,13 +15,23 @@
     </div>
     <div class="films-list">
       <CardFilm
-        v-for="film in genreFilms ? genreFilms : filmsList"
+        v-for="film in genreFilms ? genreFilms : filmsList.data"
         :key="film.id"
         :film="film"
         :img="film.img"
       />
     </div>
     <hr class="line" />
+    <paginate
+      :pageCount="filmsPageCount"
+      :pageRange="3"
+      :marginPages="1"
+      :clickHandler="fetchFilms"
+      :prevText="'Назад'"
+      :nextText="'Вперед'"
+      :containerClass="'pagination'"
+      :pageClass="'page-item'">
+    </paginate>
     <div class="btn-bottom">
       <button class="btn">Показать ещё</button>
     </div>
@@ -43,7 +53,7 @@ export default {
   },
   components: { CardFilm },
   methods: {
-    ...mapActions(["fetchFilms", "fetchGenres"]),
+    ...mapActions(["fetchFilms", "fetchFilmsGenres", "fetchFilmsPageCount"]),
     handlerValue(item) {
       axios.get("/api/films/" + item.id).then((result) => {
         this.genreFilms = result.data.data;
@@ -51,22 +61,26 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["getFilms", "getGenres"]),
+    ...mapGetters(["getFilms", "getFilmsGenres", "getFilmsPageCount"]),
     filmsList() {
       return this.getFilms;
     },
     genres() {
-      return this.getGenres;
+      return this.getFilmsGenres;
+    },
+    filmsPageCount() {
+      return this.getFilmsPageCount;
     },
   },
   created() {
+    this.fetchFilmsPageCount();
     this.fetchFilms();
-    this.fetchGenres();
+    this.fetchFilmsGenres();
   },
 };
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .container-list {
   width: 1140px;
   margin: 20px auto;
@@ -102,5 +116,19 @@ export default {
 }
 .btn-bottom {
   margin: 0 auto;
+}
+.prev-nav {
+  border: 1px solid #eb5804;
+  padding: 5px 30px;
+  margin: 20px 30px;
+  color: #eb5804;
+  transition: all 0.3s ease-in;
+}
+.next-nav {
+  border: 1px solid #eb5804;
+  padding: 5px 30px;
+  margin: 20px 30px;
+  color: #eb5804;
+  transition: all 0.3s ease-in;
 }
 </style>
