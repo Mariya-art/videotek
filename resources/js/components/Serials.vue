@@ -43,7 +43,7 @@ export default {
   },
   components: { CardFilm },
   methods: {
-    ...mapActions(["fetchSerials", "fetchGenres"]),
+    ...mapActions(["fetchSerials", "fetchSerialsGenres"]),
     handlerValue(item) {
       axios.get("/api/serials/" + item.id).then((result) => {
         this.genreFilms = result.data.data;
@@ -51,17 +51,17 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["getSerials", "getGenres"]),
+    ...mapGetters(["getSerials", "getSerialsGenres"]),
     serialList() {
       return this.getSerials;
     },
     genres() {
-      return this.getGenres;
+      return this.getSerialsGenres;
     },
   },
   created() {
     this.fetchSerials();
-    this.fetchGenres();
+    this.fetchSerialsGenres();
   },
 };
 </script>

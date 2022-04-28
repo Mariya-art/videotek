@@ -8,7 +8,7 @@ import Films from '../components/Films.vue'
 import Serials from '../components/Serials.vue'
 import Media from '../components/Media.vue'
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -47,8 +47,13 @@ const routes = [
     component: FilmPage
   },
   {
-    path: '/person/:route',
+    path: '/actor/:actorRoute',
     name: 'PersonPage',
+    component: PersonPage
+  },
+  {
+    path: '/director/:directorRoute',
+    name: 'DirectorPage',
     component: PersonPage
   },
   {

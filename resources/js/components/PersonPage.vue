@@ -51,24 +51,28 @@ export default {
     getImgUrl(img) {
       return require("../assets/" + img).default;
     },
-    search(filmArray, personRoute) {
+    searchActor(filmArray, personRoute) {
       let person = null
       filmArray.forEach(film => {
           const candidate = film.actors.find(
-           (actor) => actor.route === personRoute
-          )
-          if (candidate) person = candidate
-        }
-      )
-      if (!person) filmArray.forEach(film => {
-          const candidate = film.directors.find(
-           (director) => director.route === personRoute
+            (actor) => actor.actorRoute === personRoute
           )
           if (candidate) person = candidate
         }
       )
       return person
-    }
+    },
+    searchDirector(filmArray, personRoute) {
+      let person = null
+      filmArray.forEach(film => {
+          const candidate = film.directors.find(
+            (director) => director.directorRoute === personRoute
+          )
+          if (candidate) person = candidate
+        }
+      )
+      return person
+    },
   },
   computed: {
     ...mapGetters([
@@ -87,10 +91,14 @@ export default {
     }
   },
   created () {
-    const personRoute = this.$route.params.route
-    let personData = this.search(this.allFilms, personRoute)
-    if (!personData) personData = this.search(this.getNewItems, personRoute)
-    if (!personData) personData = this.search(this.getRatingItems, personRoute)
+    const actorRoute = this.$route.params.actorRoute
+    const directorRoute = this.$route.params.directorRoute
+    let personData = null;
+    if (actorRoute) {
+      personData = this.searchActor(this.getNewItems, actorRoute)
+    } else {
+      personData = this.searchDirector(this.getNewItems, directorRoute)
+    }
     if (personData) {
       this.personData = personData;
       document.title = 'VIDEOTEK - ' + personData.name;

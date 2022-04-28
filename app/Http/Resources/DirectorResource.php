@@ -18,7 +18,7 @@ class DirectorResource extends JsonResource
             'id' => $this->id,
             'img' => $this->image,
             'name' => $this->name,
-            'route' => $this->slug,
+            'directorRoute' => $this->slug,
             'birthday' => $this->birthday,
             'birthplace' => $this->birthplace,
             'height' => $this->height,

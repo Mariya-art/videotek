@@ -18,7 +18,7 @@ class ActorResource extends JsonResource
             'id' => $this->id,
             'img' => $this->image,
             'name' => $this->name,
-            'route' => $this->slug,
+            'actorRoute' => $this->slug,
             'birthday' => $this->birthday,
             'birthplace' => $this->birthplace,
             'height' => $this->height,
