@@ -1,16 +1,23 @@
 <template>
     <div>
-       <router-link class="routerLink" :to="{ name: 'NewsArticlesPage', params: { route: item.route } }">
-      <div class="articles-card">
-      <img  class="img-articles" :src="getImgUrl(item.img)"/>
-       <div class="article-block"><h2 class="articles-title">{{item.title}}</h2></div>
-      <div><p class="articles-date">{{this.datetime}}</p></div>
-      </div>
-       </router-link>
+      <router-link
+        class="routerLink"
+        :to="{ name: 'NewsArticlesPage', params: { route: item.route } }"
+      >
+        <div class="articles-card">
+          <img  class="img-articles" :src="getImgUrl(item.img)"/>
+          <div class="article-block">
+            <h2 class="articles-title">{{item.title}}</h2>
+          </div>
+          <div>
+            <p class="articles-date">{{this.datetime}}</p>
+          </div>
+        </div>
+      </router-link>
     </div>
 </template>
-<script>
 
+<script>
 export default {
   name: 'ArticlesCard',
   props: {
@@ -18,7 +25,7 @@ export default {
       type: Object
     }
   },
-  data:()=>({
+  data: () => ({
     datetime:null
   }),
    methods: {
@@ -36,6 +43,7 @@ export default {
 }
 }
 </script>
+
 <style scoped>
 .articles-card{
     position: relative;
