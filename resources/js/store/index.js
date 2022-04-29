@@ -6,14 +6,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    films: {},
+    items: [],
+    ratingItems: [],
+    newItems: [],
+    films: [],
     filmsPageCount: null,
     serials: [],
     videos: [],
     filmsGenres: [],
     serialsGenres: [],
-    ratingItems: [],
-    newItems: [],
     carouselList: [],
     personList: [],
     commentList: [],
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     isVisible: true
   },
   mutations: {
+    setItems(state, payload) {
+      state.items = payload
+    },
     setRatingItems(state, payload) {
       state.ratingItems = payload
     },
@@ -69,6 +73,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    getItems: state => state.items,
     getNews: state => state.news,
     getArticles: state => state.articles,
     getRatingItems: state => state.ratingItems,
@@ -85,6 +90,11 @@ export default new Vuex.Store({
     getCommentList: state => state.commentList,
   },
   actions: {
+    fetchItems({ commit }) {
+      return axios.get('/api/main').then( result => {
+        commit('setItems', result.data.data);
+      })
+    },
     fetchRatingItems({ commit }) {
       return axios.get('/api/main/rating').then( result => {
         commit('setRatingItems', result.data.data);
@@ -97,7 +107,7 @@ export default new Vuex.Store({
     },
     fetchFilms({ commit }, page = 1) {
       return axios.get('/api/films?page=' + page).then( result => {
-        commit('setFilms', result.data);
+        commit('setFilms', result.data.data);
       })
     },
     fetchFilmsPageCount({ commit }) {

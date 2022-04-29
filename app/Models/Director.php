@@ -23,6 +23,11 @@ class Director extends Model
         return $this->belongsToMany(Film::class);
     }
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function sluggable(): array
     {
         return [

@@ -15,7 +15,7 @@
     </div>
     <div class="films-list">
       <CardFilm
-        v-for="film in genreFilms ? genreFilms : filmsList.data"
+        v-for="film in genreFilms ? genreFilms : filmsList"
         :key="film.id"
         :film="film"
         :img="film.img"
@@ -24,7 +24,6 @@
     <hr class="line" />
     <paginate
       :pageCount="filmsPageCount"
-      :pageRange="3"
       :marginPages="1"
       :clickHandler="fetchFilms"
       :prevText="'Назад'"

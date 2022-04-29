@@ -25,14 +25,15 @@ _vue["default"].use(_vuex["default"]);
 
 var _default = new _vuex["default"].Store({
   state: {
-    films: {},
+    items: [],
+    ratingItems: [],
+    newItems: [],
+    films: [],
     filmsPageCount: null,
     serials: [],
     videos: [],
     filmsGenres: [],
     serialsGenres: [],
-    ratingItems: [],
-    newItems: [],
     carouselList: [],
     personList: [],
     commentList: [],
@@ -41,6 +42,9 @@ var _default = new _vuex["default"].Store({
     isVisible: true
   },
   mutations: {
+    setItems: function setItems(state, payload) {
+      state.items = payload;
+    },
     setRatingItems: function setRatingItems(state, payload) {
       state.ratingItems = payload;
     },
@@ -88,6 +92,9 @@ var _default = new _vuex["default"].Store({
     }
   },
   getters: {
+    getItems: function getItems(state) {
+      return state.items;
+    },
     getNews: function getNews(state) {
       return state.news;
     },
@@ -132,65 +139,71 @@ var _default = new _vuex["default"].Store({
     }
   },
   actions: {
-    fetchRatingItems: function fetchRatingItems(_ref) {
+    fetchItems: function fetchItems(_ref) {
       var commit = _ref.commit;
+      return _axios["default"].get('/api/main').then(function (result) {
+        commit('setItems', result.data.data);
+      });
+    },
+    fetchRatingItems: function fetchRatingItems(_ref2) {
+      var commit = _ref2.commit;
       return _axios["default"].get('/api/main/rating').then(function (result) {
         commit('setRatingItems', result.data.data);
       });
     },
-    fetchNewItems: function fetchNewItems(_ref2) {
-      var commit = _ref2.commit;
+    fetchNewItems: function fetchNewItems(_ref3) {
+      var commit = _ref3.commit;
       return _axios["default"].get('/api/main/new').then(function (result) {
         commit('setNewItems', result.data.data);
       });
     },
-    fetchFilms: function fetchFilms(_ref3) {
-      var commit = _ref3.commit;
+    fetchFilms: function fetchFilms(_ref4) {
+      var commit = _ref4.commit;
       var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
       return _axios["default"].get('/api/films?page=' + page).then(function (result) {
-        commit('setFilms', result.data);
+        commit('setFilms', result.data.data);
       });
     },
-    fetchFilmsPageCount: function fetchFilmsPageCount(_ref4) {
-      var commit = _ref4.commit;
+    fetchFilmsPageCount: function fetchFilmsPageCount(_ref5) {
+      var commit = _ref5.commit;
       return _axios["default"].get('/api/filmsPageCount').then(function (result) {
         commit('setFilmsPageCount', result.data);
       });
     },
-    fetchSerials: function fetchSerials(_ref5) {
-      var commit = _ref5.commit;
+    fetchSerials: function fetchSerials(_ref6) {
+      var commit = _ref6.commit;
       return _axios["default"].get('/api/serials').then(function (result) {
         commit('setSerials', result.data.data);
       });
     },
-    fetchVideos: function fetchVideos(_ref6) {
-      var commit = _ref6.commit;
+    fetchVideos: function fetchVideos(_ref7) {
+      var commit = _ref7.commit;
       return _axios["default"].get('/api/videos').then(function (result) {
         commit('setVideos', result.data.data);
       });
     },
-    fetchFilmsGenres: function fetchFilmsGenres(_ref7) {
-      var commit = _ref7.commit;
+    fetchFilmsGenres: function fetchFilmsGenres(_ref8) {
+      var commit = _ref8.commit;
       return _axios["default"].get('/api/filmsGenres').then(function (result) {
         commit('setFilmsGenres', result.data.data);
       });
     },
-    fetchSerialsGenres: function fetchSerialsGenres(_ref8) {
-      var commit = _ref8.commit;
+    fetchSerialsGenres: function fetchSerialsGenres(_ref9) {
+      var commit = _ref9.commit;
       return _axios["default"].get('/api/serialsGenres').then(function (result) {
         commit('setSerialsGenres', result.data.data);
       });
     },
-    fetchActors: function fetchActors(_ref9, payload) {
-      var commit = _ref9.commit;
+    fetchActors: function fetchActors(_ref10, payload) {
+      var commit = _ref10.commit;
       commit('setPersonList', payload);
     },
-    fetchDirectors: function fetchDirectors(_ref10, payload) {
-      var commit = _ref10.commit;
+    fetchDirectors: function fetchDirectors(_ref11, payload) {
+      var commit = _ref11.commit;
       commit('setPersonList', [].concat(_toConsumableArray(this.state.personList), _toConsumableArray(payload)));
     },
-    fetchCarousel: function fetchCarousel(_ref11) {
-      var commit = _ref11.commit;
+    fetchCarousel: function fetchCarousel(_ref12) {
+      var commit = _ref12.commit;
       return commit('setCarouselList', [{
         src: 'sherlock.jpg'
       }, {
@@ -201,12 +214,12 @@ var _default = new _vuex["default"].Store({
         src: 'billions.jpg'
       }]);
     },
-    toggleIsVisible: function toggleIsVisible(_ref12, payload) {
-      var commit = _ref12.commit;
+    toggleIsVisible: function toggleIsVisible(_ref13, payload) {
+      var commit = _ref13.commit;
       commit('setIsVisible', payload);
     },
-    fetchComments: function fetchComments(_ref13) {
-      var commit = _ref13.commit;
+    fetchComments: function fetchComments(_ref14) {
+      var commit = _ref14.commit;
       return commit('setCommentList', [{
         filmRoute: 'avatar',
         username: 'Гость 1',
@@ -251,18 +264,18 @@ var _default = new _vuex["default"].Store({
         id: '7'
       }]);
     },
-    fetchAddComment: function fetchAddComment(_ref14, payload) {
-      var commit = _ref14.commit;
+    fetchAddComment: function fetchAddComment(_ref15, payload) {
+      var commit = _ref15.commit;
       commit('addComment', payload);
     },
-    fetchNews: function fetchNews(_ref15) {
-      var commit = _ref15.commit;
+    fetchNews: function fetchNews(_ref16) {
+      var commit = _ref16.commit;
       return _axios["default"].get('api/news').then(function (result) {
         commit('setNews', result.data.data);
       });
     },
-    fetchArticles: function fetchArticles(_ref16) {
-      var commit = _ref16.commit;
+    fetchArticles: function fetchArticles(_ref17) {
+      var commit = _ref17.commit;
       return _axios["default"].get('api/articles').then(function (result) {
         commit('setArticles', result.data.data);
       });

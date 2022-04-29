@@ -118,18 +118,10 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "getNewItems",
-      "getRatingItems",
-      "getFilms"
+      "getItems",
       ]),
-    newItems() {
-      return this.getNewItems;
-    },
-    ratingItems() {
-      return this.getRatingItems;
-    },
-    allFilms() {
-      return this.getFilms
+    items() {
+      return this.getItems;
     },
     score: () => {
       const array = [];
@@ -139,19 +131,9 @@ export default {
   },
   created() {
     const filmRoute = this.$route.params.route
-    let filmData = this.allFilms.find(
-      (item) => item.route === filmRoute
-    );
-    if (!filmData) {
-      filmData = this.ratingItems.find(
+    let filmData = this.items.find(
         (item) => item.route === filmRoute
       );
-    }
-    if (!filmData) {
-      filmData = this.newItems.find(
-        (item) => item.route === filmRoute
-      );
-    }
     if (filmData) {
       this.filmData = filmData;
       this.filmCategories = filmData.genres.map((item) => item.title.toLowerCase()).join(", ")

@@ -13,8 +13,8 @@ class ArticleController extends Controller
         return ArticleResource::collection(Article::latest()->get());
     }
 
-    public function show(int $id)
+    public function show(Article $article)
     {
-        return new ArticleResource(Article::findOrFail($id));
+        return new ArticleResource(Article::findOrFail($article->id));
     }
 }

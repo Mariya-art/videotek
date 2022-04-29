@@ -123,9 +123,10 @@ export default {
     icons: ["mdi-odnoklassniki", "mdi-github", "mdi-trello", "mdi-discord"],
   }),
   methods: {
-    ...mapActions(["fetchNewItems", "fetchRatingItems", "fetchFilms"]),
+    ...mapActions(["fetchItems", "fetchNewItems", "fetchRatingItems", "fetchFilms"]),
   },
   created() {
+    this.fetchItems();
     this.fetchNewItems();
     this.fetchRatingItems();
     this.fetchFilms();
