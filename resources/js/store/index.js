@@ -12,7 +12,6 @@ export default new Vuex.Store({
     genres: [],
     ratingItems: [],
     newItems: [],
-    carouselList: [],
     personList: [],
     news:[],
     articles: [],
@@ -45,9 +44,6 @@ export default new Vuex.Store({
     setGenres(state, payload) {
       state.genres = payload
     },
-    setCarouselList(state, payload) {
-      state.carouselList = payload
-    },
     setPersonList(state, payload) {
       state.personList = payload
     },
@@ -67,7 +63,6 @@ export default new Vuex.Store({
     // getSerials: state => state.serials,
     getVideos: state => state.videos,
     getGenres: state => state.genres,
-    getCarouselList: state => state.carouselList,
     getPersonsList: state => state.personList,
     getCommentList: state => state.commentList,
   },
@@ -107,22 +102,6 @@ export default new Vuex.Store({
     },
     fetchDirectors({ commit }, payload) {
       commit('setPersonList', [...this.state.personList, ...payload])
-    },
-    fetchCarousel({ commit }) {
-      return commit('setCarouselList', [
-        {
-          src: 'sherlock.jpg'
-        },
-        {
-          src: 'taboo.jpg'
-        },
-        {
-          src: 'gentlemen.jpg'
-        },
-        {
-          src: 'billions.jpg'
-        }
-      ])
     },
     fetchComments ({ commit }) {
       return commit('setCommentList', [
