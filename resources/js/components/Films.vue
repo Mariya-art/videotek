@@ -29,9 +29,8 @@
 </template>
 
 <script>
-import axios from "axios";
-import CardFilm from "./CardFilm.vue";
-import { mapGetters, mapActions } from "vuex";
+import axios from "axios"
+import CardFilm from "./CardFilm.vue"
 
 export default {
   name: "Films",
