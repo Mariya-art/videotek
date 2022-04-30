@@ -137,8 +137,8 @@ export default {
     } else {
       this.filmData = JSON.parse(window.sessionStorage.getItem('filmData'))
     }
-    this.filmCategories = this.filmData.genres.map((item) => item.title.toLowerCase()).join(", ")
-    document.title = "VIDEOTEK - " + this.filmData.title;
+    this.filmCategories = this.filmData.genres.map((item) => item.title.toLowerCase()).join(', ')
+    document.title = 'VIDEOTEK - ' + this.filmData.title;
     this.isSerial = Boolean(+this.filmData.type_id === 2)
 
     const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
