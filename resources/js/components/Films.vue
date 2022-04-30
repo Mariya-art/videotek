@@ -5,7 +5,7 @@
     <div class="filter" v-show="show">
       <button
         class="btn"
-        @click="handlerValue(item)"
+        @click="onGenreClick(item)"
         v-for="(item, index) in genres"
         :key="index"
         v-bind:value="item"
@@ -15,7 +15,7 @@
     </div>
     <div class="films-list">
       <CardFilm
-        v-for="film in genreFilms ? genreFilms : filmsList"
+        v-for="film in genreFilms ? genreFilms : allFilms"
         :key="film.id"
         :film="film"
         :img="film.img"
@@ -35,69 +35,64 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Films",
-  data() {
-    return {
+  data: () => ({
+      allFilms: null,
+      genres: null,
       genreFilms: null,
       show: false,
-      page: '',
-      genre: '',
-    };
-  },
+      filmsOrSerials: '',
+      genre: ''
+  }),
   components: { CardFilm },
   methods: {
-    ...mapActions(["fetchFilms", 'fetchSerials', "fetchGenres"]),
-    handlerValue(item) {
-      if (this.$route.name == 'Films'){
-        axios.get("/api/films/" + item.id).then((result) => {
-        this.genreFilms = result.data.data;
-        })
-      }
-      if (this.$route.name == 'Serials'){
-        axios.get("/api/serials/" + item.id).then((result) => {
-          this.genreFilms = result.data.data;
-      })
-      }
-      this.genre = item.title;
+    onGenreClick(item) {
+      this.genreFilms = this.allFilms.filter(
+        film => film.genres.map(genre => genre.id === item.id).reduce((a, b) => a || b)
+      )
+      this.genre = item.title
     },
-    clearData() {
-        this.genreFilms = null
-        this.show = false
-        this.genre= ''
-    },
-    updateStore () {
-      if (this.$route.name == 'Films' && this.page != 'Films'){
-        this.page = 'Films'
-        this.clearData()
-        this.fetchFilms()
-      }
-      if (this.$route.name == 'Serials' && this.page != 'Serials'){
-        this.page = 'Serials'
-        this.clearData()
-        this.fetchSerials()
+    refreshData() {
+      if (this.filmsOrSerials === 'Films') {
+        axios
+          .get("/api/films")
+          .then((result) => {
+            this.allFilms = result.data.data
+            window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))
+          })
+      } else if (this.filmsOrSerials === 'Serials') {
+        axios
+          .get("/api/serials")
+          .then((result) => {
+            this.allFilms = result.data.data
+            window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))
+          })
       }
     }
   },
-  computed: {
-    ...mapGetters(["getFilms", "getGenres"]),
-    filmsList() {
-      return this.getFilms;
-    },
-    genres() {
-      // Для запуска хука updated, без этого работает не каректно
-      if (this.$route.name == 'Serials') {
-        return this.getGenres;
-      } else {
-        return this.getGenres;
-      }
-    },
+  watch: {
+    $route (to, from) {
+      this.filmsOrSerials = this.$route.name
+      window.sessionStorage.setItem('filmsOrSerials', JSON.stringify(this.filmsOrSerials))
+      this.refreshData()
+      this.genre = ''
+      this.genreFilms = null
+    }
   },
-  created() {
-    this.updateStore ()
-    this.fetchGenres();
+  created () {
+    if (this.$route.name) {
+      this.filmsOrSerials = this.$route.name
+    } else {
+      this.filmsOrSerials = JSON.parse(window.sessionStorage.getItem('filmsOrSerials'))
+    }
+    window.sessionStorage.setItem('filmsOrSerials', JSON.stringify(this.filmsOrSerials))
+    this.refreshData()
+    axios
+      .get('/api/genres')
+      .then((result) => {
+          this.genres = result.data.data
+          window.sessionStorage.setItem('genres', JSON.stringify(this.genres))
+        })
    },
-  updated () {
-    this.updateStore ()
-  },
 };
 </script>
 

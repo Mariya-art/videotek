@@ -12,8 +12,6 @@ export default new Vuex.Store({
     ratingItems: [],
     newItems: [],
     personList: [],
-    news:[],
-    articles: [],
     isVisible: true
   },
   mutations: {
@@ -31,12 +29,6 @@ export default new Vuex.Store({
       state.films = []
       state.films = payload
     },
-    setNews (state, payload) {
-      state.news = payload
-    },
-    setArticles (state, payload) {
-      state.articles = payload
-    },
     setVideos(state, payload) {
       state.videos = payload
     },
@@ -48,8 +40,6 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    getNews: state => state.news,
-    getArticles: state => state.articles,
     getRatingItems: state => state.ratingItems,
     getNewItems: state => state.newItems,
     getFilms: state => state.films,
@@ -94,16 +84,6 @@ export default new Vuex.Store({
     },
     fetchDirectors({ commit }, payload) {
       commit('setPersonList', [...this.state.personList, ...payload])
-    },
-    fetchNews ({ commit }) {
-      return axios.get('api/news').then(result=>{
-        commit('setNews',result.data.data)
-      })
-    },
-    fetchArticles ({ commit }) {
-      return axios.get('api/articles').then(result=>{
-        commit('setArticles',result.data.data)
-      })
     }
   }
 })
