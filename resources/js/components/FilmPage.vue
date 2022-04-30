@@ -89,7 +89,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import Comment from './Comment.vue'
 import SerialWatchLine from './SerialWatchLine.vue'
 import FilmPlayers from './FilmPlayers.vue'
@@ -107,53 +106,32 @@ export default {
   }),
   methods: {
     vote (item) {
-      const data = {
-        vote: item,
-        id: this.filmData.id
-      }
+      const data = { vote: item, id: this.filmData.id }
       localStorage.setItem(this.filmData.id, JSON.stringify(data))
       this.isVoteDisabled = true
+    },
+    searchFilmData() {
+      const filmRoute = this.$route.params.route
+      const ratingFilms = JSON.parse(window.sessionStorage.getItem('ratingFilms'))
+      this.filmData = ratingFilms.find( (item) => item.route === filmRoute )
+      if (! this.filmData) {
+        const newVideo = JSON.parse(window.sessionStorage.getItem('newVideo'))
+        this.filmData = newVideo.find( (item) => item.route === filmRoute )
+      }
     },
     getImgUrl(img) {
       return require("../assets/" + img).default;
     },
   },
   computed: {
-    ...mapGetters([
-      "getNewItems",
-      "getRatingItems",
-      "getFilms"
-      ]),
-    newItems() {
-      return this.getNewItems;
-    },
-    ratingItems() {
-      return this.getRatingItems;
-    },
-    allFilms() {
-      return this.getFilms
-    },
     score: () => {
       const array = [];
       for (let i = 1; i < 11; i++) array.push(i);
       return array;
-    },
+    }
   },
   created() {
-    const filmRoute = this.$route.params.route
-    this.filmData = this.allFilms.find(
-      (item) => item.route === filmRoute
-    );
-    if (!this.filmData) {
-      this.filmData = this.ratingItems.find(
-        (item) => item.route === filmRoute
-      );
-    }
-    if (!this.filmData) {
-      this.filmData = this.newItems.find(
-        (item) => item.route === filmRoute
-      );
-    }
+    this.searchFilmData()
     if (this.filmData) {
       window.sessionStorage.setItem('filmData', JSON.stringify(this.filmData))
     } else {

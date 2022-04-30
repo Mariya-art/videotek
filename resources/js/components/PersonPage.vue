@@ -38,63 +38,28 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'PersonPage',
   data () {
     return {
-      personData: {}
+      personData: null
     };
   },
   methods: {
     getImgUrl(img) {
       return require("../assets/" + img).default;
     },
-    search(filmArray, personRoute) {
-      let person = null
-      filmArray.forEach(film => {
-          const candidate = film.actors.find(
-           (actor) => actor.route === personRoute
-          )
-          if (candidate) person = candidate
-        }
-      )
-      if (!person) filmArray.forEach(film => {
-          const candidate = film.directors.find(
-           (director) => director.route === personRoute
-          )
-          if (candidate) person = candidate
-        }
-      )
-      return person
-    }
-  },
-  computed: {
-    ...mapGetters([
-      "getNewItems",
-      "getRatingItems",
-      "getFilms"
-      ]),
-    newItems() {
-      return this.getNewItems;
-    },
-    ratingItems() {
-      return this.getRatingItems;
-    },
-    allFilms() {
-      return this.getFilms
+    searchPersonData() {
+      const personRoute = this.$route.params.route
+      const persona = JSON.parse(window.sessionStorage.getItem('persona'))
+      this.personData = persona.find( item => item.route === personRoute )
     }
   },
   created () {
-    const personRoute = this.$route.params.route
-    let personData = this.search(this.allFilms, personRoute)
-    if (!personData) personData = this.search(this.getNewItems, personRoute)
-    if (!personData) personData = this.search(this.getRatingItems, personRoute)
-    if (personData) {
-      this.personData = personData;
+    this.searchPersonData()
+    if (this.personData) {
       window.sessionStorage.setItem('personData', JSON.stringify(this.personData))
-      document.title = 'VIDEOTEK - ' + personData.name;
+      document.title = 'VIDEOTEK - ' + this.personData.name;
     } else {
       this.personData = JSON.parse(window.sessionStorage.getItem('personData'))
     }

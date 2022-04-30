@@ -97,20 +97,16 @@
 </template>
 
 <script>
-import logo from "./assets/videotek.jpg";
-import filmicon from "./assets/filmicon.png";
-import serials from "./assets/serials.png";
-import zvezda from "./assets/zvezda.png";
-import media from "./assets/media.png";
-import newfilm from "./assets/newfilm.png";
-import { mapActions } from "vuex";
+import logo from "./assets/videotek.jpg"
+import filmicon from "./assets/filmicon.png"
+import serials from "./assets/serials.png"
+import zvezda from "./assets/zvezda.png"
+import media from "./assets/media.png"
+import newfilm from "./assets/newfilm.png"
+import { mapActions } from "vuex"
 
 export default {
   name: "App",
-  beforeCreate() {
-    document.body.className = "app";
-  },
-
   data: () => ({
     drawer: false,
     group: null,
@@ -125,11 +121,9 @@ export default {
   methods: {
     ...mapActions(["fetchNewItems", "fetchRatingItems", "fetchFilms"]),
   },
-  created() {
-    this.fetchNewItems();
-    this.fetchRatingItems();
-    this.fetchFilms();
-  },
+  beforeCreate() {
+    document.body.className = "app"
+  }
 };
 </script>
 

@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import NewsCard from '../components/NewsCard.vue'
 import ArticlesCard from '../components/ArticlesCard.vue'
 import FilmCardMedia from '../components/FilmCardMedia.vue'
@@ -73,12 +72,6 @@ export default {
         return JSON.parse(window.sessionStorage.getItem('newsOrArticles'))
       }
   },
-  computed: {
-    ...mapGetters(['getNewItems']),
-    newItems () {
-        return this.getNewItems
-    }
-  },
   created () {
     axios
       .get('api/news')
@@ -92,7 +85,8 @@ export default {
         this.articles = result.data.data
         window.sessionStorage.setItem('articles', JSON.stringify(this.articles))
       })
-    this.filmsOfType = this.newItems.filter( film => film.type_id === 3 )
+    const video = JSON.parse(window.sessionStorage.getItem('newVideo'))
+    this.filmsOfType = video.filter( film => film.type_id === 3 )
   }
 }
 </script>
