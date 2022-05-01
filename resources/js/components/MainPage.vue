@@ -1,13 +1,14 @@
 <template>
   <div class="main-page">
     <FilmCarousel />
-    <ListFilms header="По рейтингу" :filmsList="ratingFilms" />
-    <ListFilms header="Новые" :filmsList="newVideo" />
+    <ListFilms header="По рейтингу" :filmsList="ratingFilms" :key="getKey()" />
+    <ListFilms header="Новые" :filmsList="newVideo" :key="getKey()" />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import { v4 as uuid } from 'uuid'
 import FilmCarousel from './FilmCarousel.vue'
 import ListFilms from './ListFilms.vue'
 
@@ -37,7 +38,8 @@ export default {
           ...persona
         ])
       )
-    }
+    },
+    getKey() { return uuid() }
   },
   created () {
     window.sessionStorage.setItem('persona', JSON.stringify([]))
@@ -59,6 +61,7 @@ export default {
           this.addPersonaToStorage(this.flatenPersona(this.ratingFilms))
         }
       })
+    console.log(this.keys)
   }
 }
 </script>
