@@ -52,11 +52,52 @@ export default {
     searchPersonData() {
       const personRoute = this.$route.params.route
       const persona = JSON.parse(window.sessionStorage.getItem('persona'))
-      this.personData = persona.find( item => item.route === personRoute )
+      if (persona) {
+        this.personData = persona.find( item => item.route === personRoute )
+      }
+    },
+    flatenPersona(videoDataArray) {
+      const persona = []
+      videoDataArray.forEach(video => {
+          video.directors.forEach(director => persona.push(director))
+          video.actors.forEach(actor => persona.push(actor))
+      })
+      return persona
+    },
+    addPersonaToStorage(persona) {
+      window.sessionStorage.setItem('persona',
+        JSON.stringify([
+          ...JSON.parse(window.sessionStorage.getItem('persona')),
+          ...persona
+        ])
+      )
+    },
+    refreshFilmsAndPersona() {
+      axios
+        .get('/api/main/new') // Здесь должен быть запрос именно на всё, либо на конкретный фильм
+        .then((result) => {
+          const video = result.data.data
+          window.sessionStorage.setItem('newVideo', JSON.stringify(video))
+          window.sessionStorage.setItem('persona', JSON.stringify([]))
+          this.addPersonaToStorage(this.flatenPersona(video))
+          window.location.reload()
+        })
+    },
+    refreshPersons() {
+      axios
+        .get('/api/main/new') // Здесь должен быть запрос именно на всё, либо на конкретный фильм
+        .then((result) => {
+          window.sessionStorage.setItem('newVideo', JSON.stringify(result.data.data))
+          window.location.reload()
+        })
     }
   },
   created () {
     this.searchPersonData()
+    if (! this.personData) {
+      this.refreshFilmsAndPersona()
+      this.searchPersonData()
+    }
     if (this.personData) {
       window.sessionStorage.setItem('personData', JSON.stringify(this.personData))
       document.title = 'VIDEOTEK - ' + this.personData.name;

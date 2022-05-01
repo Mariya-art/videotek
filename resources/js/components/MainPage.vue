@@ -61,7 +61,6 @@ export default {
           this.addPersonaToStorage(this.flatenPersona(this.ratingFilms))
         }
       })
-    console.log(this.keys)
   }
 }
 </script>

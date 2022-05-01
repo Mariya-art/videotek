@@ -113,11 +113,23 @@ export default {
     searchFilmData() {
       const filmRoute = this.$route.params.route
       const ratingFilms = JSON.parse(window.sessionStorage.getItem('ratingFilms'))
-      this.filmData = ratingFilms.find( (item) => item.route === filmRoute )
+      if (ratingFilms) {
+        this.filmData = ratingFilms.find( (item) => item.route === filmRoute )
+      }
       if (! this.filmData) {
         const newVideo = JSON.parse(window.sessionStorage.getItem('newVideo'))
-        this.filmData = newVideo.find( (item) => item.route === filmRoute )
+        if (newVideo) {
+          this.filmData = newVideo.find( (item) => item.route === filmRoute )
+        }
       }
+    },
+    refreshFilmData() {
+      axios
+        .get('/api/main/new') // Здесь должен быть запрос именно на всё, либо на конкретный фильм
+        .then((result) => {
+          window.sessionStorage.setItem('newVideo', JSON.stringify(result.data.data))
+          window.location.reload()
+        })
     },
     getImgUrl(img) {
       return require("../assets/" + img).default;
@@ -132,6 +144,10 @@ export default {
   },
   created() {
     this.searchFilmData()
+    if (! this.filmData) {
+      this.refreshFilmData()
+      this.searchFilmData()
+    }
     if (this.filmData) {
       window.sessionStorage.setItem('filmData', JSON.stringify(this.filmData))
     } else {
