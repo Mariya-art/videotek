@@ -34,12 +34,10 @@ export default {
     },
   },
    created(){
-    const monthNames = ["января", "февраля", "марта", "апреля", "мая", "июня",
-  "июля", "августа", "сентября", "октября", "ноября", "декабря"];
-   let date =new Date(Date.parse(this.item.created_at))
-    let day=date.getDate()
-    let month=monthNames[date.getMonth()]
-    return this.datetime=`${day} ${month}`
+   const date =new Date(this.item.created_at)
+    this.datetime = new Intl
+          .DateTimeFormat('ru', { day: 'numeric', month: 'long'})
+          .format(date)
 }
 }
 </script>

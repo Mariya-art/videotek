@@ -14,9 +14,9 @@
           <hr class="line" />
           <p v-if="filmData.age" class="age-boundary">{{ filmData.age }}+</p>
           <div v-if="filmData.description" v-html="filmData.description" class="film-page-description"></div>
-          <h1 v-if="filmData.type_id==3">Об этом видео</h1>
+          <h1 v-if="isVideo">Об этом видео</h1>
           <h1 v-if="isSerial">О сериале</h1>
-          <h1 v-if="filmData.type_id==1">О фильме</h1>
+          <h1 v-if="isFilm">О фильме</h1>
           <hr class="line" />
           <p v-if="filmData.country">
             <em class="parameter">Страна:</em> {{ filmData.country }}
@@ -64,9 +64,9 @@
         <SerialWatchLine v-if="isSerial" :serialData="filmData" />
         <FilmPlayers v-else :filmData="filmData" />
       </div>
-      <h1 v-if="filmData.type_id==3">Оцените видео</h1>
+      <h1 v-if="isVideo">Оцените видео</h1>
       <h1 v-if="isSerial">Оцените сериал</h1>
-      <h1 v-if="filmData.type_id==1">Оцените фильм</h1>
+      <h1 v-if="isFilm">Оцените фильм</h1>
       <hr class="line" />
       <div class="btn-toggle">
         <v-btn-toggle group dark>
@@ -102,7 +102,9 @@ export default {
       filmCategories: [],
       isTrailerVisible: false,
       isVoteDisabled: false,
-      isSerial: false
+      isSerial: false,
+      isFilm:false,
+      isVideo:false
   }),
   methods: {
     vote (item) {
@@ -156,6 +158,8 @@ export default {
     this.filmCategories = this.filmData.genres.map((item) => item.title.toLowerCase()).join(', ')
     document.title = 'VIDEOTEK - ' + this.filmData.title;
     this.isSerial = Boolean(+this.filmData.type_id === 2)
+    this.isFilm = Boolean(+this.filmData.type_id === 1)
+    this.isVideo = Boolean(+this.filmData.type_id === 3)
 
     const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
     this.isVoteDisabled = Boolean(voteData.id === this.filmData.id)

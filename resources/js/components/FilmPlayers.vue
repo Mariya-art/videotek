@@ -1,14 +1,14 @@
 <template>
   <div class="film-players">
     <div
-        v-if="filmData.trailer"
+        v-if="filmData.trailer && filmData.type_id !== 3"
         class="player-text"
         @click="isTrailerVisible = !isTrailerVisible"
       >
         Трейлер
       </div>
       <div
-        v-if="filmData.trailer"
+        v-if="filmData.trailer && filmData.type_id !== 3"
         v-show="isTrailerVisible"
         class="player trailer-show"
       >
