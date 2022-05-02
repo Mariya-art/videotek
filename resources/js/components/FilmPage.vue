@@ -8,15 +8,15 @@
         </div>
         <div class="film-data">
           <h1>{{ filmData.title }}</h1>
-          <div class="score-block">
+          <div class="score-block" v-if="filmData.score">
             Рейтинг: <strong>{{ filmData.score }}</strong>
           </div>
           <hr class="line" />
           <p v-if="filmData.age" class="age-boundary">{{ filmData.age }}+</p>
           <div v-if="filmData.description" v-html="filmData.description" class="film-page-description"></div>
-          <h1 v-if="filmData.type_id==3">Об этом видео</h1>
+          <h1 v-if="isVideo">Об этом видео</h1>
           <h1 v-if="isSerial">О сериале</h1>
-          <h1 v-if="filmData.type_id==1">О фильме</h1>
+          <h1 v-if="isFilm">О фильме</h1>
           <hr class="line" />
           <p v-if="filmData.country">
             <em class="parameter">Страна:</em> {{ filmData.country }}
@@ -24,10 +24,10 @@
           <p v-if="filmData.year">
             <em class="parameter">Год выпуска:</em> {{ filmData.year }}
           </p>
-          <p v-if="filmData.genres">
+          <p v-if="filmData.genres && filmData.genres.length > 0">
             <em class="parameter">Жанр:</em> {{ filmCategories }}
           </p>
-          <div v-if="filmData.directors">
+          <div v-if="filmData.directors && filmData.directors.length > 0">
             <em class="parameter">Режиссёр:</em>
             <ul class="inline-ul">
               <li
@@ -42,7 +42,7 @@
               </li>
             </ul>
           </div>
-          <div v-if="filmData.actors">
+          <div v-if="filmData.actors && filmData.actors.length > 0">
             <em class="parameter">В главных ролях:</em>
             <ul class="inline-ul">
               <li
@@ -64,9 +64,9 @@
         <SerialWatchLine v-if="isSerial" :serialData="filmData" />
         <FilmPlayers v-else :filmData="filmData" />
       </div>
-      <h1 v-if="filmData.type_id==3">Оцените видео</h1>
+      <h1 v-if="isVideo">Оцените видео</h1>
       <h1 v-if="isSerial">Оцените сериал</h1>
-      <h1 v-if="filmData.type_id==1">Оцените фильм</h1>
+      <h1 v-if="isFilm">Оцените фильм</h1>
       <hr class="line" />
       <div class="btn-toggle">
         <v-btn-toggle group dark>
@@ -102,7 +102,9 @@ export default {
       filmCategories: [],
       isTrailerVisible: false,
       isVoteDisabled: false,
-      isSerial: false
+      isSerial: false,
+      isFilm:false,
+      isVideo:false
   }),
   methods: {
     vote (item) {
@@ -156,6 +158,10 @@ export default {
     this.filmCategories = this.filmData.genres.map((item) => item.title.toLowerCase()).join(', ')
     document.title = 'VIDEOTEK - ' + this.filmData.title;
     this.isSerial = Boolean(+this.filmData.type_id === 2)
+    this.isFilm = Boolean(+this.filmData.type_id === 1)
+    this.isVideo = Boolean(+this.filmData.type_id === 3)
+
+    console.log(this.filmData)
 
     const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
     this.isVoteDisabled = Boolean(voteData.id === this.filmData.id)
