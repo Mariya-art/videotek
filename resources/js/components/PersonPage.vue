@@ -9,13 +9,10 @@
         <div class="person-data">
           <h1>{{ personData.name }}</h1>
           <hr class="line" />
-          <div v-if="personData.description">
+          <div v-if="personData.description" class="biography">
             {{personData.description}}
-            </div>
-            <div v-if="personData.birthplace">
-            <em class="parameter">Страна:</em> {{ personData.birthplace }}
           </div>
-          <div v-if="(personData.slug == 1)">
+          <div v-if="(personData.slug === 1)">
             <em class="parameter">Должность:</em> Режиссёр
           </div>
           <div v-if="(personData.slug === 2)">
@@ -23,10 +20,13 @@
           </div>
 
           <div v-if="personData.birthday">
-            <em class="parameter">Год рождения:</em> {{ personData.birthday }}
+            <em class="parameter">Дата рождения:</em> {{ birthdayString }}
           </div>
-          <div v-if="personData.height">
-            <em class="parameter">Рост:</em> {{ personData.height }}
+          <div v-if="personData.birthplace">
+            <em class="parameter">Место рождения:</em> {{ personData.birthplace }}
+          </div>
+          <div v-if="personData.height" class="last-parameter">
+            <em class="parameter">Рост:</em> {{ personData.height }} см
           </div>
           <hr class="line" />
         </div>
@@ -42,7 +42,8 @@ export default {
   name: 'PersonPage',
   data () {
     return {
-      personData: null
+      personData: null,
+      birthdayString: ''
     };
   },
   methods: {
@@ -100,7 +101,11 @@ export default {
     }
     if (this.personData) {
       window.sessionStorage.setItem('personData', JSON.stringify(this.personData))
-      document.title = 'VIDEOTEK - ' + this.personData.name;
+      document.title = 'VIDEOTEK - ' + this.personData.name
+      const birthdate = new Date(this.personData.birthday)
+      this.birthdayString = new Intl
+          .DateTimeFormat('ru', { dateStyle: 'long' })
+          .format(birthdate)
     } else {
       this.personData = JSON.parse(window.sessionStorage.getItem('personData'))
     }
@@ -152,6 +157,10 @@ export default {
   font-size: 15pt;
   font-style: normal;
   font-weight: bold;
+  line-height: 150%;
+}
+.last-parameter {
+  margin-bottom: 10px;
 }
 .person-data p {
   font-size: 12pt;
@@ -245,5 +254,10 @@ export default {
   right: 10px;
   top: 10px;
   font-size: 18pt;
+}
+
+.biography {
+  margin-bottom: 20px;
+  text-align: justify;
 }
 </style>
