@@ -28,24 +28,31 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/types', [TypeController::class, 'index']);
 Route::get('/types/{id}', [TypeController::class, 'show']);
 
-Route::get('/main/rating', [FilmController::class, 'getRatingItems']);
-Route::get('/main/new', [FilmController::class, 'getNewItems']);
+Route::get('/main', [FilmController::class, 'getItems']); // все items (фильмы, сериалы, видео)
+Route::get('/main/rating', [FilmController::class, 'getRatingItems']); // items по рейтингу, лимит 8
+Route::get('/main/new', [FilmController::class, 'getNewItems']); // items по году выпуска, лимит 8
 
-Route::get('/films', [FilmController::class, 'getNewFilms']);
-Route::get('/serials', [FilmController::class, 'getNewSerials']);
-Route::get('/videos', [FilmController::class, 'getNewVideos']);
-Route::get('/news', [NewsController::class, 'index']);
-Route::get('/articles', [ArticleController::class, 'index']);
-Route::get('/news/{id}', [NewsController::class, 'show']);
-Route::get('/articles/{id}', [ArticleController::class, 'show']);
+Route::get('/filmsPageCount', [FilmController::class, 'getFilmsPageCount']); // кол-во страниц пагинации фильмов
+Route::get('/films', [FilmController::class, 'getNewFilms']); // все фильмы
+Route::get('/serials', [FilmController::class, 'getNewSerials']); // все сериалы
+Route::get('/videos', [FilmController::class, 'getNewVideos']); // все видео
+Route::get('/news', [NewsController::class, 'index']); // все новости
+Route::get('/articles', [ArticleController::class, 'index']); // все статьи
 
-Route::get('/genres', [CategoryController::class, 'getCategories']);
-Route::get('/films/{categoryId}', [FilmController::class, 'getCategoryFilms']);
-Route::get('/serials/{categoryId}', [FilmController::class, 'getCategorySerials']);
-Route::get('/videos/{categoryId}', [FilmController::class, 'getCategoryVideos']);
+Route::get('/films/{film}', [FilmController::class, 'getItem']); // конкретный фильм по slug
+Route::get('/actors/{actor}', [ActorController::class, 'show']); // конкретный актер по slug
+Route::get('/directors/{director}', [DirectorController::class, 'show']); // конкретный режиссер по slug
+Route::get('/news/{news}', [NewsController::class, 'show']); // конкретная новость по slug
+Route::get('/articles/{article}', [ArticleController::class, 'show']); // конкретная статья по slug
 
-Route::get('/films/{filmId}/actors', [ActorController::class, 'getItemActors']);
-Route::get('/films/{filmId}/directors', [DirectorController::class, 'getItemDirectors']);
-Route::get('/films/{filmId}/categories', [CategoryController::class, 'getItemCategories']);
+Route::get('/filmsGenres', [CategoryController::class, 'getFilmsCategories']); // жанры фильмов (в которых есть хотя бы 1 фильм)
+Route::get('/serialsGenres', [CategoryController::class, 'getSerialsCategories']); // жанры сериалов (в которых есть хотя бы 1 сериал)
+Route::get('/films/{categoryId}', [FilmController::class, 'getCategoryFilms']); // фильмы определенного жанра
+Route::get('/serials/{categoryId}', [FilmController::class, 'getCategorySerials']); // сериалы определенного жанра
+Route::get('/videos/{categoryId}', [FilmController::class, 'getCategoryVideos']); // видео определенного жанра
+
+//Route::get('/films/{filmId}/actors', [ActorController::class, 'getItemActors']);
+//Route::get('/films/{filmId}/directors', [DirectorController::class, 'getItemDirectors']);
+//Route::get('/films/{filmId}/categories', [CategoryController::class, 'getItemCategories']);
 //Route::get('/films/{slug}', [FilmController::class, 'getFilm']);
 //Route::get('/types/{slug}', [TypeController::class, 'show'])->name('types.show');
