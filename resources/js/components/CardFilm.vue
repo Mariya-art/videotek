@@ -5,8 +5,8 @@
       :to="{ name: 'filmPage', params: { route: film.route } }"
     >
       <div class="poster">
-        <img :src="getImgUrl(film.img)" alt="film" />
-        <p class="score">{{ film.score }}</p>
+        <img :src="getImgUrl(film.img)" alt="film" class="poster-img" />
+        <p class="score" v-if="film.score">{{ film.score }}</p>
       </div>
       <p class="title">{{ film.title }}</p>
     </router-link>
@@ -32,7 +32,14 @@ export default {
 <style>
 .card {
   transform: scale(0.9);
-  margin: 20px 40px;
+  width: 250px;
+  margin: 20px 55px;
+}
+.card:first-of-type {
+  margin-left: 10px
+}
+.card:last-of-type {
+  margin-right: 10px
 }
 
 .card:hover {
@@ -42,11 +49,15 @@ export default {
 
 .poster {
   margin: 0 auto;
-  width: 250px;
   position: relative;
 }
 .poster img{
   margin: 0 auto;
+}
+
+.poster-img {
+  width: 250px;
+  height: 370px;
 }
 
 .title {

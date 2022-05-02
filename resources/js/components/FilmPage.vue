@@ -8,7 +8,7 @@
         </div>
         <div class="film-data">
           <h1>{{ filmData.title }}</h1>
-          <div class="score-block">
+          <div class="score-block" v-if="filmData.score">
             Рейтинг: <strong>{{ filmData.score }}</strong>
           </div>
           <hr class="line" />
@@ -24,10 +24,10 @@
           <p v-if="filmData.year">
             <em class="parameter">Год выпуска:</em> {{ filmData.year }}
           </p>
-          <p v-if="filmData.genres">
+          <p v-if="filmData.genres && filmData.genres.length > 0">
             <em class="parameter">Жанр:</em> {{ filmCategories }}
           </p>
-          <div v-if="filmData.directors">
+          <div v-if="filmData.directors && filmData.directors.length > 0">
             <em class="parameter">Режиссёр:</em>
             <ul class="inline-ul">
               <li
@@ -42,7 +42,7 @@
               </li>
             </ul>
           </div>
-          <div v-if="filmData.actors">
+          <div v-if="filmData.actors && filmData.actors.length > 0">
             <em class="parameter">В главных ролях:</em>
             <ul class="inline-ul">
               <li
@@ -160,6 +160,8 @@ export default {
     this.isSerial = Boolean(+this.filmData.type_id === 2)
     this.isFilm = Boolean(+this.filmData.type_id === 1)
     this.isVideo = Boolean(+this.filmData.type_id === 3)
+
+    console.log(this.filmData)
 
     const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
     this.isVoteDisabled = Boolean(voteData.id === this.filmData.id)
