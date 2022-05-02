@@ -161,8 +161,6 @@ export default {
     this.isFilm = Boolean(+this.filmData.type_id === 1)
     this.isVideo = Boolean(+this.filmData.type_id === 3)
 
-    console.log(this.filmData)
-
     const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
     this.isVoteDisabled = Boolean(voteData.id === this.filmData.id)
   },
@@ -279,14 +277,6 @@ export default {
   margin-bottom: 10px;
 }
 
-.player-text {
-  display: flex;
-  justify-content: center;
-  margin: 15px 5px;
-  font-size: 18pt;
-  cursor: pointer;
-}
-
 .routerLink {
   text-decoration: none;
   color: white;
@@ -302,23 +292,8 @@ export default {
   font-size: 18pt;
 }
 
-.trailer-show {
-  animation-duration: 2s;
-  animation-name: show;
-  margin-bottom: 50px;
-}
 .btn-toggle {
   display: flex;
   justify-content: center;
-}
-
-@keyframes show {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
 }
 </style>
