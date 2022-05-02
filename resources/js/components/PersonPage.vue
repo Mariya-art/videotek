@@ -107,7 +107,12 @@ export default {
           .DateTimeFormat('ru', { dateStyle: 'long' })
           .format(birthdate)
     } else {
-      this.personData = JSON.parse(window.sessionStorage.getItem('personData'))
+      const personCandidate = JSON.parse(window.sessionStorage.getItem('personData'))
+      if (this.$route.params.route === personCandidate.route) {
+        this.filmData = personCandidate
+      } else {
+        this.$router.push('/404')
+      }
     }
   }
 }
