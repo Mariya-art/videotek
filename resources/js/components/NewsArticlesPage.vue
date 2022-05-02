@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import { mapGetters} from 'vuex'
 export default {
     name: 'NewsArticlesPage',
     data: () => ({
@@ -27,39 +26,27 @@ export default {
         datetime: null
     }),
     methods: {
+      getNews() {
+        return JSON.parse(window.sessionStorage.getItem('news'))
+      },
+      getArticles() {
+        return JSON.parse(window.sessionStorage.getItem('articles'))
+      },
       getImgUrl(img) {
         return require("../assets/media/" + img).default
-      },
-      async getNewsMethod() {
-        return await this.news
-      }
-    },
-    computed: {
-        ...mapGetters(['getNews','getArticles']),
-      news () {
-        return this.getNews
-      },
-      articles() {
-        return this.getArticles
       }
     },
     created () {
-      this.listNewsArticles = this.getNews.find(item=>item.route === this.$route.params.route)
-      if( ! this.listNewsArticles ) {
-          this.listNewsArticles = this.articles.find(item=>item.route === this.$route.params.route)
+      this.listNewsArticles = this.getNews().find(
+        item => item.route === this.$route.params.route
+      )
+      if (! this.listNewsArticles) {
+        this.listNewsArticles = this.getArticles().find(
+          item => item.route === this.$route.params.route
+        )
       }
-      if ( this.listNewsArticles ) {
-        window.sessionStorage.setItem('listNewsArticles', JSON.stringify(this.listNewsArticles))
-      } else {
-        this.listNewsArticles = JSON.parse(window.sessionStorage.getItem('listNewsArticles'))
-      }
-
       if (this.listNewsArticles) {
-        console.log(this.listNewsArticles)
         const date = new Date(this.listNewsArticles.created_at)
-        // this.datetime = new Intl.DateTimeFormat('ru', {dateStyle: 'full'}).format(date)
-        // this.datetime = new Intl.DateTimeFormat('ru', {dateStyle: 'long'}).format(date)
-        // this.datetime = new Intl.DateTimeFormat('ru', {day: 'numeric', month: 'long'}).format(date)
         this.datetime = new Intl
           .DateTimeFormat('ru', {weekday: 'long', day: 'numeric', month: 'long'})
           .format(date)

@@ -34,7 +34,7 @@
       </button>
     </div>
     <div>
-      <div v-for="item in commentArray" :key="item.id" class="comment">
+      <div v-for="item in comments" :key="item.id" class="comment">
         <h4 class="name">
           {{ item.username }}:
           <span class="comment-datetime">{{ item.datetime }}</span>
@@ -47,7 +47,6 @@
 
 <script>
 // import axios from 'axios'
-import { mapGetters, mapActions } from 'vuex'
 import { v4 as uuid } from 'uuid'
 export default {
   name: 'Comment',
@@ -55,7 +54,58 @@ export default {
     return {
       username: '',
       message: '',
-      commentArray: []
+      comments: [],
+      testComments: [
+        {
+          filmRoute: 'avatar',
+          username: 'Гость 1',
+          comment: 'Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1,Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1.',
+          datetime: '18.04.2022, 18:30',
+          id: '1'
+        },
+        {
+          filmRoute: 'hurrypotter-azkaban',
+          username: 'Гость 8',
+          comment: 'Текст коментария 2, Текст коментария 2, Текст коментария 2, Текст коментария 2',
+          datetime: '18.04.2022, 18:30',
+          id: '2'
+        },
+        {
+          filmRoute: 'avatar',
+          username: 'Гость 2',
+          comment: 'Текст коментария3',
+          datetime: '18.04.2022, 19:00',
+          id: '3'
+        },
+        {
+          filmRoute: 'snowwhite',
+          username: 'Гость 2',
+          comment: 'Текст коментария 4, Текст коментария, Текст коментария, Текст коментария, Текст коментария',
+          datetime: '18.04.2022, 18:30',
+          id: '4'
+        },
+        {
+          filmRoute: 'matrix',
+          username: 'Гость 4',
+          comment: 'Текст коментария 5, Текст коментария, Текст коментария, Текст коментария, Текст коментария, Текст коментария, Текст коментария',
+          datetime: '18.04.2022, 19:00',
+          id: '5'
+        },
+        {
+          filmRoute: 'everest',
+          username: 'Гость 2',
+          comment: 'Текст коментария 6',
+          datetime: '18.04.2022, 19:00',
+          id: '6'
+        },
+        {
+          filmRoute: 'hurrypotter-azkaban',
+          username: 'Гость 1',
+          comment: 'Текст коментария 7',
+          datetime: '18.04.2022, 19:00',
+          id: '7'
+        }
+      ]
     }
   },
   props: {
@@ -80,6 +130,20 @@ export default {
         .replace(/(?<!»,) - /g, ' — ')
         .replace(/(«[^»]*)«([^»]*)»/g, '$1„$2“')
     },
+    getCommentList() {
+      return JSON.parse(window.sessionStorage.getItem('comments'))
+    },
+    setCommentList(payload) {
+      window.sessionStorage.setItem('comments', JSON.stringify(payload))
+    },
+    addComment(comment) {
+      const currentState = this.getCommentList()
+      const newState = [...currentState, comment]
+      this.setCommentList(newState)
+    },
+    commentOutput () {
+      this.comments = this.getCommentList().filter(item => item.filmRoute === this.film)
+    },
     sendComment () {
       const dtStr = new Intl
         .DateTimeFormat('ru', { dateStyle: 'short', timeStyle: 'short' })
@@ -91,24 +155,14 @@ export default {
         datetime: dtStr,
         id: uuid()
       }
-      this.fetchAddComment(comment)
+      this.addComment(comment)
       this.username = ''
       this.message = ''
       this.commentOutput()
-    },
-    commentOutput () {
-      this.commentArray = this.commentList.filter(item => item.filmRoute === this.film)
-    },
-    ...mapActions(['fetchComments', 'fetchAddComment'])
-  },
-  computed: {
-    ...mapGetters(['getCommentList']),
-    commentList () {
-      return this.getCommentList
     }
   },
   created () {
-    this.fetchComments()
+    this.setCommentList(this.testComments)
     this.commentOutput()
   }
 }
