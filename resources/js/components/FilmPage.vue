@@ -266,6 +266,7 @@ export default {
   margin: 20px 30px 10px;
   color: #eb5804;
   position: relative;
+  transition: all 0.3s ease-in;
 }
 .btn:hover {
   background: #eb5804;
