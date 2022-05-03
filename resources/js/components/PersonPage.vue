@@ -193,19 +193,6 @@ export default {
   display: flex;
   flex-direction: column;
   width: 250px;
-
-}
-
-.btn {
-  border: 1px solid #eb5804;
-  padding: 5px 30px;
-  margin: 20px 30px;
-  color: #eb5804;
-}
-.btn:hover {
-  border: none;
-  background: #eb5804;
-  color: black;
 }
 
 .person-page-content {

@@ -1,9 +1,6 @@
 <template>
   <div class="film-players">
     <div v-if="filmData.trailer && filmData.type_id !== 3">
-      <div class="player-text" @click="isTrailerVisible = !isTrailerVisible">
-        Трейлер
-      </div>
       <transition name="fade">
         <div
           v-show="isTrailerVisible"
@@ -28,20 +25,9 @@ export default {
   props: {
     filmData: {
       type: Object
-    }
-  },
-  data: () => ({
-      isTrailerVisible: false
-  }),
-  methods: {
-    onToggleShow() {
-      if (this.isTrailerVisible) {
-        this.className = 'player trailer-hide'
-      } else {
-        this.className = 'player trailer-show'
-        this.isTrailerVisible = true;
-      }
-      // this.isTrailerVisible = ! this.isTrailerVisible
+    },
+    isTrailerVisible: {
+      type: Boolean
     }
   }
 }
@@ -55,14 +41,6 @@ export default {
 
 .player-margins {
   margin: 50px 0;
-}
-
-.player-text {
-  display: flex;
-  justify-content: center;
-  margin: 15px 5px;
-  font-size: 18pt;
-  cursor: pointer;
 }
 
 .fade-enter-active, .fade-leave-active {
