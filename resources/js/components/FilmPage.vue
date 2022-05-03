@@ -5,7 +5,11 @@
         <div class="left-column" v-if="filmData">
           <img :src="getImgUrl(filmData.img)" alt="film data" />
           <button class="btn">В избранное</button>
-          <button class="btn" @click="isTrailer = !isTrailer">
+          <button
+            v-if="filmData.trailer && filmData.type_id !== 3"
+            class="btn"
+            @click="isTrailer = !isTrailer"
+          >
             Трейлер
             <span v-show="isTrailer" class="btn-flag">▾</span>
           </button>
