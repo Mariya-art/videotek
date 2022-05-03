@@ -35,12 +35,6 @@ export default {
   width: 250px;
   margin: 20px 55px;
 }
-.card:first-of-type {
-  margin-left: 10px
-}
-.card:last-of-type {
-  margin-right: 10px
-}
 
 .card:hover {
   transform: scale(0.95);

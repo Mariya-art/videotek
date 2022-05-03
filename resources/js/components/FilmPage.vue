@@ -153,17 +153,24 @@ export default {
     if (this.filmData) {
       window.sessionStorage.setItem('filmData', JSON.stringify(this.filmData))
     } else {
-      this.filmData = JSON.parse(window.sessionStorage.getItem('filmData'))
+      const filmCandidate = JSON.parse(window.sessionStorage.getItem('filmData'))
+      if (this.$route.params.route === filmCandidate.route) {
+        this.filmData = filmCandidate
+      } else {
+        this.$router.push('/404')
+      }
     }
-    this.filmCategories = this.filmData.genres.map((item) => item.title.toLowerCase()).join(', ')
-    document.title = 'VIDEOTEK - ' + this.filmData.title;
-    this.isSerial = Boolean(+this.filmData.type_id === 2)
-    this.isFilm = Boolean(+this.filmData.type_id === 1)
-    this.isVideo = Boolean(+this.filmData.type_id === 3)
+    if (this.filmData) {
+      this.filmCategories = this.filmData.genres.map((item) => item.title.toLowerCase()).join(', ')
+      document.title = 'VIDEOTEK - ' + this.filmData.title;
+      this.isSerial = Boolean(+this.filmData.type_id === 2)
+      this.isFilm = Boolean(+this.filmData.type_id === 1)
+      this.isVideo = Boolean(+this.filmData.type_id === 3)
 
-    const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
-    this.isVoteDisabled = Boolean(voteData.id === this.filmData.id)
-  },
+      const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
+      this.isVoteDisabled = Boolean(voteData.id === this.filmData.id)
+    }
+  }
 };
 </script>
 
