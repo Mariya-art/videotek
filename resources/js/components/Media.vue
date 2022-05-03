@@ -3,6 +3,7 @@
     <v-tabs
       dark
       grow
+      v-model = "tab"
     >
       <v-tabs-slider></v-tabs-slider>
       <v-tab><p class="text-tab">Новости</p></v-tab>
@@ -62,7 +63,9 @@ export default {
   data: () => ({
     filmsOfType: [],
     news: [],
-    articles: []
+    articles: [],
+    tab: 0,
+    tabActive: 0
   }),
   methods: {
       setNewsOrArticles(payload) {
@@ -73,6 +76,7 @@ export default {
       }
   },
   created () {
+    this.tab = +window.sessionStorage.getItem('MediaActiveTab')
     axios
       .get('api/news')
       .then(result => {
@@ -87,6 +91,10 @@ export default {
       })
     const video = JSON.parse(window.sessionStorage.getItem('newVideo'))
     this.filmsOfType = video.filter( film => film.type_id === 3 )
+
+  },
+  beforeDestroy() {
+    window.sessionStorage.setItem('MediaActiveTab', this.tab)
   }
 }
 </script>
