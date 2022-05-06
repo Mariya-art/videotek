@@ -26,6 +26,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+
 Route::get('/types', [TypeController::class, 'index']);
 Route::get('/types/{type}', [TypeController::class, 'show']);
 
@@ -51,9 +53,9 @@ Route::get('/films/{filmId}/categories', [CategoryController::class, 'getItemCat
 Route::get('/films/{slug}', [FilmController::class, 'getFilm']);
 Route::get('/types/{slug}', [TypeController::class, 'show'])->name('types.show');
 
-
 Route::apiResources([
   'feedbacks' => FeedbackController::class,
 ]);
+
 //Route::get('feedbacks/', [FeedbackController::class, 'index']);
 //Route::get('feedbacks/{feedbacks}', [FeedbackController::class, 'show']);

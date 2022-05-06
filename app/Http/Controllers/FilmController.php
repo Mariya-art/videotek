@@ -17,14 +17,15 @@ class FilmController extends Controller
         $films = Film::query()->select(Film::$availableFields)
                             ->latest()
                             ->paginate(6);
-        
+
         return view('index', [
             'types' => $types,
             'films' => $films,
         ]);
     }*/
 
-    public function getRatingItems() {
+
+  public function getRatingItems() {
         return FilmResource::collection(Film::with([
             'categories', 'actors', 'directors', 'seasons', 'seasons.series'
         ])->orderBy('rating', 'desc')->get());
@@ -41,7 +42,7 @@ class FilmController extends Controller
             'categories', 'actors', 'directors', 'seasons', 'seasons.series'
         ])->where('type_id', 1)->orderBy('year', 'desc')->get());
     }
-    
+
     public function getNewSerials() {
         return FilmResource::collection(Film::with([
             'categories', 'actors', 'directors', 'seasons', 'seasons.series'
@@ -74,6 +75,7 @@ class FilmController extends Controller
         ])->findOrFail($id));
         return FilmResource::collection($category->films->where('type_id', 3));
     }
+
     /*
     public function getFilm($slug) {
         return Film::where('slug', $slug)->first();
