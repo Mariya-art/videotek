@@ -45,11 +45,11 @@ Route::get('/films/{categoryId}', [FilmController::class, 'getCategoryFilms']);
 Route::get('/serials/{categoryId}', [FilmController::class, 'getCategorySerials']);
 Route::get('/videos/{categoryId}', [FilmController::class, 'getCategoryVideos']);
 
-//Route::get('/films/{filmId}/actors', [ActorController::class, 'getItemActors']);
-//Route::get('/films/{filmId}/directors', [DirectorController::class, 'getItemDirectors']);
-//Route::get('/films/{filmId}/categories', [CategoryController::class, 'getItemCategories']);
-//Route::get('/films/{slug}', [FilmController::class, 'getFilm']);
-//Route::get('/types/{slug}', [TypeController::class, 'show'])->name('types.show');
+Route::get('/films/{filmId}/actors', [ActorController::class, 'getItemActors']);
+Route::get('/films/{filmId}/directors', [DirectorController::class, 'getItemDirectors']);
+Route::get('/films/{filmId}/categories', [CategoryController::class, 'getItemCategories']);
+Route::get('/films/{slug}', [FilmController::class, 'getFilm']);
+Route::get('/types/{slug}', [TypeController::class, 'show'])->name('types.show');
 
 
 Route::apiResources([
