@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FeedbacksRequest;
 use App\Http\Resources\FeedbackResources;
+use App\Http\Resources\FilmResource;
 use App\Models\Feedbacks;
 use App\Models\Film;
 use Illuminate\Http\Request;
@@ -30,7 +31,9 @@ class FeedbackController extends Controller
      */
     public function store(FeedbacksRequest $request)
     {
-        $name = Feedbacks::create($request->validate());
+        $validated = $request->validated();
+        $name = Feedbacks::create($validated);
+
         return new FeedbackResources($name);
     }
 
@@ -40,12 +43,12 @@ class FeedbackController extends Controller
      * @param  int  $id
      * @return FeedbackResources
      */
-    public function show($id)
+    public function show(Film $film, Feedbacks $feedbacks)
     {
 
 //      return new FeedbackResources(Feedbacks::with('films')->findOrFail($id));
 
-      return new FeedbackResources(Feedbacks::with('feedbacks')->find($id));
+      return new FeedbackResources(Feedbacks::with('films')->find($film));
 
 
 //      SELECT AVG(rating) FROM feedbacks WHERE film_id = 1;

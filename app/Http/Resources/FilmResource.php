@@ -31,7 +31,7 @@ class FilmResource extends JsonResource
             'actors' => ActorResource::collection($this->actors),
             'directors' => DirectorResource::collection($this->directors),
             'seasons' => SeasonResource::collection($this->seasons),
-            'feedbacks' => $this->feedbacks,
+            'feedbacks' => FeedbackResources::collection($this->feedbacks),
         ];
     }
 }
