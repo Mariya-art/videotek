@@ -22,9 +22,9 @@ use Illuminate\Support\Facades\Config;
 //Route::get('/', [FilmController::class, 'index'])->name('index');
 
 Route::get('/{any}', [SpaController::class, 'index'])->where('any', '.*');
+//Route::get('/{feedbacks}',[ \App\Http\Controllers\FeedbackController::class, 'show']);
 
-/*
-Route::get('/apiweb', function (){
-    $response = Http::get('https://imdb-api.com/en/API/Title/k_y40dpk46/tt12412888/Ratings')->json();
-    dd($response);
-});*/
+//Route::get('/apiweb', function (){
+//    $response = Http::get('https://imdb-api.com/en/API/Title/k_y40dpk46/tt12412888/Ratings')->json();
+//    dd($response);
+//});
