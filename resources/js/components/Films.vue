@@ -85,8 +85,12 @@ export default {
     }
     window.sessionStorage.setItem('filmsOrSerials', JSON.stringify(this.filmsOrSerials))
     this.refreshData()
+    let backRoute = '/api/filmsGenres'
+    if (this.filmsOrSerials === 'Serials') {
+      backRoute = '/api/serialsGenres'
+    }
     axios
-      .get('/api/genres')
+      .get(backRoute)
       .then((result) => {
           this.genres = result.data.data
           window.sessionStorage.setItem('genres', JSON.stringify(this.genres))
