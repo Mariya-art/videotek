@@ -85,6 +85,6 @@ export default {
   margin-left: 10px
 }
 .slider-style .card:last-of-type {
-  margin-right: 10px
+  margin-right: 30px
 }
 </style>
