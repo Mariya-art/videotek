@@ -75,10 +75,10 @@ export default {
     },
     refreshFilmsAndPersona() {
       axios
-        .get('/api/main/new') // Здесь должен быть запрос именно на всё, либо на конкретный фильм
+        .get('/api/main') // Здесь должен быть запрос именно на всё, либо на конкретный фильм
         .then((result) => {
           const video = result.data.data
-          window.sessionStorage.setItem('newVideo', JSON.stringify(video))
+          window.sessionStorage.setItem('video', JSON.stringify(video))
           window.sessionStorage.setItem('persona', JSON.stringify([]))
           this.addPersonaToStorage(this.flatenPersona(video))
           window.location.reload()
@@ -86,9 +86,9 @@ export default {
     },
     refreshPersons() {
       axios
-        .get('/api/main/new') // Здесь должен быть запрос именно на всё, либо на конкретный фильм
+        .get('/api/main') // Здесь должен быть запрос именно на всё, либо на конкретный фильм
         .then((result) => {
-          window.sessionStorage.setItem('newVideo', JSON.stringify(result.data.data))
+          window.sessionStorage.setItem('video', JSON.stringify(result.data.data))
           window.location.reload()
         })
     }
