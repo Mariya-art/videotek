@@ -20,6 +20,11 @@ class Film extends Model
         return $this->belongsTo(Type::class);
     }
 
+    public function feedbacks()
+    {
+    return $this->hasMany(Feedbacks::class);
+    }
+
     /**
     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
     */
