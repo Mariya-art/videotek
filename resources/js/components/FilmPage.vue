@@ -5,6 +5,14 @@
         <div class="left-column" v-if="filmData">
           <img :src="getImgUrl(filmData.img)" alt="film data" />
           <button class="btn">В избранное</button>
+          <button
+            v-if="filmData.trailer && filmData.type_id !== 3"
+            class="btn"
+            @click="isTrailer = !isTrailer"
+          >
+            Трейлер
+            <span v-show="isTrailer" class="btn-flag">▾</span>
+          </button>
         </div>
         <div class="film-data">
           <h1>{{ filmData.title }}</h1>
@@ -62,7 +70,10 @@
       </div>
       <div>
         <SerialWatchLine v-if="isSerial" :serialData="filmData" />
-        <FilmPlayers v-else :filmData="filmData" />
+        <FilmPlayers v-else
+          :filmData="filmData"
+          :isTrailerVisible="isTrailer"
+        />
       </div>
       <h1 v-if="isVideo">Оцените видео</h1>
       <h1 v-if="isSerial">Оцените сериал</h1>
@@ -100,11 +111,11 @@ export default {
       filmData: null,
       filmDirectors: [],
       filmCategories: [],
-      isTrailerVisible: false,
+      isTrailer: false,
       isVoteDisabled: false,
       isSerial: false,
-      isFilm:false,
-      isVideo:false
+      isFilm: false,
+      isVideo: false
   }),
   methods: {
     vote (item) {
@@ -252,12 +263,12 @@ export default {
 .btn {
   border: 1px solid #eb5804;
   padding: 5px 30px;
-  margin: 20px 30px;
+  margin: 20px 30px 10px;
   color: #eb5804;
+  position: relative;
+  transition: all 0.3s ease-in;
 }
-
 .btn:hover {
-  border: none;
   background: #eb5804;
   color: black;
 }
@@ -302,5 +313,10 @@ export default {
 .btn-toggle {
   display: flex;
   justify-content: center;
+}
+
+.btn-flag {
+  position: absolute;
+  right: 10px;
 }
 </style>
