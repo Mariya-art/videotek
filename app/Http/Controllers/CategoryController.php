@@ -10,8 +10,16 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function getCategories() {
-        return CategoryResource::collection(Category::get());
+    public function getFilmsCategories() {
+        return CategoryResource::collection(Category::whereHas('films', function($films){
+            $films->where('type_id', 1);
+        })->get());
+    }
+    
+    public function getSerialsCategories() {
+        return CategoryResource::collection(Category::whereHas('films', function($films){
+            $films->where('type_id', 2);
+        })->get());
     }
 
     public function getItemCategories($id) {

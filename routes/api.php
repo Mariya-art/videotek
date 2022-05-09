@@ -25,8 +25,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/types', [TypeController::class, 'index']);
-Route::get('/types/{id}', [TypeController::class, 'show']);
+Route::get('/types', [TypeController::class, 'index']); // типы items (фильмы, сериалы, видео)
+Route::get('/types/{id}', [TypeController::class, 'show']); // items конкретного типа
 
 Route::get('/main', [FilmController::class, 'getItems']); // все items (фильмы, сериалы, видео)
 Route::get('/main/rating', [FilmController::class, 'getRatingItems']); // items по рейтингу, лимит 8
