@@ -45,38 +45,44 @@ export default {
   components: { CardFilm },
   methods: {
     onGenreClick(item) {
-      this.genreFilms = this.allFilms.filter(
-        film => film.genres.map(genre => genre.id === item.id).reduce((a, b) => a || b)
-      )
-      this.genre = item.title
+      if (item.id === 0) {
+        this.genreFilms = null
+        this.genre = ''
+      } else {
+        this.genreFilms = this.allFilms.filter(
+          film => film.genres.map(genre => genre.id === item.id).reduce((a, b) => a || b)
+        )
+        this.genre = item.title
+      }
+    },
+    updateAllFilms(result) {
+      this.allFilms = result.data.data
+      window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))
+    },
+    updateGenres(result) {
+      this.genres = result.data.data
+      this.genres.push({
+        id: 0,
+        title: 'Все',
+        route: ''
+      })
+      window.sessionStorage.setItem('genres', JSON.stringify(this.genres))
     },
     refreshData() {
       if (this.filmsOrSerials === 'Films') {
         axios
           .get("/api/films")
-          .then((result) => {
-            this.allFilms = result.data.data
-            window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))
-          })
+          .then((result) => { this.updateAllFilms(result) })
         axios
           .get('/api/filmsGenres')
-          .then((result) => {
-            this.genres = result.data.data
-            window.sessionStorage.setItem('genres', JSON.stringify(this.genres))
-          })
+          .then((result) => { this.updateGenres(result) })
       } else if (this.filmsOrSerials === 'Serials') {
         axios
           .get("/api/serials")
-          .then((result) => {
-            this.allFilms = result.data.data
-            window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))
-          })
+          .then((result) => { this.updateAllFilms(result) })
         axios
           .get('/api/serialsGenres')
-          .then((result) => {
-            this.genres = result.data.data
-            window.sessionStorage.setItem('genres', JSON.stringify(this.genres))
-          })
+          .then((result) => { this.updateGenres(result) })
       }
     }
   },
