@@ -58,12 +58,24 @@ export default {
             this.allFilms = result.data.data
             window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))
           })
+        axios
+          .get('/api/filmsGenres')
+          .then((result) => {
+            this.genres = result.data.data
+            window.sessionStorage.setItem('genres', JSON.stringify(this.genres))
+          })
       } else if (this.filmsOrSerials === 'Serials') {
         axios
           .get("/api/serials")
           .then((result) => {
             this.allFilms = result.data.data
             window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))
+          })
+        axios
+          .get('/api/serialsGenres')
+          .then((result) => {
+            this.genres = result.data.data
+            window.sessionStorage.setItem('genres', JSON.stringify(this.genres))
           })
       }
     }
@@ -85,16 +97,6 @@ export default {
     }
     window.sessionStorage.setItem('filmsOrSerials', JSON.stringify(this.filmsOrSerials))
     this.refreshData()
-    let backRoute = '/api/filmsGenres'
-    if (this.filmsOrSerials === 'Serials') {
-      backRoute = '/api/serialsGenres'
-    }
-    axios
-      .get(backRoute)
-      .then((result) => {
-          this.genres = result.data.data
-          window.sessionStorage.setItem('genres', JSON.stringify(this.genres))
-        })
    },
 };
 </script>
