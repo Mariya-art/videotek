@@ -126,9 +126,10 @@ export default {
   grid-row-gap: 10px;
 }
 .btn {
-  margin: 1px;
+  margin: 3px 10px;
   padding: 0;
-  border: 0;
+  border: 1px solid #2c1101;
+  border-radius: 10px 0 10px 0;
   color: #eb5804;
   transition: all 0.3s ease-in;
 }
@@ -139,7 +140,7 @@ export default {
 .filter {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  column-gap: 10px;
+  column-gap: 40px;
 }
 .btn-bottom {
   margin: 0 auto;
