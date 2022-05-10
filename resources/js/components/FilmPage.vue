@@ -119,9 +119,23 @@ export default {
   }),
   methods: {
     vote (item) {
-      const data = { vote: item, id: this.filmData.id }
+      const data = { rating: item, film_id: this.filmData.id }
       localStorage.setItem(this.filmData.id, JSON.stringify(data))
       this.isVoteDisabled = true
+      axios
+        .post('/api/feedbacks', data)
+        .then((result) => {
+          axios
+            .get('/api/feedbacks')
+            .then((result) => {
+              const feedbackArray = result.data.data
+              const voteResult = feedbackArray[feedbackArray.length - 1]
+              if (voteResult.film_id === this.filmData.id) {
+                this.filmData.score = voteResult.rating
+              }
+              window.sessionStorage.setItem('filmData', JSON.stringify(this.filmData))
+            })
+        })
     },
     searchFilmData() {
       const filmRoute = this.$route.params.route
