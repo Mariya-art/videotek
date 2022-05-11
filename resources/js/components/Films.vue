@@ -45,26 +45,44 @@ export default {
   components: { CardFilm },
   methods: {
     onGenreClick(item) {
-      this.genreFilms = this.allFilms.filter(
-        film => film.genres.map(genre => genre.id === item.id).reduce((a, b) => a || b)
-      )
-      this.genre = item.title
+      if (item.id === 0) {
+        this.genreFilms = null
+        this.genre = ''
+      } else {
+        this.genreFilms = this.allFilms.filter(
+          film => film.genres.map(genre => genre.id === item.id).reduce((a, b) => a || b)
+        )
+        this.genre = item.title
+      }
+    },
+    updateAllFilms(result) {
+      this.allFilms = result.data.data
+      window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))
+    },
+    updateGenres(result) {
+      this.genres = result.data.data
+      this.genres.push({
+        id: 0,
+        title: 'Все',
+        route: ''
+      })
+      window.sessionStorage.setItem('genres', JSON.stringify(this.genres))
     },
     refreshData() {
       if (this.filmsOrSerials === 'Films') {
         axios
           .get("/api/films")
-          .then((result) => {
-            this.allFilms = result.data.data
-            window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))
-          })
+          .then((result) => { this.updateAllFilms(result) })
+        axios
+          .get('/api/filmsGenres')
+          .then((result) => { this.updateGenres(result) })
       } else if (this.filmsOrSerials === 'Serials') {
         axios
           .get("/api/serials")
-          .then((result) => {
-            this.allFilms = result.data.data
-            window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))
-          })
+          .then((result) => { this.updateAllFilms(result) })
+        axios
+          .get('/api/serialsGenres')
+          .then((result) => { this.updateGenres(result) })
       }
     }
   },
@@ -85,12 +103,6 @@ export default {
     }
     window.sessionStorage.setItem('filmsOrSerials', JSON.stringify(this.filmsOrSerials))
     this.refreshData()
-    axios
-      .get('/api/genres')
-      .then((result) => {
-          this.genres = result.data.data
-          window.sessionStorage.setItem('genres', JSON.stringify(this.genres))
-        })
    },
 };
 </script>
@@ -114,9 +126,10 @@ export default {
   grid-row-gap: 10px;
 }
 .btn {
-  margin: 1px;
+  margin: 3px 10px;
   padding: 0;
-  border: 0;
+  border: 1px solid #2c1101;
+  border-radius: 10px 0 10px 0;
   color: #eb5804;
   transition: all 0.3s ease-in;
 }
@@ -127,7 +140,7 @@ export default {
 .filter {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  column-gap: 10px;
+  column-gap: 40px;
 }
 .btn-bottom {
   margin: 0 auto;

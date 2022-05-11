@@ -24,16 +24,22 @@ class FilmController extends Controller
         ]);
     }*/
 
+    public function getItems() {
+        return FilmResource::collection(Film::with([
+            'categories', 'actors', 'directors', 'seasons', 'seasons.series'
+        ])->orderBy('year', 'desc')->get());
+    }
+
     public function getRatingItems() {
         return FilmResource::collection(Film::with([
             'categories', 'actors', 'directors', 'seasons', 'seasons.series'
-        ])->orderBy('rating', 'desc')->get());
+        ])->orderBy('rating', 'desc')->limit(8)->get());
     }
 
     public function getNewItems() {
         return FilmResource::collection(Film::with([
             'categories', 'actors', 'directors', 'seasons', 'seasons.series'
-        ])->orderBy('year', 'desc')->get());
+        ])->orderBy('year', 'desc')->limit(8)->get());
     }
 
     public function getNewFilms() {
@@ -41,7 +47,14 @@ class FilmController extends Controller
             'categories', 'actors', 'directors', 'seasons', 'seasons.series'
         ])->where('type_id', 1)->orderBy('year', 'desc')->get());
     }
-    
+    /*
+    public function getFilmsPageCount() {
+        $films = FilmResource::collection(Film::with([
+            'categories', 'actors', 'directors', 'seasons', 'seasons.series'
+        ])->where('type_id', 1)->orderBy('year', 'desc')->paginate(3));
+        return $films->lastPage();
+    }
+    */
     public function getNewSerials() {
         return FilmResource::collection(Film::with([
             'categories', 'actors', 'directors', 'seasons', 'seasons.series'
@@ -73,6 +86,11 @@ class FilmController extends Controller
             'films.categories', 'films.actors', 'films.directors', 'films.seasons', 'films.seasons.series'
         ])->findOrFail($id));
         return FilmResource::collection($category->films->where('type_id', 3));
+    }
+
+    public function getItem(Film $film)
+    {
+        return new FilmResource(Film::findOrFail($film->id));
     }
     /*
     public function getFilm($slug) {

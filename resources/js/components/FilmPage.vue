@@ -135,12 +135,18 @@ export default {
           this.filmData = newVideo.find( (item) => item.route === filmRoute )
         }
       }
+      if (! this.filmData) {
+        const video = JSON.parse(window.sessionStorage.getItem('video'))
+        if (video) {
+          this.filmData = video.find( (item) => item.route === filmRoute )
+        }
+      }
     },
     refreshFilmData() {
       axios
-        .get('/api/main/new') // Здесь должен быть запрос именно на всё, либо на конкретный фильм
+        .get('/api/main') // Здесь должен быть запрос именно на всё, либо на конкретный фильм
         .then((result) => {
-          window.sessionStorage.setItem('newVideo', JSON.stringify(result.data.data))
+          window.sessionStorage.setItem('video', JSON.stringify(result.data.data))
           window.location.reload()
         })
     },
