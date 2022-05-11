@@ -49,13 +49,22 @@
           </v-toolbar-title>
 
           <v-spacer></v-spacer>
-
-          <v-btn icon>
-            <v-icon>mdi-heart</v-icon>
-          </v-btn>
-
-          <v-btn icon>
+          <v-text-field v-show="show"
+            v-model="seach"
+            @keyup.enter="seachFilm"
+            placeholder="Поиск"
+            class="closed"
+            regular
+            dense
+            single-line
+            clearable
+          >
+          </v-text-field>
+          <v-btn icon @click="show = !show">
             <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+           <v-btn icon>
+            <v-icon>mdi-heart</v-icon>
           </v-btn>
         </v-app-bar>
         <router-view />
@@ -116,7 +125,25 @@ export default {
     media,
     newfilm,
     icons: ["mdi-odnoklassniki", "mdi-github", "mdi-trello", "mdi-discord"],
+    show: false,
+    seach:'',
+    filmsAndSerials:[],
   }),
+  methods: {
+    seachFilm(){
+      axios
+          .get("/api/films")
+          .then((result) => {
+            this.filmsAndSerials=result.data.data
+          })
+          this.filmsAndSerials.find((item)=>{
+            this.seach.toLocaleLowerCase()
+          if(item.title.toLocaleLowerCase()==this.seach){
+           this.$router.push({ name: 'filmPage', params: { route: item.route } })
+          } 
+        })
+    },
+  },
   beforeCreate() {
     document.body.className = "app"
   }
@@ -206,5 +233,10 @@ export default {
 }
 .footer hr {
   opacity: 0.03;
+}
+.v-text-field{
+  margin-top: 25px !important;
+  border-color:transparent !important;
+  margin-right: 10px !important;
 }
 </style>
