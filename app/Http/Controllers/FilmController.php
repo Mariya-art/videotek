@@ -45,7 +45,7 @@ class FilmController extends Controller
     public function getNewFilms() {
         return FilmResource::collection(Film::with([
             'categories', 'actors', 'directors', 'seasons', 'seasons.series'
-        ])->where('type_id', 1)->orderBy('year', 'desc')->get());
+        ])->where('type_id', 1)->orderBy('year', 'desc')->paginate(3));
     }
 
     public function getFilmsPageCount() {

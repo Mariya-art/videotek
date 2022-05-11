@@ -21,12 +21,8 @@
         :img="film.img"
       />
     </div>
-    <hr class="line"/>
-    <div class="btn-bottom">
-      <button class="btn">Показать ещё</button>
-    </div>
-    <hr class="line"/>
-    <div v-if="paginationLength">
+    <hr class="line" v-if="showPagination"/>
+    <div v-if="showPagination">
       <v-pagination
         v-model="page"
         :length="paginationLength"
@@ -52,7 +48,8 @@ export default {
     filmsOrSerials: '',
     genre: '',
     page: 1,
-    paginationLength: 1
+    paginationLength: 1,
+    showPagination: false
   }),
   components: {CardFilm},
   methods: {
@@ -81,9 +78,10 @@ export default {
       window.sessionStorage.setItem('genres', JSON.stringify(this.genres))
     },
     refreshData() {
+      this.showPagination = this.paginationLength > 0 && this.filmsOrSerials === 'Films'
       if (this.filmsOrSerials === 'Films') {
         axios
-          .get("/api/films")
+          .get('/api/films?page=' + this.page)
           .then((result) => {
             this.updateAllFilms(result)
           })
@@ -94,7 +92,7 @@ export default {
           })
       } else if (this.filmsOrSerials === 'Serials') {
         axios
-          .get("/api/serials")
+          .get('/api/serials')
           .then((result) => {
             this.updateAllFilms(result)
           })
@@ -113,6 +111,9 @@ export default {
       this.refreshData()
       this.genre = ''
       this.genreFilms = null
+    },
+    page: function() {
+      this.refreshData()
     }
   },
   created() {
@@ -126,7 +127,6 @@ export default {
     axios
       .get('/api/filmsPageCount')
       .then(result => {
-        console.log(result.data)
         this.paginationLength = +result.data
         window.sessionStorage.setItem('paginationLength', JSON.stringify(this.paginationLength))
       })
