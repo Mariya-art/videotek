@@ -16,7 +16,7 @@
           >
           <hr class="line" />
           <router-link class="link" to="/films"
-            ><p><img :src="filmicon" class="iconList" />Фильмы</p></router-link
+            ><p><img :src="filmIcon" class="iconList" />Фильмы</p></router-link
           >
           <hr class="line" />
           <router-link class="link" to="/serials"
@@ -50,8 +50,8 @@
 
           <v-spacer></v-spacer>
           <v-text-field v-show="show"
-            v-model="seach"
-            @keyup.enter="seachFilm"
+            v-model="search"
+            @keyup.enter="searchFilm"
             placeholder="Поиск"
             class="closed"
             regular
@@ -107,11 +107,11 @@
 
 <script>
 import logo from "./assets/videotek.jpg"
-import filmicon from "./assets/filmicon.png"
+import filmIcon from "./assets/filmicon.png"
 import serials from "./assets/serials.png"
 import zvezda from "./assets/zvezda.png"
 import media from "./assets/media.png"
-import newfilm from "./assets/newfilm.png"
+import newFilm from "./assets/newfilm.png"
 
 export default {
   name: "App",
@@ -119,28 +119,30 @@ export default {
     drawer: false,
     group: null,
     logo,
-    filmicon,
+    filmIcon,
     serials,
     zvezda,
     media,
-    newfilm,
+    newFilm,
     icons: ["mdi-odnoklassniki", "mdi-github", "mdi-trello", "mdi-discord"],
     show: false,
-    seach:'',
+    search:'',
     filmsAndSerials:[],
   }),
   methods: {
-    seachFilm(){
+    searchFilm(){
       axios
-          .get("/api/films")
+          .get("/api/main")
           .then((result) => {
-            this.filmsAndSerials=result.data.data
+            this.filmsAndSerials = result.data.data
           })
-          this.filmsAndSerials.find((item)=>{
-            this.seach.toLocaleLowerCase()
-          if(item.title.toLocaleLowerCase()==this.seach){
+          this.filmsAndSerials.find((item) => {
+            this.search.toLocaleLowerCase()
+          if(item.title.toLocaleLowerCase() === this.search){
            this.$router.push({ name: 'filmPage', params: { route: item.route } })
-          } 
+            this.search = ''
+            this.show = false
+          }
         })
     },
   },
