@@ -48,22 +48,9 @@
             <router-link to="/main" class="logo">VIDEOTEK</router-link>
           </v-toolbar-title>
 
-          <v-spacer></v-spacer>
-          <v-text-field v-show="show"
-            v-model="search"
-            @keyup.enter="searchFilm"
-            placeholder="Поиск"
-            class="closed"
-            regular
-            dense
-            single-line
-            clearable
-          >
-          </v-text-field>
-          <v-btn icon @click="show = !show">
-            <v-icon>mdi-magnify</v-icon>
-          </v-btn>
-           <v-btn icon>
+          <v-spacer />
+          <Search />
+          <v-btn icon>
             <v-icon>mdi-heart</v-icon>
           </v-btn>
         </v-app-bar>
@@ -112,9 +99,11 @@ import serials from "./assets/serials.png"
 import zvezda from "./assets/zvezda.png"
 import media from "./assets/media.png"
 import newFilm from "./assets/newfilm.png"
+import Search from "./components/Search"
 
 export default {
   name: "App",
+  components: { Search },
   data: () => ({
     drawer: false,
     group: null,
@@ -129,23 +118,6 @@ export default {
     search:'',
     filmsAndSerials:[],
   }),
-  methods: {
-    searchFilm(){
-      axios
-          .get("/api/main")
-          .then((result) => {
-            this.filmsAndSerials = result.data.data
-          })
-          this.filmsAndSerials.find((item) => {
-            this.search.toLocaleLowerCase()
-          if(item.title.toLocaleLowerCase() === this.search){
-           this.$router.push({ name: 'filmPage', params: { route: item.route } })
-            this.search = ''
-            this.show = false
-          }
-        })
-    },
-  },
   beforeCreate() {
     document.body.className = "app"
   }
