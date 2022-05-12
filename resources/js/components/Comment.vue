@@ -2,10 +2,8 @@
   <div class="c">
     <h1>Отзывы</h1>
     <hr class="line"/>
-
     <div class="comment-box">
-      <div class="h-block">
-        <v-col cols="12" md="12">
+      <div class="h-block rel-block">
           <v-text-field
             dark
             v-model="username"
@@ -13,13 +11,11 @@
             autocomplete="off"
             label="Имя пользователя"
           ></v-text-field>
-        </v-col>
+          <p class="errorbox errorbox__login" v-if="errorUsername">
+            {{ errorUsername[0] }}
+          </p>
       </div>
-      <strong style="color:red;" v-if="errorUsername">
-        {{ errorUsername[0] }}<br><br>
-      </strong>
-
-      <v-col cols="12" md="6">
+      <div class="h-block rel-block">
         <v-textarea
           name="message"
           filled
@@ -27,12 +23,10 @@
           no-resize
           label="Сообщение"
           v-model="text"
+          class="comment-message-textarea"
         ></v-textarea>
-      </v-col>
-      <strong style="color:red;" v-if="errorText">
-        {{ errorText[0] }}<br><br>
-      </strong>
-
+        <p class="errorbox errorbox__text" v-if="errorText">{{ errorText[0] }}</p>
+      </div>
       <button
         @click="sendComment"
         class="btnc"
@@ -41,15 +35,11 @@
           Отправить
       </button>
     </div>
-
     <div>
-      <strong style="color:red;" v-if="errored">
-        Ошибка загрузки отзывов
-      </strong>
       <div v-for="item in comments" :key="item.id" class="comment">
         <h4 class="name">
           {{ item.username }}:
-          <span class="comment-datetime">{{ item.created_at }}</span>
+          <span class="comment-datetime">{{ item.datetime }}</span>
         </h4>
         <p class="comment-text">{{ item.text }}</p>
       </div>
@@ -67,9 +57,8 @@ export default {
       username: '',
       text: '',
       comments: [],
-      errored: false,
-      errorUsername: [],
-      errorText: [],
+      errorUsername: null,
+      errorText: null,
     }
   },
   props: {
@@ -80,10 +69,13 @@ export default {
       axios.get('/api/filmFeedbacks/' + this.filmId)
       .then(response => {
         this.comments = response.data.data
-      })
-      .catch(error => {
-        console.log(error)
-        this.errored = true
+        this.comments = this.comments.map(comment => {
+          const dt = new Date(comment.created_at)
+          const datetime = new Intl
+            .DateTimeFormat('ru', { dateStyle: 'short', timeStyle: 'short' })
+            .format(dt)
+          return {...comment, datetime}
+        })
       })
     },
     async sendComment () {
@@ -95,26 +87,27 @@ export default {
       .then(response => {
         this.username = ''
         this.text = ''
-        this.comments = []
-        this.errorUsername = []
-        this.errorText = []
+        this.errorUsername = null
+        this.errorText = null
         this.getFeedbacks()
       })
       .catch(error => {
-        this.errorUsername = []
-        this.errorText = []
-        if(error.response.data.errors.username) {
-          this.errorUsername.push(error.response.data.errors.username[0])
+        if (error.response.data.errors.username) {
+          this.errorUsername = error.response.data.errors.username
+        } else {
+          this.errorUsername = null
         }
-        if(error.response.data.errors.text) {
-          this.errorText.push(error.response.data.errors.text[0])
+        if (error.response.data.errors.text) {
+          this.errorText = error.response.data.errors.text
+        }  else {
+          this.errorText = null
         }
       })
     },
   },
-  mounted() {
+  created () {
     this.getFeedbacks()
-  },
+  }
 }
 </script>
 
@@ -137,6 +130,9 @@ export default {
 .h-block {
   margin-bottom: 10px;
 }
+.rel-block {
+  position: relative;
+}
 .comment {
   margin: 20px 0;
 }
@@ -155,5 +151,28 @@ export default {
   text-align: justify;
   color: lightgray;
   line-height: 150%;
+}
+
+.errorbox {
+  color: firebrick;
+  font-weight: bold;
+  border: 1px solid gray;
+  border-radius: 10px 10px 10px 0;
+  padding: 10px;
+  position: absolute;
+  left: 160px;
+  white-space: nowrap;
+  background-color: #1A1A1A;
+}
+.errorbox__login {
+  top: -20px;
+}
+.errorbox__text {
+  top: -40px;
+}
+
+
+.comment-message-textarea {
+  width: 500px;
 }
 </style>
