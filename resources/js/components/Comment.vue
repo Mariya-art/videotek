@@ -2,6 +2,7 @@
   <div class="c">
     <h1>Отзывы</h1>
     <hr class="line"/>
+
     <div class="comment-box">
       <div class="h-block">
         <v-col cols="12" md="12">
@@ -13,8 +14,11 @@
             label="Имя пользователя"
           ></v-text-field>
         </v-col>
-
       </div>
+      <strong style="color:red;" v-if="errorUsername">
+        {{ errorUsername[0] }}<br><br>
+      </strong>
+
       <v-col cols="12" md="6">
         <v-textarea
           name="message"
@@ -22,149 +26,95 @@
           dark
           no-resize
           label="Сообщение"
-          v-model="message"
+          v-model="text"
         ></v-textarea>
       </v-col>
+      <strong style="color:red;" v-if="errorText">
+        {{ errorText[0] }}<br><br>
+      </strong>
+
       <button
         @click="sendComment"
         class="btnc"
-        v-show="(username.length > 0) && (message.length > 0)"
+        v-show="(username.length > 0) && (text.length > 0)"
       >
           Отправить
       </button>
     </div>
+
     <div>
+      <strong style="color:red;" v-if="errored">
+        Ошибка загрузки отзывов
+      </strong>
       <div v-for="item in comments" :key="item.id" class="comment">
         <h4 class="name">
           {{ item.username }}:
-          <span class="comment-datetime">{{ item.datetime }}</span>
+          <span class="comment-datetime">{{ item.created_at }}</span>
         </h4>
-        <p class="comment-text">{{ item.comment }}</p>
+        <p class="comment-text">{{ item.text }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import axios from 'axios'
 import { v4 as uuid } from 'uuid'
+import axios from 'axios'
 export default {
   name: 'Comment',
   data () {
     return {
       username: '',
-      message: '',
+      text: '',
       comments: [],
-      testComments: [
-        {
-          filmRoute: 'avatar',
-          username: 'Гость 1',
-          comment: 'Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1,Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1, Текст коментария 1.',
-          datetime: '18.04.2022, 18:30',
-          id: '1'
-        },
-        {
-          filmRoute: 'hurrypotter-azkaban',
-          username: 'Гость 8',
-          comment: 'Текст коментария 2, Текст коментария 2, Текст коментария 2, Текст коментария 2',
-          datetime: '18.04.2022, 18:30',
-          id: '2'
-        },
-        {
-          filmRoute: 'avatar',
-          username: 'Гость 2',
-          comment: 'Текст коментария3',
-          datetime: '18.04.2022, 19:00',
-          id: '3'
-        },
-        {
-          filmRoute: 'snowwhite',
-          username: 'Гость 2',
-          comment: 'Текст коментария 4, Текст коментария, Текст коментария, Текст коментария, Текст коментария',
-          datetime: '18.04.2022, 18:30',
-          id: '4'
-        },
-        {
-          filmRoute: 'matrix',
-          username: 'Гость 4',
-          comment: 'Текст коментария 5, Текст коментария, Текст коментария, Текст коментария, Текст коментария, Текст коментария, Текст коментария',
-          datetime: '18.04.2022, 19:00',
-          id: '5'
-        },
-        {
-          filmRoute: 'everest',
-          username: 'Гость 2',
-          comment: 'Текст коментария 6',
-          datetime: '18.04.2022, 19:00',
-          id: '6'
-        },
-        {
-          filmRoute: 'hurrypotter-azkaban',
-          username: 'Гость 1',
-          comment: 'Текст коментария 7',
-          datetime: '18.04.2022, 19:00',
-          id: '7'
-        }
-      ]
+      errored: false,
+      errorUsername: [],
+      errorText: [],
     }
   },
   props: {
-    film: String
+    filmId: Number
   },
   methods: {
-    /* async sendComment () {
-      console.log(this.film, this.username, this.message)
-      const result = await axios.post('http://localhost:8080/', {
-        filmId: this.film,
-        username: this.username,
-        comment: this.message
+    getFeedbacks () {
+      axios.get('/api/filmFeedbacks/' + this.filmId)
+      .then(response => {
+        this.comments = response.data.data
       })
-      console.log(result)
-    }, */
-    textReplacer (text) {
-      return text
-        .replace(/\.\.\./g, '…')
-        .replace(/(^)\x22(\s)/g, '$1»$2')
-        .replace(/(^|\s|\()"/g, '$1«')
-        .replace(/"(;|!|\?|:|\.|…|,|$|\)|\{|\s)/g, '»$1')
-        .replace(/(?<!»,) - /g, ' — ')
-        .replace(/(«[^»]*)«([^»]*)»/g, '$1„$2“')
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
     },
-    getCommentList() {
-      return JSON.parse(window.sessionStorage.getItem('comments'))
-    },
-    setCommentList(payload) {
-      window.sessionStorage.setItem('comments', JSON.stringify(payload))
-    },
-    addComment(comment) {
-      const currentState = this.getCommentList()
-      const newState = [...currentState, comment]
-      this.setCommentList(newState)
-    },
-    commentOutput () {
-      this.comments = this.getCommentList().filter(item => item.filmRoute === this.film)
-    },
-    sendComment () {
-      const dtStr = new Intl
-        .DateTimeFormat('ru', { dateStyle: 'short', timeStyle: 'short' })
-        .format(new Date())
-      const comment = {
-        filmRoute: this.film,
+    async sendComment () {
+      await axios.post('/api/feedbacks', {
+        film_id: this.filmId,
         username: this.username,
-        comment: this.textReplacer(this.message),
-        datetime: dtStr,
-        id: uuid()
-      }
-      this.addComment(comment)
-      this.username = ''
-      this.message = ''
-      this.commentOutput()
-    }
+        text: this.text,
+      })
+      .then(response => {
+        this.username = ''
+        this.text = ''
+        this.comments = []
+        this.errorUsername = []
+        this.errorText = []
+        this.getFeedbacks()
+      })
+      .catch(error => {
+        this.errorUsername = []
+        this.errorText = []
+        if(error.response.data.errors.username) {
+          this.errorUsername.push(error.response.data.errors.username[0])
+        }
+        if(error.response.data.errors.text) {
+          this.errorText.push(error.response.data.errors.text[0])
+        }
+      })
+    },
   },
-  created () {
-    this.setCommentList(this.testComments)
-    this.commentOutput()
-  }
+  mounted() {
+    this.getFeedbacks()
+  },
 }
 </script>
 

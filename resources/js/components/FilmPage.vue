@@ -94,7 +94,7 @@
           </v-btn>
         </v-btn-toggle>
       </div>
-      <Comment :film="filmData.route" />
+      <Comment :filmId="filmData.id" />
     </div>
   </div>
 </template>
