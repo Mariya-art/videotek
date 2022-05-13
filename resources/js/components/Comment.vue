@@ -36,9 +36,9 @@
       </button>
     </div>
     <div>
-      <strong style="color:red;" v-if="errored">
-        Ошибка загрузки отзывов
-      </strong>
+      <p class="errorpar" v-if="errored">
+        Ошибка сервера. Мы уже работаем над решением проблемы.
+      </p>
       <div v-for="item in comments" :key="item.id" class="comment">
         <h4 class="name">
           {{ item.username }}:
@@ -179,8 +179,12 @@ export default {
   top: -40px;
 }
 
-
 .comment-message-textarea {
   width: 500px;
+}
+
+.errorpar {
+  color: firebrick;
+  font-weight: bold;
 }
 </style>
