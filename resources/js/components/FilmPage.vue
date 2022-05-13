@@ -13,6 +13,7 @@
             Трейлер
             <span v-show="isTrailer" class="btn-flag">▾</span>
           </button>
+          <button class="backbtn" @click="$router.go(-1)">➔</button>
         </div>
         <div class="film-data">
           <h1>{{ filmData.title }}</h1>
@@ -66,15 +67,13 @@
             </ul>
           </div>
           <hr class="line" />
+          <FilmPlayers v-if="isFilm"
+            :filmData="filmData"
+            :isTrailerVisible="isTrailer"
+          />
         </div>
       </div>
-      <div>
-        <SerialWatchLine v-if="isSerial" :serialData="filmData" />
-        <FilmPlayers v-else
-          :filmData="filmData"
-          :isTrailerVisible="isTrailer"
-        />
-      </div>
+      <SerialWatchLine v-if="isSerial" :serialData="filmData" />
       <h1 v-if="isVideo">Оцените видео</h1>
       <h1 v-if="isSerial">Оцените сериал</h1>
       <h1 v-if="isFilm">Оцените фильм</h1>
@@ -324,5 +323,21 @@ export default {
 .btn-flag {
   position: absolute;
   right: 10px;
+}
+
+.backbtn {
+  font-size: 28pt;
+  color: #eb5804;
+  border: 2px solid #eb5804;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  margin: 30px auto;
+  transform: rotate(180deg);
+  transition: all 0.3s ease-in;
+}
+.backbtn:hover {
+  color: black;
+  background-color: #eb5804;
 }
 </style>

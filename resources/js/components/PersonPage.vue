@@ -5,6 +5,7 @@
       <div class="person-data-block">
         <div class="left-column" >
           <img :src="getImgUrl(personData.img)" alt="person image"/>
+          <button class="backbtn" @click="$router.go(-1)">➔</button>
         </div>
         <div class="person-data">
           <h1>{{ personData.name }}</h1>
