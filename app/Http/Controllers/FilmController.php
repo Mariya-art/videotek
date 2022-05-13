@@ -90,7 +90,7 @@ class FilmController extends Controller
 
     public function getItem(Film $film)
     {
-        return new FilmResource(Film::findOrFail($film->id));
+        return new FilmResource($film);
     }
     /*
     public function getFilm($slug) {

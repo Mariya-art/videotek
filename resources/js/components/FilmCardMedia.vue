@@ -6,9 +6,9 @@
     >
       <div class="poster-block">
         <img  class="poster-video" :src="getImgUrl(film.img)" alt="film" />
-      <div class="block-title"><p class="title-video"><em>Видео</em> &#8226; {{ film.title }}</p></div>
-    </div>
-     </router-link>
+        <div class="block-title"><p class="title-video"><em>Видео</em> &#8226; {{ film.title }}</p></div>
+      </div>
+    </router-link>
   </div>
 </template>
 
@@ -48,7 +48,7 @@ export default {
     border-radius: 10px 0  0;
 }
 .block-title{
-     margin:0 auto ;
+    margin:0 auto ;
 }
 .title-video {
     padding: 0 20px;

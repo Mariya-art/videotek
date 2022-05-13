@@ -4,6 +4,7 @@ use App\Http\Controllers\ActorController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DirectorController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\FilmController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\TypeController;
@@ -50,6 +51,12 @@ Route::get('/serialsGenres', [CategoryController::class, 'getSerialsCategories']
 Route::get('/films/{categoryId}', [FilmController::class, 'getCategoryFilms']); // фильмы определенного жанра
 Route::get('/serials/{categoryId}', [FilmController::class, 'getCategorySerials']); // сериалы определенного жанра
 Route::get('/videos/{categoryId}', [FilmController::class, 'getCategoryVideos']); // видео определенного жанра
+
+Route::get('/filmFeedbacks/{film_id}', [FeedbackController::class, 'getFilmFeedbacks']); // отзывы на фильм
+
+Route::apiResources([
+    'feedbacks' => FeedbackController::class, // отзывы на все фильмы
+]);
 
 //Route::get('/films/{filmId}/actors', [ActorController::class, 'getItemActors']);
 //Route::get('/films/{filmId}/directors', [DirectorController::class, 'getItemDirectors']);
