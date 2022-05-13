@@ -16,7 +16,7 @@
           >
           <hr class="line" />
           <router-link class="link" to="/films"
-            ><p><img :src="filmicon" class="iconList" />Фильмы</p></router-link
+            ><p><img :src="filmIcon" class="iconList" />Фильмы</p></router-link
           >
           <hr class="line" />
           <router-link class="link" to="/serials"
@@ -48,14 +48,10 @@
             <router-link to="/main" class="logo">VIDEOTEK</router-link>
           </v-toolbar-title>
 
-          <v-spacer></v-spacer>
-
+          <v-spacer />
+          <Search />
           <v-btn icon>
             <v-icon>mdi-heart</v-icon>
-          </v-btn>
-
-          <v-btn icon>
-            <v-icon>mdi-magnify</v-icon>
           </v-btn>
         </v-app-bar>
         <router-view />
@@ -98,24 +94,29 @@
 
 <script>
 import logo from "./assets/videotek.jpg"
-import filmicon from "./assets/filmicon.png"
+import filmIcon from "./assets/filmicon.png"
 import serials from "./assets/serials.png"
 import zvezda from "./assets/zvezda.png"
 import media from "./assets/media.png"
-import newfilm from "./assets/newfilm.png"
+import newFilm from "./assets/newfilm.png"
+import Search from "./components/Search"
 
 export default {
   name: "App",
+  components: { Search },
   data: () => ({
     drawer: false,
     group: null,
     logo,
-    filmicon,
+    filmIcon,
     serials,
     zvezda,
     media,
-    newfilm,
+    newFilm,
     icons: ["mdi-odnoklassniki", "mdi-github", "mdi-trello", "mdi-discord"],
+    show: false,
+    search:'',
+    filmsAndSerials:[],
   }),
   beforeCreate() {
     document.body.className = "app"
@@ -206,5 +207,10 @@ export default {
 }
 .footer hr {
   opacity: 0.03;
+}
+.v-text-field{
+  margin-top: 25px !important;
+  border-color:transparent !important;
+  margin-right: 10px !important;
 }
 </style>
