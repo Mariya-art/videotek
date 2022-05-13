@@ -24,7 +24,7 @@ class FeedbackStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => ['required', 'string', 'min:3', 'max:50'],
+            'username' => ['required', 'string', 'min:1', 'max:50'],
             'film_id' => ['required', 'integer'],
             'text' => ['required', 'string', 'min:3', 'max:700'],
         ];

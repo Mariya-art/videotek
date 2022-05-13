@@ -36,6 +36,9 @@
       </button>
     </div>
     <div>
+      <strong style="color:red;" v-if="errored">
+        Ошибка загрузки отзывов
+      </strong>
       <div v-for="item in comments" :key="item.id" class="comment">
         <h4 class="name">
           {{ item.username }}:
@@ -57,6 +60,7 @@ export default {
       username: '',
       text: '',
       comments: [],
+      errored: false,
       errorUsername: null,
       errorText: null,
     }
@@ -76,6 +80,10 @@ export default {
             .format(dt)
           return {...comment, datetime}
         })
+      })
+      .catch(error => {
+        console.log(error)
+        this.errored = true
       })
     },
     async sendComment () {
