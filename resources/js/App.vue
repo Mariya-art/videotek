@@ -213,4 +213,32 @@ export default {
   border-color:transparent !important;
   margin-right: 10px !important;
 }
+
+::-webkit-scrollbar {
+  width: 18px;
+  background-color: #464544;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #eb5804;
+  border-radius: 9em;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #ff4d00;
+}
+
+::-webkit-scrollbar-button:vertical:start:decrement {
+  background: linear-gradient(120deg, #02141a 40%, rgba(0, 0, 0, 0) 41%),
+  linear-gradient(240deg, #02141a 40%, rgba(0, 0, 0, 0) 41%),
+  linear-gradient(0deg, #02141a 30%, rgba(0, 0, 0, 0) 31%);
+  background-color: #eb5804;
+}
+
+::-webkit-scrollbar-button:vertical:end:increment {
+  background: linear-gradient(300deg, #02141a 40%, rgba(0, 0, 0, 0) 41%),
+  linear-gradient(60deg, #02141a 40%, rgba(0, 0, 0, 0) 41%),
+  linear-gradient(180deg, #02141a 30%, rgba(0, 0, 0, 0) 31%);
+  background-color: #eb5804;
+}
 </style>
