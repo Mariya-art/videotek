@@ -89,9 +89,12 @@ export default {
         this.articles = result.data.data
         window.sessionStorage.setItem('articles', JSON.stringify(this.articles))
       })
-    const video = JSON.parse(window.sessionStorage.getItem('newVideo'))
-    this.filmsOfType = video.filter( film => film.type_id === 3 )
-
+    axios
+      .get('api/videos')
+      .then(result => {
+        this.filmsOfType = result.data.data
+        window.sessionStorage.setItem('video', JSON.stringify(this.filmsOfType))
+      })
   },
   beforeDestroy() {
     window.sessionStorage.setItem('MediaActiveTab', this.tab)
