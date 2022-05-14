@@ -118,8 +118,8 @@ export default {
   }),
   methods: {
     vote (item) {
-      const data = { vote: item, id: this.filmData.id }
-      localStorage.setItem(this.filmData.id, JSON.stringify(data))
+      const data = { vote: item, id: this.film.id }
+      localStorage.setItem(this.film.id, JSON.stringify(data))
       this.isVoteDisabled = true
     },
     searchFilmData() {
@@ -156,11 +156,11 @@ export default {
     },
     finalPrepare() {
       this.filmCategories = this.film.genres.map((item) => item.title.toLowerCase()).join(', ')
-      document.title = 'VIDEOTEK - ' + this.filmData.title;
+      document.title = 'VIDEOTEK - ' + this.film.title;
       this.isSerial = Boolean(+this.film.type_id === 2)
       this.isFilm = Boolean(+this.film.type_id === 1)
       this.isVideo = Boolean(+this.film.type_id === 3)
-      const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
+      const voteData = JSON.parse(localStorage.getItem(this.film.id) || '[]')
       this.isVoteDisabled = Boolean(voteData.id === this.film.id)
     }
   },
@@ -176,7 +176,7 @@ export default {
   },
   created() {
     this.searchFilmData()
-    if (! this.filmData) {
+    if (! this.film) {
       this.refreshFilmData()
       this.searchFilmData()
     }

@@ -43,7 +43,7 @@ export default {
   name: 'PersonPage',
   data () {
     return {
-      personData: null,
+      person: null,
       birthdayString: ''
     };
   },
@@ -55,7 +55,7 @@ export default {
       const personRoute = this.$route.params.route
       const persona = JSON.parse(window.sessionStorage.getItem('persona'))
       if (persona) {
-        this.personData = persona.find( item => item.route === personRoute )
+        this.person = persona.find( item => item.route === personRoute )
       }
     },
     flatenPersona(videoDataArray) {
@@ -74,46 +74,47 @@ export default {
         ])
       )
     },
+    finalPreparePerson() {
+      window.sessionStorage.setItem('personData', JSON.stringify(this.person))
+      document.title = 'VIDEOTEK - ' + this.person.name
+      const birthdate = new Date(this.person.birthday)
+      this.birthdayString = new Intl
+          .DateTimeFormat('ru', { dateStyle: 'long' })
+          .format(birthdate)
+    },
     refreshFilmsAndPersona() {
       axios
-        .get('/api/main') // Здесь должен быть запрос именно на всё, либо на конкретный фильм
+        .get('/api/main')
         .then((result) => {
           const video = result.data.data
           window.sessionStorage.setItem('video', JSON.stringify(video))
           window.sessionStorage.setItem('persona', JSON.stringify([]))
           this.addPersonaToStorage(this.flatenPersona(video))
-          window.location.reload()
-        })
-    },
-    refreshPersons() {
-      axios
-        .get('/api/main') // Здесь должен быть запрос именно на всё, либо на конкретный фильм
-        .then((result) => {
-          window.sessionStorage.setItem('video', JSON.stringify(result.data.data))
-          window.location.reload()
+          this.searchPersonData()
+          this.finalPreparePerson()
         })
     }
   },
   created () {
     this.searchPersonData()
-    if (! this.personData) {
+    if (! this.person) {
       this.refreshFilmsAndPersona()
       this.searchPersonData()
     }
-    if (this.personData) {
-      window.sessionStorage.setItem('personData', JSON.stringify(this.personData))
-      document.title = 'VIDEOTEK - ' + this.personData.name
-      const birthdate = new Date(this.personData.birthday)
-      this.birthdayString = new Intl
-          .DateTimeFormat('ru', { dateStyle: 'long' })
-          .format(birthdate)
+    if (this.person) {
+      this.finalPreparePerson()
     } else {
       const personCandidate = JSON.parse(window.sessionStorage.getItem('personData'))
       if (this.$route.params.route === personCandidate.route) {
-        this.filmData = personCandidate
+        this.person = personCandidate
       } else {
         this.$router.push('/404')
       }
+    }
+  },
+  computed: {
+    personData() {
+      return this.person
     }
   }
 }
