@@ -107,7 +107,7 @@ export default {
   name: "FilmPage",
   components: { Comment, SerialWatchLine, FilmPlayers},
   data: () => ({
-      filmData: null,
+      film: null,
       filmDirectors: [],
       filmCategories: [],
       isTrailer: false,
@@ -126,38 +126,52 @@ export default {
       const filmRoute = this.$route.params.route
       const ratingFilms = JSON.parse(window.sessionStorage.getItem('ratingFilms'))
       if (ratingFilms) {
-        this.filmData = ratingFilms.find( (item) => item.route === filmRoute )
+        this.film = ratingFilms.find( (item) => item.route === filmRoute )
       }
-      if (! this.filmData) {
+      if (! this.film) {
         const newVideo = JSON.parse(window.sessionStorage.getItem('newVideo'))
         if (newVideo) {
-          this.filmData = newVideo.find( (item) => item.route === filmRoute )
+          this.film = newVideo.find( (item) => item.route === filmRoute )
         }
       }
-      if (! this.filmData) {
+      if (! this.film) {
         const video = JSON.parse(window.sessionStorage.getItem('video'))
         if (video) {
-          this.filmData = video.find( (item) => item.route === filmRoute )
+          this.film = video.find( (item) => item.route === filmRoute )
         }
       }
     },
     refreshFilmData() {
       axios
-        .get('/api/main') // Здесь должен быть запрос именно на всё, либо на конкретный фильм
+        .get('/api/main')
         .then((result) => {
-          window.sessionStorage.setItem('video', JSON.stringify(result.data.data))
-          window.location.reload()
+          const video = result.data.data
+          window.sessionStorage.setItem('video', JSON.stringify(video))
+          this.film = video.find( (item) => item.route === this.$route.params.route )
+          this.finalPrepare()
         })
     },
     getImgUrl(img) {
       return require("../assets/" + img).default;
     },
+    finalPrepare() {
+      this.filmCategories = this.film.genres.map((item) => item.title.toLowerCase()).join(', ')
+      document.title = 'VIDEOTEK - ' + this.filmData.title;
+      this.isSerial = Boolean(+this.film.type_id === 2)
+      this.isFilm = Boolean(+this.film.type_id === 1)
+      this.isVideo = Boolean(+this.film.type_id === 3)
+      const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
+      this.isVoteDisabled = Boolean(voteData.id === this.film.id)
+    }
   },
   computed: {
     score: () => {
       const array = [];
       for (let i = 1; i < 11; i++) array.push(i);
       return array;
+    },
+    filmData() {
+      return this.film
     }
   },
   created() {
@@ -166,25 +180,18 @@ export default {
       this.refreshFilmData()
       this.searchFilmData()
     }
-    if (this.filmData) {
-      window.sessionStorage.setItem('filmData', JSON.stringify(this.filmData))
+    if (this.film) {
+      window.sessionStorage.setItem('filmData', JSON.stringify(this.film))
     } else {
       const filmCandidate = JSON.parse(window.sessionStorage.getItem('filmData'))
       if (this.$route.params.route === filmCandidate.route) {
-        this.filmData = filmCandidate
+        this.film = filmCandidate
       } else {
         this.$router.push('/404')
       }
     }
-    if (this.filmData) {
-      this.filmCategories = this.filmData.genres.map((item) => item.title.toLowerCase()).join(', ')
-      document.title = 'VIDEOTEK - ' + this.filmData.title;
-      this.isSerial = Boolean(+this.filmData.type_id === 2)
-      this.isFilm = Boolean(+this.filmData.type_id === 1)
-      this.isVideo = Boolean(+this.filmData.type_id === 3)
-
-      const voteData = JSON.parse(localStorage.getItem(this.filmData.id) || '[]')
-      this.isVoteDisabled = Boolean(voteData.id === this.filmData.id)
+    if (this.film) {
+      this.finalPrepare()
     }
   }
 };
