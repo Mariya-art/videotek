@@ -1,7 +1,7 @@
 <template>
     <div>
       <router-link
-        class="routerLink"
+        class="router-link-news"
         :to="{ name: 'NewsArticlesPage', params: { route: item.route } }"
       >
         <div class="news-card">
@@ -81,5 +81,9 @@ margin:10px;
 .news-card:hover{
     transform: scale(1.02);
     cursor: pointer;
+}
+.router-link-news{
+  text-decoration: none;
+  color: white;
 }
 </style>

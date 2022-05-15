@@ -1,7 +1,7 @@
 <template>
   <div>
     <router-link
-      class="routerLink"
+      class="router-link-video"
       :to="{ name: 'filmPage', params: { route: film.route } }"
     >
       <div class="poster-block">
@@ -59,6 +59,10 @@ export default {
 }
 .title-video:hover{
     color:#EB5804;
+}
+.router-link-video{
+  text-decoration: none;
+  color: white;
 }
 
 </style>
