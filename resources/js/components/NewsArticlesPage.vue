@@ -123,7 +123,6 @@ export default {
 .text {
     color: black;
     font-size: 14pt;
-    font-family: 'Helvetica Neue', 'Arial', sans-serif;
     text-align: justify;
     margin: 20px
 }

@@ -134,7 +134,7 @@ export default {
   flex-grow: 1;
 }
 .app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
   background-color: black;
   color: white;
 }
