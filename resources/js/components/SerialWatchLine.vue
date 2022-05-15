@@ -1,6 +1,5 @@
 <template>
   <div>
-    <hr class="line" />
     <div class="seasons">
       Сезоны:
       <v-btn-toggle group dark>
