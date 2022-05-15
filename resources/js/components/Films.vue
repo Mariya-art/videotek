@@ -114,6 +114,7 @@ export default {
     },
     page: function() {
       this.refreshData()
+      window.scrollTo(0,0)
     }
   },
   created() {

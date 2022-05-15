@@ -16,7 +16,7 @@
           <button class="backbtn" @click="$router.go(-1)">➔</button>
         </div>
         <div class="film-data">
-          <div class="underlined">
+          <div class="underlined position">
             <h1>{{ filmData.title }}</h1>
             <div class="score-block" v-if="filmData.score">
               Рейтинг: <strong>{{ filmData.score }}</strong>
@@ -230,6 +230,10 @@ export default {
     margin-bottom: 6pt;
 }
 
+.position {
+  position: relative;
+}
+
 .listButton {
   list-style: none;
   display: flex;
@@ -238,7 +242,6 @@ export default {
 
 .film-data {
   margin: 15px 0;
-  position: relative;
 }
 
 .film-page h1 {

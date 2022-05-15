@@ -215,7 +215,7 @@ export default {
 }
 
 ::-webkit-scrollbar {
-  width: 18px;
+  width: 16px;
   background-color: #464544;
 }
 
