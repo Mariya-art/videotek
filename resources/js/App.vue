@@ -241,4 +241,11 @@ export default {
   linear-gradient(180deg, #02141a 30%, rgba(0, 0, 0, 0) 31%);
   background-color: #eb5804;
 }
+
+* { /* For Mozilla Firefox: */
+  scrollbar-color: #eb5804 #464544;
+}
+*:hover {
+  scrollbar-color: #ff4d00 #464544;
+}
 </style>
