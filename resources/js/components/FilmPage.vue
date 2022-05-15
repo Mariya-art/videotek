@@ -68,7 +68,7 @@
               </li>
             </ul>
           </div>
-          <FilmPlayers v-if="isFilm"
+          <FilmPlayers v-if="isFilm || isVideo"
             :filmData="filmData"
             :isTrailerVisible="isTrailer"
           />
@@ -359,7 +359,7 @@ export default {
 
 .film-page-vote {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   margin-bottom: 20px;
 }
 
