@@ -27,6 +27,7 @@
         v-model="page"
         :length="paginationLength"
         dark
+        color="#eb5804"
         :total-visible="7"
       ></v-pagination>
     </div>
