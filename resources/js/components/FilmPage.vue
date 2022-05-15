@@ -40,7 +40,7 @@
           </p>
           <div v-if="filmData.directors && filmData.directors.length > 0" class="actors-paragraph">
             <em class="param-paragraph parameter">Режиссёр<span v-if="filmData.directors.length > 1">ы</span>:</em>
-            <ul class="actors-list inline-ul">
+            <ul class="directors-list inline-ul">
               <li
                 v-for="director in filmData.directors"
                 :key="director.id"
@@ -399,5 +399,9 @@ export default {
 
 .actors-list {
   margin-top: 5px;
+}
+
+.directors-list {
+  margin-top: 2px;
 }
 </style>
