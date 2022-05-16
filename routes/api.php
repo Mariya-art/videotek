@@ -7,6 +7,7 @@ use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\FilmController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\TypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +57,7 @@ Route::get('/filmFeedbacks/{film_id}', [FeedbackController::class, 'getFilmFeedb
 
 Route::apiResources([
     'feedbacks' => FeedbackController::class, // отзывы на все фильмы
+    'rating' => RatingController::class,
 ]);
 
 //Route::get('/films/{filmId}/actors', [ActorController::class, 'getItemActors']);
