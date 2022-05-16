@@ -122,6 +122,16 @@ export default {
       this.voted = +item
       localStorage.setItem(this.film.id, JSON.stringify(data))
       this.isVoteDisabled = true
+      const letter = { rating: item, film_id: this.film.id }
+      axios
+        .post('/api/rating', letter)
+        .then((result) => {
+          const reply = result.data.data
+          if (this.filmData.id === reply.film_id) {
+            this.filmData.score = (+reply.rating).toPrecision(2)
+          }
+          window.sessionStorage.setItem('filmData', JSON.stringify(this.filmData))
+        })
     },
     getVBclass(item) {
       if (this.voted === +item) return 'vote-btn vote-dis-btn'
