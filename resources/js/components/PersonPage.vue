@@ -19,7 +19,6 @@
           <div v-if="(personData.slug === 2)">
             <em class="parameter">Должность:</em> Актёр
           </div>
-
           <div v-if="personData.birthday">
             <em class="parameter">Дата рождения:</em> {{ birthdayString }}
           </div>
@@ -29,7 +28,6 @@
           <div v-if="personData.height" class="last-parameter">
             <em class="parameter">Рост:</em> {{ personData.height }} см
           </div>
-          <hr class="line" />
         </div>
       </div>
     </div>

@@ -1,20 +1,13 @@
 <template>
-  <div>
-    <hr class="line" />
+  <div class="seasons-comp">
     <div class="seasons">
       Сезоны:
-      <v-btn-toggle group dark>
-        <v-btn
-          v-for="season in serialData.seasons"
-          :key="season.number"
-          color="#EB5804"
-          variant="outlined"
-          class="v-btn-style"
-          @click="activate(season)"
-        >
-          {{ season.number }}
-        </v-btn>
-      </v-btn-toggle>
+      <button
+        v-for="season in serialData.seasons"
+        :key="season.number"
+        :class="getVBclass(season)"
+        @click="activate(season)"
+      >{{ season.number }}</button>
     </div>
     <div class="series-list">
       <v-sheet>
@@ -57,12 +50,14 @@ export default {
     activate (item) {
       this.activeSeason = item.number
       this.$forceUpdate()
+    },
+    getVBclass(season) {
+      if (this.activeSeason === season.number) return 'season-btn season-btn--active'
+      return 'season-btn'
     }
   },
   computed: {
     getSeries () {
-      /* const linklog = this.serialData.seasons[this.activeSeason - 1].series.map(s => s.link)
-      console.log(linklog) */
       return this.serialData.seasons[this.activeSeason - 1].series
     }
   }
@@ -73,6 +68,7 @@ export default {
 .seasons {
   font-size: 15pt;
   font-weight: bold;
+  text-indent: 270px;
 }
 
 .player-card {
@@ -84,6 +80,27 @@ export default {
 }
 
 .series-list {
-  margin: 50px 0;
+  margin: 80px 0;
+}
+
+.season-btn {
+  width: 40px;
+  height: 40px;
+  margin: 0 5px;
+  border: 1px solid #eb5804;
+  font-weight: normal;
+}
+.season-btn:hover {
+  background-color: #eb5804;
+  opacity: .5;
+  color: black;
+}
+.season-btn--active {
+  background-color: orangered;
+  color: black;
+}
+
+.seasons-comp {
+  margin-top: -80px;
 }
 </style>

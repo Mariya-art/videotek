@@ -1,7 +1,7 @@
 <template>
     <div>
       <router-link
-        class="routerLink"
+        class="router-link-articles"
         :to="{ name: 'NewsArticlesPage', params: { route: item.route } }"
       >
         <div class="articles-card">
@@ -81,5 +81,9 @@ export default {
 .articles-card:hover{
     transform: scale(1.02);
     cursor: pointer;
+}
+.router-link-articles{
+  text-decoration: none;
+  color: white;
 }
 </style>

@@ -16,17 +16,19 @@
           <button class="backbtn" @click="$router.go(-1)">➔</button>
         </div>
         <div class="film-data">
-          <h1>{{ filmData.title }}</h1>
-          <div class="score-block" v-if="filmData.score">
-            Рейтинг: <strong>{{ filmData.score }}</strong>
+          <div class="underlined position">
+            <h1>{{ filmData.title }}</h1>
+            <div class="score-block" v-if="filmData.score">
+              Рейтинг: <strong>{{ filmData.score }}</strong>
+            </div>
           </div>
-          <hr class="line" />
           <p v-if="filmData.age" class="age-boundary">{{ filmData.age }}+</p>
           <div v-if="filmData.description" v-html="filmData.description" class="film-page-description"></div>
-          <h1 v-if="isVideo">Об этом видео</h1>
-          <h1 v-if="isSerial">О сериале</h1>
-          <h1 v-if="isFilm">О фильме</h1>
-          <hr class="line" />
+          <h2 class="underlined">
+            <span v-if="isFilm">О фильме</span>
+            <span v-if="isSerial">О сериале</span>
+            <span v-if="isVideo">Об этом видео</span>
+          </h2>
           <p v-if="filmData.country">
             <em class="parameter">Страна:</em> {{ filmData.country }}
           </p>
@@ -34,15 +36,15 @@
             <em class="parameter">Год выпуска:</em> {{ filmData.year }}
           </p>
           <p v-if="filmData.genres && filmData.genres.length > 0">
-            <em class="parameter">Жанр:</em> {{ filmCategories }}
+            <em class="parameter">Жанр<span v-if="filmData.genres.length > 1">ы</span>:</em> {{ filmCategories }}
           </p>
-          <div v-if="filmData.directors && filmData.directors.length > 0">
-            <em class="parameter">Режиссёр:</em>
-            <ul class="inline-ul">
+          <div v-if="filmData.directors && filmData.directors.length > 0" class="actors-paragraph">
+            <em class="param-paragraph parameter">Режиссёр<span v-if="filmData.directors.length > 1">ы</span>:</em>
+            <ul class="directors-list inline-ul">
               <li
                 v-for="director in filmData.directors"
                 :key="director.id"
-                class="liName"
+                class="inline-li"
               >
                 <router-link
                   class="routerLink"
@@ -51,13 +53,13 @@
               </li>
             </ul>
           </div>
-          <div v-if="filmData.actors && filmData.actors.length > 0">
-            <em class="parameter">В главных ролях:</em>
-            <ul class="inline-ul">
+          <div v-if="filmData.actors && filmData.actors.length > 0" class="actors-paragraph">
+            <p class="param-paragraph parameter">В главных ролях:</p>
+            <ul class="actors-list inline-ul">
               <li
                 v-for="actor in filmData.actors"
                 :key="actor.id"
-                class="liName"
+                class="inline-li"
               >
                 <router-link
                   class="routerLink"
@@ -66,33 +68,30 @@
               </li>
             </ul>
           </div>
-          <hr class="line" />
-          <FilmPlayers v-if="isFilm"
+          <FilmPlayers v-if="isFilm || isVideo"
             :filmData="filmData"
             :isTrailerVisible="isTrailer"
           />
         </div>
       </div>
       <SerialWatchLine v-if="isSerial" :serialData="filmData" />
-      <h1 v-if="isVideo">Оцените видео</h1>
-      <h1 v-if="isSerial">Оцените сериал</h1>
-      <h1 v-if="isFilm">Оцените фильм</h1>
-      <hr class="line" />
-      <div class="btn-toggle">
-        <v-btn-toggle group dark>
-          <v-btn
+      <div class="film-page-vote">
+        <div class="vote-text">
+          <span v-if="isVideo">Оцените видео: </span>
+          <span v-if="isSerial">Оцените сериал: </span>
+          <span v-if="isFilm">Оцените фильм: </span>
+        </div>
+        <span>
+          <button
             v-for="item in score"
             :key="item"
-            color="#EB5804"
-            variant="outlined"
-            class="v-btn-style"
             :disabled="isVoteDisabled"
+            :class="getVBclass(item)"
             @click="vote(item)"
-          >
-            {{ item }}
-          </v-btn>
-        </v-btn-toggle>
+          >{{ item }}</button>
+        </span>
       </div>
+      <h2 class="underlined">Отзывы</h2>
       <Comment :filmId="filmData.id" />
     </div>
   </div>
@@ -114,13 +113,19 @@ export default {
       isVoteDisabled: false,
       isSerial: false,
       isFilm: false,
-      isVideo: false
+      isVideo: false,
+      voted: null
   }),
   methods: {
     vote (item) {
       const data = { vote: item, id: this.film.id }
+      this.voted = +item
       localStorage.setItem(this.film.id, JSON.stringify(data))
       this.isVoteDisabled = true
+    },
+    getVBclass(item) {
+      if (this.voted === +item) return 'vote-btn vote-dis-btn'
+      return 'vote-btn'
     },
     searchFilmData() {
       const filmRoute = this.$route.params.route
@@ -161,6 +166,7 @@ export default {
       this.isFilm = Boolean(+this.film.type_id === 1)
       this.isVideo = Boolean(+this.film.type_id === 3)
       const voteData = JSON.parse(localStorage.getItem(this.film.id) || '[]')
+      this.voted = +voteData.vote
       this.isVoteDisabled = Boolean(voteData.id === this.film.id)
     }
   },
@@ -198,30 +204,34 @@ export default {
 </script>
 
 <style>
-.liName {
+.inline-li {
   list-style-type: none;
   display: inline;
   margin-top: 10px;
   margin-bottom: 10px;
 }
-.liName:not(:last-of-type)::after {
+.inline-li:not(:last-of-type)::after {
   content: ", ";
 }
 
 .inline-ul {
   display: inline;
+  line-height: 150%;
 }
 .inline-ul::before {
   content: " ";
 }
 
-.line {
-  width: 100%;
-  height: 3px;
-  color: #eb5804;
-  background: linear-gradient(90deg, #eb5804 0%, rgba(0, 0, 0, 0) 90%);
-  margin-bottom: 35px;
-  border: none;
+.underlined {
+    border-bottom: 4px solid transparent;
+    border-image: linear-gradient(to right, #eb5804 0%, black 90%);
+    border-image-slice: 1;
+    padding-bottom: 6pt;
+    margin-bottom: 6pt;
+}
+
+.position {
+  position: relative;
 }
 
 .listButton {
@@ -232,13 +242,14 @@ export default {
 
 .film-data {
   margin: 15px 0;
-  position: relative;
 }
 
-.film-data h1 {
-  max-width: 60%;
+.film-page h1 {
+  max-width: 80%;
   font-size: 25pt;
-  padding-bottom: 6pt;
+}
+.film-page h2 {
+  font-size: 25pt;
 }
 .film-data .parameter {
   font-size: 15pt;
@@ -310,6 +321,7 @@ export default {
 .routerLink {
   text-decoration: none;
   color: white;
+  white-space: nowrap;
 }
 .routerLink:hover {
   color: #eb5804;
@@ -346,5 +358,53 @@ export default {
 .backbtn:hover {
   color: black;
   background-color: #eb5804;
+}
+
+.film-page-vote {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.vote-text {
+  font-size: 15pt;
+  padding-right: 30px;
+}
+
+.vote-btn {
+  width: 50px;
+  height: 50px;
+  margin: 0 10px;
+  border: 1px solid #eb5804;
+}
+.vote-btn:hover:not(:disabled) {
+  background-color: #eb5804;
+  color: black;
+}
+.vote-btn:disabled {
+  opacity: .5;
+}
+
+.vote-dis-btn {
+  background-color: orangered;
+  color: black;
+}
+
+.actors-paragraph {
+  display: flex;
+  align-items: flex-start;
+}
+
+.param-paragraph {
+  white-space: nowrap;
+  padding-right: 10px;
+}
+
+.actors-list {
+  margin-top: 5px;
+}
+
+.directors-list {
+  margin-top: 2px;
 }
 </style>

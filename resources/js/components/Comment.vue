@@ -1,7 +1,5 @@
 <template>
-  <div class="c">
-    <h1>Отзывы</h1>
-    <hr class="line"/>
+  <div>
     <div class="comment-box">
       <div class="h-block rel-block">
           <v-text-field

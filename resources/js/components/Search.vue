@@ -10,7 +10,6 @@
         regular
         dense
         single-line
-        clearable
       />
     </transition>
     <v-btn icon @click="onSearchClick">
@@ -32,6 +31,7 @@ export default {
     onSearchClick() {
       this.show = ! this.show
       if (this.show) this.updateData()
+      this.search = ''
     },
     searchFilm() {
       console.log('search for ' + this.search)

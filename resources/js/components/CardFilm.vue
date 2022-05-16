@@ -1,7 +1,7 @@
 <template>
   <figure class="card">
     <router-link
-      class="routerLink"
+      class="router-link-card"
       :to="{ name: 'filmPage', params: { route: film.route } }"
     >
       <div class="poster">
@@ -79,5 +79,9 @@ export default {
   font-size: 20px;
   border-radius: 10px 0 10px 0;
   opacity: 0.7;
+}
+.router-link-card{
+  text-decoration: none;
+  color: white;
 }
 </style>
