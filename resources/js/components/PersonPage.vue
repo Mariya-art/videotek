@@ -9,13 +9,10 @@
         <div class="person-data">
           <h1>{{ personData.name }}</h1>
           <hr class="line" />
-          <div v-if="personData.description">
+          <div v-if="personData.description" class="biography">
             {{personData.description}}
-            </div>
-            <div v-if="personData.birthplace">
-            <em class="parameter">Страна:</em> {{ personData.birthplace }}
           </div>
-          <div v-if="(personData.slug == 1)">
+          <div v-if="(personData.slug === 1)">
             <em class="parameter">Должность:</em> Режиссёр
           </div>
           <div v-if="(personData.slug === 2)">
@@ -23,10 +20,13 @@
           </div>
 
           <div v-if="personData.birthday">
-            <em class="parameter">Год рождения:</em> {{ personData.birthday }}
+            <em class="parameter">Дата рождения:</em> {{ birthdayString }}
           </div>
-          <div v-if="personData.height">
-            <em class="parameter">Рост:</em> {{ personData.height }}
+          <div v-if="personData.birthplace">
+            <em class="parameter">Место рождения:</em> {{ personData.birthplace }}
+          </div>
+          <div v-if="personData.height" class="last-parameter">
+            <em class="parameter">Рост:</em> {{ personData.height }} см
           </div>
           <hr class="line" />
         </div>
@@ -38,62 +38,81 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'PersonPage',
   data () {
     return {
-      personData: {}
+      personData: null,
+      birthdayString: ''
     };
   },
   methods: {
     getImgUrl(img) {
       return require("../assets/" + img).default;
     },
-    search(filmArray, personRoute) {
-      let person = null
-      filmArray.forEach(film => {
-          const candidate = film.actors.find(
-           (actor) => actor.route === personRoute
-          )
-          if (candidate) person = candidate
-        }
-      )
-      if (!person) filmArray.forEach(film => {
-          const candidate = film.directors.find(
-           (director) => director.route === personRoute
-          )
-          if (candidate) person = candidate
-        }
-      )
-      return person
-    }
-  },
-  computed: {
-    ...mapGetters([
-      "getNewItems",
-      "getRatingItems",
-      "getFilms"
-      ]),
-    newItems() {
-      return this.getNewItems;
+    searchPersonData() {
+      const personRoute = this.$route.params.route
+      const persona = JSON.parse(window.sessionStorage.getItem('persona'))
+      if (persona) {
+        this.personData = persona.find( item => item.route === personRoute )
+      }
     },
-    ratingItems() {
-      return this.getRatingItems;
+    flatenPersona(videoDataArray) {
+      const persona = []
+      videoDataArray.forEach(video => {
+          video.directors.forEach(director => persona.push(director))
+          video.actors.forEach(actor => persona.push(actor))
+      })
+      return persona
     },
-    allFilms() {
-      return this.getFilms
+    addPersonaToStorage(persona) {
+      window.sessionStorage.setItem('persona',
+        JSON.stringify([
+          ...JSON.parse(window.sessionStorage.getItem('persona')),
+          ...persona
+        ])
+      )
+    },
+    refreshFilmsAndPersona() {
+      axios
+        .get('/api/main') // Здесь должен быть запрос именно на всё, либо на конкретный фильм
+        .then((result) => {
+          const video = result.data.data
+          window.sessionStorage.setItem('video', JSON.stringify(video))
+          window.sessionStorage.setItem('persona', JSON.stringify([]))
+          this.addPersonaToStorage(this.flatenPersona(video))
+          window.location.reload()
+        })
+    },
+    refreshPersons() {
+      axios
+        .get('/api/main') // Здесь должен быть запрос именно на всё, либо на конкретный фильм
+        .then((result) => {
+          window.sessionStorage.setItem('video', JSON.stringify(result.data.data))
+          window.location.reload()
+        })
     }
   },
   created () {
-    const personRoute = this.$route.params.route
-    let personData = this.search(this.allFilms, personRoute)
-    if (!personData) personData = this.search(this.getNewItems, personRoute)
-    if (!personData) personData = this.search(this.getRatingItems, personRoute)
-    if (personData) {
-      this.personData = personData;
-      document.title = 'VIDEOTEK - ' + personData.name;
+    this.searchPersonData()
+    if (! this.personData) {
+      this.refreshFilmsAndPersona()
+      this.searchPersonData()
+    }
+    if (this.personData) {
+      window.sessionStorage.setItem('personData', JSON.stringify(this.personData))
+      document.title = 'VIDEOTEK - ' + this.personData.name
+      const birthdate = new Date(this.personData.birthday)
+      this.birthdayString = new Intl
+          .DateTimeFormat('ru', { dateStyle: 'long' })
+          .format(birthdate)
+    } else {
+      const personCandidate = JSON.parse(window.sessionStorage.getItem('personData'))
+      if (this.$route.params.route === personCandidate.route) {
+        this.filmData = personCandidate
+      } else {
+        this.$router.push('/404')
+      }
     }
   }
 }
@@ -143,6 +162,10 @@ export default {
   font-size: 15pt;
   font-style: normal;
   font-weight: bold;
+  line-height: 150%;
+}
+.last-parameter {
+  margin-bottom: 10px;
 }
 .person-data p {
   font-size: 12pt;
@@ -170,19 +193,6 @@ export default {
   display: flex;
   flex-direction: column;
   width: 250px;
-
-}
-
-.btn {
-  border: 1px solid #eb5804;
-  padding: 5px 30px;
-  margin: 20px 30px;
-  color: #eb5804;
-}
-.btn:hover {
-  border: none;
-  background: #eb5804;
-  color: black;
 }
 
 .person-page-content {
@@ -236,5 +246,10 @@ export default {
   right: 10px;
   top: 10px;
   font-size: 18pt;
+}
+
+.biography {
+  margin-bottom: 20px;
+  text-align: justify;
 }
 </style>

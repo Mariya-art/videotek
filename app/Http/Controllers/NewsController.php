@@ -13,8 +13,8 @@ class NewsController extends Controller
         return NewsResource::collection(News::latest()->get());
     }
 
-    public function show(int $id)
+    public function show(News $news)
     {
-        return new NewsResource(News::findOrFail($id));
+        return new NewsResource(News::findOrFail($news->id));
     }
 }

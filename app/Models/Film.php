@@ -20,11 +20,6 @@ class Film extends Model
         return $this->belongsTo(Type::class);
     }
 
-    public function feedbacks()
-    {
-    return $this->hasMany(Feedbacks::class);
-    }
-
     /**
     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
     */
@@ -52,6 +47,16 @@ class Film extends Model
     public function seasons()
     {
         return $this->hasMany(Season::class);
+    }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 
     public function sluggable(): array

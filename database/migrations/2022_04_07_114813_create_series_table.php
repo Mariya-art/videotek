@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Season;
 
 return new class extends Migration
 {
@@ -16,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('series', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Season::class)->constrained()->onDelete('cascade');
+            $table->foreignId('season_id')->constrained('seasons')->onDelete('cascade');
             $table->unsignedTinyInteger('number');
             $table->string('title', 255)->nullable();
             $table->text('description')->nullable();

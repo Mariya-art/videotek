@@ -4,10 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FeedbackResources extends JsonResource
+class RatingResource extends JsonResource
 {
-
-  /**
+    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -16,9 +15,8 @@ class FeedbackResources extends JsonResource
     public function toArray($request)
     {
         return [
-//          'id' => $this->id,
-          'rating' => $this->rating,
           'film_id' => $this->film_id,
+          'rating' => $this->rating,
         ];
     }
 }

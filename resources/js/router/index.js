@@ -5,8 +5,9 @@ import MainPage from '../components/MainPage.vue'
 import FilmPage from '../components/FilmPage.vue'
 import PersonPage from '../components/PersonPage.vue'
 import Films from '../components/Films.vue'
-import Serials from '../components/Serials.vue'
 import Media from '../components/Media.vue'
+import NewsArticlesPage from '../components/NewsArticlesPage.vue'
+import Page404 from '../components/Page404.vue'
 
 Vue.use(VueRouter)
 
@@ -39,12 +40,7 @@ const routes = [
   {
     path: '/serials',
     name: 'Serials',
-    component: Serials
-  },
-  {
-    path: '/serials/:route',
-    name: 'SerialPage',
-    component: FilmPage
+    component: Films,
   },
   {
     path: '/person/:route',
@@ -55,13 +51,26 @@ const routes = [
     path: '/media',
     name: 'Media',
     component: Media
+  },
+  {
+    path: '/media/:route',
+    name: 'NewsArticlesPage',
+    component: NewsArticlesPage
+  },
+  {
+    path: '*',
+    name: '404',
+    component: Page404
   }
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })
 
 export default router

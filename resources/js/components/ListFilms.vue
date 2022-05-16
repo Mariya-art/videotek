@@ -80,4 +80,11 @@ export default {
 .slider-style {
   background-color: black;
 }
+
+.slider-style .card:first-of-type {
+  margin-left: 10px
+}
+.slider-style .card:last-of-type {
+  margin-right: 30px
+}
 </style>

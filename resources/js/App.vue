@@ -7,7 +7,7 @@
         dark
         absolute
         temporary
-        height="39%"
+        height="100%"
         v-model="drawer"
       >
         <div class="listLink">
@@ -97,20 +97,15 @@
 </template>
 
 <script>
-import logo from "./assets/videotek.jpg";
-import filmicon from "./assets/filmicon.png";
-import serials from "./assets/serials.png";
-import zvezda from "./assets/zvezda.png";
-import media from "./assets/media.png";
-import newfilm from "./assets/newfilm.png";
-import { mapActions } from "vuex";
+import logo from "./assets/videotek.jpg"
+import filmicon from "./assets/filmicon.png"
+import serials from "./assets/serials.png"
+import zvezda from "./assets/zvezda.png"
+import media from "./assets/media.png"
+import newfilm from "./assets/newfilm.png"
 
 export default {
   name: "App",
-  beforeCreate() {
-    document.body.className = "app";
-  },
-
   data: () => ({
     drawer: false,
     group: null,
@@ -122,14 +117,9 @@ export default {
     newfilm,
     icons: ["mdi-odnoklassniki", "mdi-github", "mdi-trello", "mdi-discord"],
   }),
-  methods: {
-    ...mapActions(["fetchNewItems", "fetchRatingItems", "fetchFilms"]),
-  },
-  created() {
-    this.fetchNewItems();
-    this.fetchRatingItems();
-    this.fetchFilms();
-  },
+  beforeCreate() {
+    document.body.className = "app"
+  }
 };
 </script>
 

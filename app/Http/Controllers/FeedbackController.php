@@ -1,13 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\FeedbacksRequest;
-use App\Http\Resources\FeedbackResources;
+use App\Http\Requests\FeedbackStoreRequest;
+use App\Http\Requests\FeedbackUpdateRequest;
+use App\Http\Resources\FeedbackResource;
 use App\Http\Resources\FilmResource;
-use App\Models\Feedbacks;
+use App\Models\Feedback;
 use App\Models\Film;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 class FeedbackController extends Controller
@@ -15,12 +17,20 @@ class FeedbackController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Feedback $feedback)
     {
+        /*return response()->json([
+            'feedbacks' => FeedbackResource::collection(Feedback::latest()->get()),
+        ], 200);*/
+        return FeedbackResource::collection(Feedback::latest()->get());
+    }
 
-        return FeedbackResources::collection(Feedbacks::all());
+    public function getFilmFeedbacks($film_id)
+    {
+        return FeedbackResource::collection(Film::findOrFail($film_id)->feedbacks()->orderBy('created_at', 'desc')
+        ->get());
     }
 
     /**
@@ -29,33 +39,21 @@ class FeedbackController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(FeedbacksRequest $request)
+    public function store(FeedbackStoreRequest $request)
     {
-        $validated = $request->validated();
-        $name = Feedbacks::create($validated);
-
-        return new FeedbackResources($name);
+        $feedback = Feedback::create($request->validated());
+        return new FeedbackResource($feedback);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return FeedbackResources
+     * @return \Illuminate\Http\Response
      */
-    public function show(Film $film, Feedbacks $feedbacks)
+    public function show(Feedback $feedback)
     {
-
-//      return new FeedbackResources(Feedbacks::with('films')->findOrFail($id));
-
-      return new FeedbackResources(Feedbacks::with('films')->find($film));
-
-
-//      SELECT AVG(rating) FROM feedbacks WHERE film_id = 1;
-
-//      $price = DB::table('orders')
-//        ->where('finalized', 1)
-//        ->avg('price')
+        return new FeedbackResource(Feedback::with('film')->findOrFail($feedback->id));
     }
 
     /**
@@ -65,9 +63,11 @@ class FeedbackController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(FeedbackUpdateRequest $request, Feedback $feedback)
     {
-        //
+      $feedback->update($request->validated());
+      return new FeedbackResource($feedback);
+
     }
 
     /**
@@ -76,8 +76,9 @@ class FeedbackController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Feedback $feedback)
     {
-        //
+        $feedback->delete();
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class FeedbacksSeeder extends Seeder
+class RatingSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,17 +18,16 @@ class FeedbacksSeeder extends Seeder
      */
     public function run()
     {
-      DB::table('feedbacks')->insert($this->getData());
+      DB::table('ratings')->insert($this->getData());
 
     }
 
     private function getData(){
-//$film_id = FilmResource::collection([4]);
       $faker = Factory::create('ru_RU');
       $arr = [];
-      for ($i=0; $i<50; $i++) {
+      for ($i=0; $i<250; $i++) {
         $arr[] = [
-          'film_id' => $faker->numberBetween(1, 9),
+          'film_id' => $faker->numberBetween(1, 26),
           'rating' => $faker->numberBetween(1, 10),
         ];
       }

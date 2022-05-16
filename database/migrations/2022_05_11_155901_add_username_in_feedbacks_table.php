@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('films_actors', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('film_id')->constrained('films')->onDelete('cascade');
-            $table->foreignId('actor_id')->constrained('actors')->onDelete('cascade');
-            $table->string('role', 255)->nullable();
+        Schema::table('feedbacks', function (Blueprint $table) {
+            $table->string('username', 255)->after('id');
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('films_actors');
+        Schema::table('feedbacks', function (Blueprint $table) {
+            $table->dropColumn('username');
+        });
     }
 };

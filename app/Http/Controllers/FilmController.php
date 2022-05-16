@@ -17,24 +17,29 @@ class FilmController extends Controller
         $films = Film::query()->select(Film::$availableFields)
                             ->latest()
                             ->paginate(6);
-
+        
         return view('index', [
             'types' => $types,
             'films' => $films,
         ]);
     }*/
 
-
-  public function getRatingItems() {
+    public function getItems() {
         return FilmResource::collection(Film::with([
             'categories', 'actors', 'directors', 'seasons', 'seasons.series'
-        ])->orderBy('rating', 'desc')->get());
+        ])->orderBy('year', 'desc')->get());
+    }
+
+    public function getRatingItems() {
+        return FilmResource::collection(Film::with([
+            'categories', 'actors', 'directors', 'seasons', 'seasons.series'
+        ])->orderBy('rating', 'desc')->limit(8)->get());
     }
 
     public function getNewItems() {
         return FilmResource::collection(Film::with([
             'categories', 'actors', 'directors', 'seasons', 'seasons.series'
-        ])->orderBy('year', 'desc')->get());
+        ])->orderBy('year', 'desc')->limit(8)->get());
     }
 
     public function getNewFilms() {
@@ -42,7 +47,14 @@ class FilmController extends Controller
             'categories', 'actors', 'directors', 'seasons', 'seasons.series'
         ])->where('type_id', 1)->orderBy('year', 'desc')->get());
     }
-
+    /*
+    public function getFilmsPageCount() {
+        $films = FilmResource::collection(Film::with([
+            'categories', 'actors', 'directors', 'seasons', 'seasons.series'
+        ])->where('type_id', 1)->orderBy('year', 'desc')->paginate(3));
+        return $films->lastPage();
+    }
+    */
     public function getNewSerials() {
         return FilmResource::collection(Film::with([
             'categories', 'actors', 'directors', 'seasons', 'seasons.series'
@@ -76,6 +88,10 @@ class FilmController extends Controller
         return FilmResource::collection($category->films->where('type_id', 3));
     }
 
+    public function getItem(Film $film)
+    {
+        return new FilmResource($film);
+    }
     /*
     public function getFilm($slug) {
         return Film::where('slug', $slug)->first();

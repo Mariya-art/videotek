@@ -1,11 +1,11 @@
-<template>
-  <div class="container-list">
-    <h1 @click="show = !show">Жанры</h1>
+ <template>
+ <div class="container-list">
+    <h1 @click="show = !show">Жанр<span v-if="genre">: {{genre.toLowerCase()}}</span><span v-else>ы</span></h1>
     <hr class="line" />
     <div class="filter" v-show="show">
       <button
         class="btn"
-        @click="handlerValue(item)"
+        @click="onGenreClick(item)"
         v-for="(item, index) in genres"
         :key="index"
         v-bind:value="item"
@@ -15,7 +15,7 @@
     </div>
     <div class="films-list">
       <CardFilm
-        v-for="film in genreFilms ? genreFilms : filmsList"
+        v-for="film in genreFilms ? genreFilms : allFilms"
         :key="film.id"
         :film="film"
         :img="film.img"
@@ -29,40 +29,81 @@
 </template>
 
 <script>
-import axios from "axios";
-import CardFilm from "./CardFilm.vue";
-import { mapGetters, mapActions } from "vuex";
+import axios from "axios"
+import CardFilm from "./CardFilm.vue"
 
 export default {
   name: "Films",
-  data() {
-    return {
+  data: () => ({
+      allFilms: null,
+      genres: null,
       genreFilms: null,
       show: false,
-    };
-  },
+      filmsOrSerials: '',
+      genre: ''
+  }),
   components: { CardFilm },
   methods: {
-    ...mapActions(["fetchFilms", "fetchGenres"]),
-    handlerValue(item) {
-      axios.get("/api/films/" + item.id).then((result) => {
-        this.genreFilms = result.data.data;
-      });
+    onGenreClick(item) {
+      if (item.id === 0) {
+        this.genreFilms = null
+        this.genre = ''
+      } else {
+        this.genreFilms = this.allFilms.filter(
+          film => film.genres.map(genre => genre.id === item.id).reduce((a, b) => a || b)
+        )
+        this.genre = item.title
+      }
     },
-  },
-  computed: {
-    ...mapGetters(["getFilms", "getGenres"]),
-    filmsList() {
-      return this.getFilms;
+    updateAllFilms(result) {
+      this.allFilms = result.data.data
+      window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))
     },
-    genres() {
-      return this.getGenres;
+    updateGenres(result) {
+      this.genres = result.data.data
+      this.genres.push({
+        id: 0,
+        title: 'Все',
+        route: ''
+      })
+      window.sessionStorage.setItem('genres', JSON.stringify(this.genres))
     },
+    refreshData() {
+      if (this.filmsOrSerials === 'Films') {
+        axios
+          .get("/api/films")
+          .then((result) => { this.updateAllFilms(result) })
+        axios
+          .get('/api/filmsGenres')
+          .then((result) => { this.updateGenres(result) })
+      } else if (this.filmsOrSerials === 'Serials') {
+        axios
+          .get("/api/serials")
+          .then((result) => { this.updateAllFilms(result) })
+        axios
+          .get('/api/serialsGenres')
+          .then((result) => { this.updateGenres(result) })
+      }
+    }
   },
-  created() {
-    this.fetchFilms();
-    this.fetchGenres();
+  watch: {
+    $route (to, from) {
+      this.filmsOrSerials = this.$route.name
+      window.sessionStorage.setItem('filmsOrSerials', JSON.stringify(this.filmsOrSerials))
+      this.refreshData()
+      this.genre = ''
+      this.genreFilms = null
+    }
   },
+  created () {
+    if (this.$route.name) {
+      this.filmsOrSerials = this.$route.name
+    } else {
+      this.filmsOrSerials = JSON.parse(window.sessionStorage.getItem('filmsOrSerials'))
+    }
+    window.sessionStorage.setItem('filmsOrSerials', JSON.stringify(this.filmsOrSerials))
+    this.refreshData()
+   },
 };
 </script>
 
@@ -85,13 +126,13 @@ export default {
   grid-row-gap: 10px;
 }
 .btn {
-  border: 1px solid #eb5804;
-  padding: 5px 30px;
-  margin: 20px 30px;
+  margin: 3px 10px;
+  padding: 0;
+  border: 1px solid #2c1101;
+  border-radius: 10px 0 10px 0;
   color: #eb5804;
   transition: all 0.3s ease-in;
 }
-
 .btn:hover {
   background: #eb5804;
   color: black;
@@ -99,6 +140,7 @@ export default {
 .filter {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  column-gap: 40px;
 }
 .btn-bottom {
   margin: 0 auto;

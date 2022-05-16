@@ -1,72 +1,100 @@
 <template>
-    <div class="container-media">
+  <div class="container-media">
     <v-tabs
       dark
-      grow>
+      grow
+      v-model = "tab"
+    >
       <v-tabs-slider></v-tabs-slider>
-   <v-tab><p class="text-tab">Новости</p></v-tab>
-    <v-tab><p class="text-tab">Статьи</p></v-tab>
-   <v-tab><p class="text-tab">Видео</p></v-tab>
-<v-tab-item class="tab-item">
-<div class="list-cardNews">
-<NewsCard
-v-for='item in news'
-:key='item.id'
-:img='item.img'
-:item=item
- />
-</div>
-</v-tab-item>
-<v-tab-item class="tab-item">
-<div class="list-articles">
-    <ArticlesCard
-    v-for="item in articles"
-    :key="item.id"
-    :img="item.img"
-    :item="item"
-    />
-</div>
-</v-tab-item>
-<v-tab-item class="tab-item">
-    <div class="list-video">
-<Player v-for = "item in films" :key= "item.id" :src="item.trailer"/>
+      <v-tab><p class="text-tab">Новости</p></v-tab>
+      <v-tab><p class="text-tab">Статьи</p></v-tab>
+      <v-tab><p class="text-tab">Видео</p></v-tab>
+      <v-tab-item class="tab-item">
+        <div class="list-cardNews">
+          <NewsCard
+            v-for="item in news"
+            :key="item.id"
+            :img="item.img"
+            :item="item"
+          />
+        </div>
+      </v-tab-item>
+      <v-tab-item class="tab-item">
+        <div class="list-articles">
+          <ArticlesCard
+            v-for="item in articles"
+            :key="item.id"
+            :img="item.img"
+            :item="item"
+          />
+        </div>
+      </v-tab-item>
+      <v-tab-item class="tab-item">
+        <div class="list-video">
+          <FilmCardMedia v-for="film in filmsOfType"
+            :key="film.id"
+            :film="film"
+            :img="film.img"
+          />
+        </div>
+      </v-tab-item>
+    </v-tabs>
+    <div class="line-media">
+      <hr class="line" />
     </div>
-</v-tab-item>
-        </v-tabs>
-<div class="line-media">
-<hr class="line" />
-</div>
     <div class="btn-bottom-media">
-        <button class="btn">Показать ещё</button>
+      <button class="btn">Показать ещё</button>
     </div>
-    </div>
+  </div>
 </template>
+
 <script>
-import { mapGetters, mapActions } from 'vuex'
 import NewsCard from '../components/NewsCard.vue'
 import ArticlesCard from '../components/ArticlesCard.vue'
-import Player from '../components/Player.vue'
+import FilmCardMedia from '../components/FilmCardMedia.vue'
+
 export default {
   name: 'Media',
-  components: { NewsCard, ArticlesCard,Player },
-  methods: {
-    ...mapActions(['fetchNews', 'fetchArticles'])
+  components: {
+    NewsCard,
+    ArticlesCard,
+    FilmCardMedia
   },
-  computed: {
-    ...mapGetters(['getNews', 'getArticles','getFilms']),
-    news () {
-      return this.getNews
-    },
-    articles () {
-      return this.getArticles
-    },
-    films () {
-        return this.getFilms
-    }
+  data: () => ({
+    filmsOfType: [],
+    news: [],
+    articles: [],
+    tab: 0,
+    tabActive: 0
+  }),
+  methods: {
+      setNewsOrArticles(payload) {
+        window.sessionStorage.setItem('newsOrArticles', JSON.stringify(payload))
+      },
+      getNewsOrArticles() {
+        return JSON.parse(window.sessionStorage.getItem('newsOrArticles'))
+      }
   },
   created () {
-    this.fetchNews()
-    this.fetchArticles()
+    this.tab = +window.sessionStorage.getItem('MediaActiveTab')
+    axios
+      .get('api/news')
+      .then(result => {
+        this.news = result.data.data
+        window.sessionStorage.setItem('news', JSON.stringify(this.news))
+      })
+    axios
+      .get('api/articles')
+      .then(result => {
+        this.articles = result.data.data
+        window.sessionStorage.setItem('articles', JSON.stringify(this.articles))
+      })
+    const video = JSON.parse(window.sessionStorage.getItem('newVideo'))
+    this.filmsOfType = video.filter( film => film.type_id === 3 )
+
+  },
+  beforeDestroy() {
+    window.sessionStorage.setItem('MediaActiveTab', this.tab)
   }
 }
 </script>
@@ -97,6 +125,17 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.btn{
+    border: 1px solid #eb5804;
+    padding: 5px 30px;
+    margin: 20px 30px;
+    color: #eb5804;
+    transition: all 0.3s ease-in;
+}
+.btn:hover{
+    background: #eb5804;
+    color: black
 }
 .text-tab{
     font-size: 13pt;
@@ -132,7 +171,7 @@ export default {
     display: grid;
     grid-template-columns: repeat(2,1fr);
     grid-auto-flow: dense;
-    grid-gap:30px;
+    grid-gap:10px;
 }
 .line-media{
     margin: 0 auto;

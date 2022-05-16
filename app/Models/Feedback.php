@@ -5,27 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class News extends Model
+class Feedback extends Model
 {
     use HasFactory;
 
-    protected $table = 'news';
+    protected $table = 'feedbacks';
 
     protected $guarded = [ // зеркальный вариант $fillable (все, кроме id)
         'id'
     ];
 
-    public function getRouteKeyName()
+    public function film()
     {
-        return 'slug';
-    }
-
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'name'
-            ]
-        ];
+        return $this->belongsTo(Film::class);
     }
 }
