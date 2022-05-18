@@ -117,11 +117,21 @@ export default {
       voted: null
   }),
   methods: {
-    vote (item) {
-      const data = { vote: item, id: this.film.id }
+    async vote (item) {
+      const data = { rating: item, film_id: this.filmData.id }
       this.voted = +item
-      localStorage.setItem(this.film.id, JSON.stringify(data))
+      localStorage.setItem(this.filmData.id, JSON.stringify(data))
       this.isVoteDisabled = true
+      await axios
+        .post('/api/ratings', data)
+        .then(response => {
+          axios
+            .get('/api/filmRating/' + this.filmData.id)
+            .then((result) => {
+              this.filmData.score = result.data.data.score
+              window.sessionStorage.setItem('filmData', JSON.stringify(this.filmData))
+            })
+        })
     },
     getVBclass(item) {
       if (this.voted === +item) return 'vote-btn vote-dis-btn'
