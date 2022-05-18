@@ -42,9 +42,6 @@
     <div class="line-media">
       <hr class="line" />
     </div>
-    <div class="btn-bottom-media">
-      <button class="btn">Показать ещё</button>
-    </div>
   </div>
 </template>
 
@@ -123,22 +120,6 @@ export default {
 }
 .list-cardNews div:last-child{
  grid-column: span 2;
-}
-.btn-bottom-media{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.btn{
-    border: 1px solid #eb5804;
-    padding: 5px 30px;
-    margin: 20px 30px;
-    color: #eb5804;
-    transition: all 0.3s ease-in;
-}
-.btn:hover{
-    background: #eb5804;
-    color: black
 }
 .text-tab{
     font-size: 13pt;
