@@ -71,21 +71,21 @@ class FilmController extends Controller
         $category = new CategoryResource(Category::with([
             'films.categories', 'films.actors', 'films.directors', 'films.seasons', 'films.seasons.series'
         ])->findOrFail($id));
-        return FilmResource::collection($category->films->where('type_id', 1));
+        return FilmResource::collection($category->films()->where('type_id', 1)->paginate(2));
     }
 
     public function getCategorySerials($id) {
         $category = new CategoryResource(Category::with([
             'films.categories', 'films.actors', 'films.directors', 'films.seasons', 'films.seasons.series'
         ])->findOrFail($id));
-        return FilmResource::collection($category->films->where('type_id', 2));
+        return FilmResource::collection($category->films()->where('type_id', 2)->paginate(2));
     }
 
     public function getCategoryVideos($id) {
         $category = new CategoryResource(Category::with([
             'films.categories', 'films.actors', 'films.directors', 'films.seasons', 'films.seasons.series'
         ])->findOrFail($id));
-        return FilmResource::collection($category->films->where('type_id', 3));
+        return FilmResource::collection($category->films()->where('type_id', 3)->paginate(2));
     }
 
     public function getItem(Film $film)

@@ -20,7 +20,7 @@
               >
                   <div v-for="item in getSeries" :key="item.number">
                     <div class="player-card">
-                       <Player :src="item.link" width="215" height="96" :key="item.number + activeSeason"/>
+                        <Player :src="item.link" width="215" height="96" :key="item.number + activeSeason"/>
                         Серия {{ item.number }}: {{item.title}}
                     </div>
                   </div>
