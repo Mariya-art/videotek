@@ -119,9 +119,7 @@ export default {
   methods: {
     pushVote(voteStruct) {
       let votedArray = JSON.parse(window.localStorage.getItem('votedfor'))
-      console.log('votedArray: ', votedArray)
       if (!votedArray) votedArray = []
-      votedArray.push(voteStruct)
       localStorage.setItem('votedfor', JSON.stringify(votedArray))
     },
     vote (item) {
@@ -135,7 +133,8 @@ export default {
           axios
             .get('/api/filmRating/' + this.filmData.id)
             .then((result) => {
-              this.filmData.score = result.data.data.score.toPrecision(2)
+              this.filmData = {...this.filmData, score: (+result.data.data.score).toPrecision(2) }
+              console.log(this.filmData)
               window.sessionStorage.setItem('filmData', JSON.stringify(this.filmData))
             })
         })
@@ -178,14 +177,11 @@ export default {
     },
     restoreVoteStuct() {
       const voteData = JSON.parse(localStorage.getItem('votedfor'))
-      console.log('voteData: ', voteData)
       if (voteData) {
         const thisVote = voteData.find(elem => elem.film_id === this.film.id)
-        console.log('thisVote: ', thisVote)
         if (thisVote) {
           this.voted = +thisVote.rating
           this.isVoteDisabled = true
-          console.log('Already voted')
         }
       }
     },
@@ -196,7 +192,6 @@ export default {
       this.isFilm = Boolean(+this.film.type_id === 1)
       this.isVideo = Boolean(+this.film.type_id === 3)
       this.restoreVoteStuct()
-      console.log(this.isVoteDisabled)
     }
   },
   computed: {
