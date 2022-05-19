@@ -1,7 +1,9 @@
 <template>
   <div class="container-list">
-    <h1 @click="show = !show">Жанр<span v-if="genre">: {{ genre.toLowerCase() }}</span><span v-else>ы</span></h1>
-    <hr class="line"/>
+    <h1 v-if="this.filmsOrSerials === 'Films'">Фильмы от VIDEOTEK</h1>
+     <h1 v-else>Сериалы от VIDEOTEK</h1>
+      <hr class="line"/>
+    <button @click="show = !show" class="btn-genre">{{ this.genre }}<span class="flag">▾</span></button>
     <div class="filter" v-show="show">
       <button
         class="btn"
@@ -47,17 +49,17 @@ export default {
     genreFilms: null,
     show: false,
     filmsOrSerials: '',
-    genre: '',
+    genre: 'Жанры',
     page: 1,
     paginationLength: 1,
-    showPagination: false
+    showPagination: false,
   }),
   components: {CardFilm},
   methods: {
     onGenreClick(item) {
       if (item.id === 0) {
         this.genreFilms = null
-        this.genre = ''
+        this.genre = 'Жанры'
       } else {
         this.genreFilms = this.allFilms.filter(
           film => film.genres.map(genre => genre.id === item.id).reduce((a, b) => a || b)
@@ -110,7 +112,8 @@ export default {
       this.filmsOrSerials = this.$route.name
       window.sessionStorage.setItem('filmsOrSerials', JSON.stringify(this.filmsOrSerials))
       this.refreshData()
-      this.genre = ''
+      this.genre = 'Жанры'
+      this.show = false
       this.genreFilms = null
     },
     page: function() {
@@ -144,18 +147,16 @@ export default {
   flex-direction: column;
 }
 
-.container-list h1:hover {
-  color: #eb5804;
-  cursor: pointer;
-}
-
 .films-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 5%;
   grid-row-gap: 10px;
 }
-
+.container-list h1 {
+  font-size: 24pt;
+  padding-bottom: 5px;
+}
 .btn {
   margin: 3px 10px;
   padding: 0;
@@ -169,7 +170,18 @@ export default {
   background: #eb5804;
   color: black;
 }
-
+.btn-genre{
+  border: 1px solid #eb5804;
+  padding: 2px 4px;
+  width: 15%;
+  margin-bottom: 10px;
+  color: #eb5804;
+  transition: all 0.3s ease-in;
+}
+.btn-genre:hover {
+  background: #eb5804;
+  color: black;
+}
 .filter {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -178,5 +190,8 @@ export default {
 
 .btn-bottom {
   margin: 0 auto;
+}
+.flag{
+  margin-left:10px;
 }
 </style>
