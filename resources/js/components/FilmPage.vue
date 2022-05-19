@@ -117,12 +117,19 @@ export default {
       voted: null
   }),
   methods: {
-    async vote (item) {
+    pushVote(voteStruct) {
+      let votedArray = JSON.parse(window.localStorage.getItem('votedfor'))
+      console.log('votedArray: ', votedArray)
+      if (!votedArray) votedArray = []
+      votedArray.push(voteStruct)
+      localStorage.setItem('votedfor', JSON.stringify(votedArray))
+    },
+    vote (item) {
       const data = { rating: item, film_id: this.filmData.id }
       this.voted = +item
-      localStorage.setItem(this.filmData.id, JSON.stringify(data))
+      this.pushVote(data)
       this.isVoteDisabled = true
-      await axios
+      axios
         .post('/api/ratings', data)
         .then(response => {
           axios
@@ -207,15 +214,24 @@ export default {
     getImgUrl(img) {
       return require("../assets/" + img).default;
     },
+    restoreVoteStruct() {
+      const voteData = JSON.parse(localStorage.getItem('votedfor'))
+      if (voteData) {
+        const thisVote = voteData.find(elem => elem.film_id === this.film.id)
+        if (thisVote) {
+          this.voted = +thisVote.rating
+          this.isVoteDisabled = true
+        }
+      }
+    },
     finalPrepare() {
       this.filmCategories = this.film.genres.map((item) => item.title.toLowerCase()).join(', ')
       document.title = 'VIDEOTEK - ' + this.film.title;
       this.isSerial = Boolean(+this.film.type_id === 2)
       this.isFilm = Boolean(+this.film.type_id === 1)
       this.isVideo = Boolean(+this.film.type_id === 3)
-      const voteData = JSON.parse(localStorage.getItem(this.film.id) || '[]')
-      this.voted = +voteData.vote
-      this.isVoteDisabled = Boolean(voteData.id === this.film.id)
+      this.restoreVoteStruct()
+      console.log(this.isVoteDisabled)
     }
   },
   computed: {
