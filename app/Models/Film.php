@@ -54,6 +54,11 @@ class Film extends Model
         return $this->hasMany(Feedback::class);
     }
 
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

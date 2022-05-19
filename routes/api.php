@@ -7,6 +7,7 @@ use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\FilmController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\TypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -48,14 +49,16 @@ Route::get('/articles/{article}', [ArticleController::class, 'show']); // кон
 
 Route::get('/filmsGenres', [CategoryController::class, 'getFilmsCategories']); // жанры фильмов (в которых есть хотя бы 1 фильм)
 Route::get('/serialsGenres', [CategoryController::class, 'getSerialsCategories']); // жанры сериалов (в которых есть хотя бы 1 сериал)
-Route::get('/films/{categoryId}', [FilmController::class, 'getCategoryFilms']); // фильмы определенного жанра
-Route::get('/serials/{categoryId}', [FilmController::class, 'getCategorySerials']); // сериалы определенного жанра
-Route::get('/videos/{categoryId}', [FilmController::class, 'getCategoryVideos']); // видео определенного жанра
+Route::get('/films/genres/{categoryId}', [FilmController::class, 'getCategoryFilms']); // фильмы определенного жанра
+Route::get('/serials/genres/{categoryId}', [FilmController::class, 'getCategorySerials']); // сериалы определенного жанра
+Route::get('/videos/genres/{categoryId}', [FilmController::class, 'getCategoryVideos']); // видео определенного жанра
 
 Route::get('/filmFeedbacks/{film_id}', [FeedbackController::class, 'getFilmFeedbacks']); // отзывы на фильм
+Route::get('/filmRating/{film_id}', [RatingController::class, 'getFilmRating']); // рейтинг фильма
 
 Route::apiResources([
     'feedbacks' => FeedbackController::class, // отзывы на все фильмы
+    'ratings' => RatingController::class, // все рейтинги 
 ]);
 
 //Route::get('/films/{filmId}/actors', [ActorController::class, 'getItemActors']);

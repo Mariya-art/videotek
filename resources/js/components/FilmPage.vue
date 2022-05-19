@@ -117,11 +117,27 @@ export default {
       voted: null
   }),
   methods: {
+    pushVote(voteStruct) {
+      let votedArray = JSON.parse(window.localStorage.getItem('votedfor'))
+      if (!votedArray) votedArray = []
+      localStorage.setItem('votedfor', JSON.stringify(votedArray))
+    },
     vote (item) {
-      const data = { vote: item, id: this.film.id }
+      const data = { rating: item, film_id: this.filmData.id }
       this.voted = +item
-      localStorage.setItem(this.film.id, JSON.stringify(data))
+      this.pushVote(data)
       this.isVoteDisabled = true
+      axios
+        .post('/api/ratings', data)
+        .then(response => {
+          axios
+            .get('/api/filmRating/' + this.filmData.id)
+            .then((result) => {
+              this.filmData = {...this.filmData, score: (+result.data.data.score).toPrecision(2) }
+              console.log(this.filmData)
+              window.sessionStorage.setItem('filmData', JSON.stringify(this.filmData))
+            })
+        })
     },
     getVBclass(item) {
       if (this.voted === +item) return 'vote-btn vote-dis-btn'
@@ -159,15 +175,23 @@ export default {
     getImgUrl(img) {
       return require("../assets/" + img).default;
     },
+    restoreVoteStuct() {
+      const voteData = JSON.parse(localStorage.getItem('votedfor'))
+      if (voteData) {
+        const thisVote = voteData.find(elem => elem.film_id === this.film.id)
+        if (thisVote) {
+          this.voted = +thisVote.rating
+          this.isVoteDisabled = true
+        }
+      }
+    },
     finalPrepare() {
       this.filmCategories = this.film.genres.map((item) => item.title.toLowerCase()).join(', ')
       document.title = 'VIDEOTEK - ' + this.film.title;
       this.isSerial = Boolean(+this.film.type_id === 2)
       this.isFilm = Boolean(+this.film.type_id === 1)
       this.isVideo = Boolean(+this.film.type_id === 3)
-      const voteData = JSON.parse(localStorage.getItem(this.film.id) || '[]')
-      this.voted = +voteData.vote
-      this.isVoteDisabled = Boolean(voteData.id === this.film.id)
+      this.restoreVoteStuct()
     }
   },
   computed: {
