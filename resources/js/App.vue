@@ -1,5 +1,6 @@
 <template>
   <div class="app wrapper">
+    <Registration :visibleReg="visibleReg" @regClose="closeRegistration"/>
     <div class="main-wrapper">
       <v-navigation-drawer
         app
@@ -50,6 +51,9 @@
 
           <v-spacer />
           <Search />
+          <v-btn icon @click="visibleReg = true">
+            <v-icon>mdi-account</v-icon>
+          </v-btn>
           <v-btn icon>
             <v-icon>mdi-heart</v-icon>
           </v-btn>
@@ -93,6 +97,7 @@
 </template>
 
 <script>
+import Registration from './components/Registration.vue'
 import logo from "./assets/videotek.jpg"
 import filmIcon from "./assets/filmicon.png"
 import serials from "./assets/serials.png"
@@ -103,8 +108,9 @@ import Search from "./components/Search"
 
 export default {
   name: "App",
-  components: { Search },
+  components: { Search, Registration },
   data: () => ({
+    visibleReg: false,
     drawer: false,
     group: null,
     logo,
@@ -118,6 +124,11 @@ export default {
     search:'',
     filmsAndSerials:[],
   }),
+  methods: {
+    closeRegistration(){
+      this.visibleReg = false
+    }
+  },
   beforeCreate() {
     document.body.className = "app"
   }
