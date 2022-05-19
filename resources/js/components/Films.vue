@@ -1,7 +1,7 @@
 <template>
   <div class="container-list">
-    <h1 v-if="this.filmsOrSerials === 'Films'"> Лучшие фильмы от VIDEOTEK</h1>
-     <h1 v-else>Лучшие сериалы от VIDEOTEK</h1>
+    <h1 v-if="this.filmsOrSerials === 'Films'">Фильмы от VIDEOTEK</h1>
+     <h1 v-else>Сериалы от VIDEOTEK</h1>
       <hr class="line"/>
     <button @click="show = !show" class="btn-genre">{{ this.genre }}<span class="flag">▾</span></button>
     <div class="filter" v-show="show">
