@@ -128,8 +128,40 @@ export default {
           axios
             .get('/api/filmRating/' + this.filmData.id)
             .then((result) => {
-              this.filmData.score = result.data.data.score
+              this.filmData.score = (+result.data.data.score).toPrecision(2)
               window.sessionStorage.setItem('filmData', JSON.stringify(this.filmData))
+              axios
+                .get('/api/main/rating')
+                .then(result => {
+                  const ratingFilms = result.data.data
+                  if (ratingFilms) {
+                    window.sessionStorage.setItem('ratingFilms', JSON.stringify(ratingFilms))
+                  }
+                })
+              axios
+                .get('/api/main/new')
+                .then(result => {
+                  const newVideo = result.data.data
+                  if (newVideo) {
+                    window.sessionStorage.setItem('newVideo', JSON.stringify(newVideo))
+                  }
+                })
+              axios
+                .get('/api/films')
+                .then(result => {
+                  const allFilms = result.data.data
+                  if (allFilms) {
+                    window.sessionStorage.setItem('allFilms', JSON.stringify(allFilms))
+                  }
+                })
+              axios
+                .get('/api/main')
+                .then(result => {
+                  const video = result.data.data
+                  if (video) {
+                    window.sessionStorage.setItem('video', JSON.stringify(video))
+                  }
+                })
             })
         })
     },
@@ -147,6 +179,12 @@ export default {
         const newVideo = JSON.parse(window.sessionStorage.getItem('newVideo'))
         if (newVideo) {
           this.film = newVideo.find( (item) => item.route === filmRoute )
+        }
+      }
+      if (! this.film) {
+        const allFilms = JSON.parse(window.sessionStorage.getItem('allFilms'))
+        if (allFilms) {
+          this.film = allFilms.find( (item) => item.route === filmRoute )
         }
       }
       if (! this.film) {
