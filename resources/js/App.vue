@@ -50,9 +50,12 @@
 
           <v-spacer />
           <Search />
-          <v-btn icon>
-            <v-icon>mdi-heart</v-icon>
+          <v-btn icon @click="login()">
+            <v-icon>mdi-account</v-icon>
           </v-btn>
+          <!-- v-btn icon>
+            <v-icon>mdi-heart</v-icon>
+          </v-btn -->
         </v-app-bar>
         <router-view />
       </v-main>
@@ -100,6 +103,7 @@ import zvezda from "./assets/zvezda.png"
 import media from "./assets/media.png"
 import newFilm from "./assets/newfilm.png"
 import Search from "./components/Search"
+import Login from "./components/Login"
 
 export default {
   name: "App",
@@ -120,6 +124,11 @@ export default {
   }),
   beforeCreate() {
     document.body.className = "app"
+  },
+  methods: {
+    login() {
+      this.$router.push({ name: 'Login'})
+    }
   }
 };
 </script>
