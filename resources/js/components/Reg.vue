@@ -2,7 +2,7 @@
   <div v-if="pageVisible" class="form-registration-block">
     <div class="form-registration">
       <input
-        type="name"
+        type="text"
         name="name"
         placeholder="Имя"
         class="input-login"
@@ -53,16 +53,15 @@ export default {
   methods: {
     onReg () {
       axios.get('/sanctum/csrf-cookie').then(response => {
-        axios.post('/register', { 
-          name: this.name, 
-          email: this.email, 
-          password: this.password, 
+        axios.post('/register', {
+          name: this.name,
+          email: this.email,
+          password: this.password,
           password_confirmation: this.password_confirmation
         })
         .then(result => {
           localStorage.setItem('x_xsrf_token', result.config.headers['X-XSRF-TOKEN'])
           this.$router.push({ name: 'Account'})
-          console.log(result)
         })
         .catch(err => {
           console.log(err.response)

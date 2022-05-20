@@ -7,7 +7,7 @@
 
 <script>
 import MainPage from '../components/MainPage.vue'
-import Registration from '../components/Registration.vue'
+import Registration from '../components/Login.vue'
 
 export default {
   name: 'HomeView',
