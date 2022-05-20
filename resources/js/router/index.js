@@ -7,6 +7,8 @@ import PersonPage from '../components/PersonPage.vue'
 import Films from '../components/Films.vue'
 import Media from '../components/Media.vue'
 import NewsArticlesPage from '../components/NewsArticlesPage.vue'
+import Account from '../components/Account.vue'
+import Reg from '../components/Reg.vue'
 import Page404 from '../components/Page404.vue'
 
 Vue.use(VueRouter)
@@ -26,6 +28,16 @@ const routes = [
     path: '/main',
     name: 'MainPage',
     component: MainPage
+  },
+  {
+    path: '/account',
+    name: 'Account',
+    component: Account
+  },
+  {
+    path: '/register',
+    name: 'Reg',
+    component: Reg
   },
   {
     path: '/films',

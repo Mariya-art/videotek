@@ -1,27 +1,39 @@
 <template>
   <div v-if="pageVisible" class="form-registration-block">
     <div class="form-registration">
-      <input v-if="!token"
+      <input
+        type="name"
+        name="name"
+        placeholder="Имя"
+        class="input-login"
+        v-model="name"
+      />
+      <input
         type="email"
         name="email"
         placeholder="Email"
         class="input-login"
         v-model="email"
       />
-      <input v-if="!token"
+      <input
         type="password"
         name="password"
         placeholder="Пароль"
         class="input-login"
         v-model="password"
       />
-      <button v-if="!token" value="login" class="button" @click.prevent="onLog">Войти</button>
-      <router-link v-if="!token" class="button" :to="{ name: 'Reg' }">Зарегистрироваться</router-link>
-      <button v-if="!token" class="button" @click="onClose">
+      <input
+        type="password"
+        name="password_confirmation"
+        placeholder="Подтвердите пароль"
+        class="input-login"
+        v-model="password_confirmation"
+      />
+      <button value="register" class="button" @click.prevent="onReg">Зарегистрироваться</button>
+      <button class="button" @click="onClose">
         Продолжить без регистрации
       </button>
-      <router-link v-if="token" class="button" :to="{ name: 'Account' }">Account</router-link>
-      <a v-if="token" @click.prevent="logout" class="button" href="#">Выход</a>
+      <router-link class="button" :to="{ name: 'Account' }">Account</router-link>
     </div>
   </div>
 </template>
@@ -31,19 +43,26 @@ export default {
   name: 'Registration',
   data () {
     return {
+      name: null,
       email: null,
       password: null,
+      password_confirmation: null,
       pageVisible: true,
-      token: null,
     }
   },
   methods: {
-    onLog () {
+    onReg () {
       axios.get('/sanctum/csrf-cookie').then(response => {
-        axios.post('/login', { email: this.email, password: this.password})
+        axios.post('/register', { 
+          name: this.name, 
+          email: this.email, 
+          password: this.password, 
+          password_confirmation: this.password_confirmation
+        })
         .then(result => {
           localStorage.setItem('x_xsrf_token', result.config.headers['X-XSRF-TOKEN'])
           this.$router.push({ name: 'Account'})
+          console.log(result)
         })
         .catch(err => {
           console.log(err.response)
@@ -54,23 +73,7 @@ export default {
       this.pageVisible = false;
       this.$router.push('/main')
     },
-    logout() {
-      axios.post('/logout')
-      .then(response => {
-        localStorage.removeItem('x_xsrf_token')
-        this.$router.push({ name: 'MainPage'})
-      })
-    },
-    getToken() {
-      this.token = localStorage.getItem('x_xsrf_token')
-    },
-  },
-  mounted() {
-    this.getToken()
-  },
-  updated() {
-    this.getToken()
-  },
+  }
 };
 </script>
 
