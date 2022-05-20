@@ -42,6 +42,7 @@ export default {
     getKey() { return uuid() }
   },
   created () {
+    document.title = 'VIDEOTEK'
     window.sessionStorage.setItem('persona', JSON.stringify([]))
     axios
       .get('/api/main/new')

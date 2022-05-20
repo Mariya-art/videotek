@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: 'Registration',
+  name: 'Login',
   data () {
     return {
       email: null,

@@ -226,7 +226,7 @@ export default {
     },
     finalPrepare() {
       this.filmCategories = this.film.genres.map((item) => item.title.toLowerCase()).join(', ')
-      document.title = 'VIDEOTEK - ' + this.film.title;
+      document.title = 'VIDEOTEK - ' + this.film.title
       this.isSerial = Boolean(+this.film.type_id === 2)
       this.isFilm = Boolean(+this.film.type_id === 1)
       this.isVideo = Boolean(+this.film.type_id === 3)
@@ -236,9 +236,9 @@ export default {
   },
   computed: {
     score: () => {
-      const array = [];
-      for (let i = 1; i < 11; i++) array.push(i);
-      return array;
+      const array = []
+      for (let i = 1; i < 11; i++) array.push(i)
+      return array
     },
     filmData() {
       return this.film
