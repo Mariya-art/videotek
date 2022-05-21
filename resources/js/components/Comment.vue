@@ -67,6 +67,12 @@ export default {
     filmId: Number
   },
   methods: {
+    getData() {
+        axios.get('/api/account')
+        .then(result => {
+            this.username = result.data
+        })
+    },
     getFeedbacks () {
       axios.get('/api/filmFeedbacks/' + this.filmId)
       .then(response => {
@@ -113,6 +119,7 @@ export default {
   },
   created () {
     this.getFeedbacks()
+    this.getData()
   }
 }
 </script>

@@ -3,7 +3,7 @@
     <div class="form-registration">
       <div class="win-name-box">
         <div class="slot"></div>
-        <div class="win-name"><h2 v-if="!token">Вход</h2></div>
+        <div class="win-name"><h2 v-if="!token">Вход</h2><h2 v-else>Вход выполнен</h2></div>
         <button class="btn-close" @click="onClose">
           &#10006;
         </button>
