@@ -61,15 +61,26 @@ export default {
         this.genreFilms = null
         this.genre = 'Жанры'
       } else {
-        this.genreFilms = this.allFilms.filter(
-          film => film.genres.map(genre => genre.id === item.id).reduce((a, b) => a || b)
-        )
-        this.genre = item.title
+        if (this.filmsOrSerials === 'Films'){
+        axios
+        .get('api/films/genres/' + item.id)
+        .then((result) => {
+          this.genreFilms = result.data.data
+          this.genre = item.title
+        })}
+        if(this.filmsOrSerials === 'Serials'){
+        axios
+        .get('api/serials/genres/' + item.id)
+        .then((result) => {
+          this.genreFilms = result.data.data
+          this.genre = item.title
+        })
+        }
       }
     },
     updateAllFilms(result) {
       this.allFilms = result.data.data
-      window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))
+      window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))  
     },
     updateGenres(result) {
       this.genres = result.data.data
