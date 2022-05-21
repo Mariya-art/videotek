@@ -50,9 +50,7 @@
 
           <v-spacer />
           <Search />
-          <v-btn icon @click="login()">
-            <v-icon>mdi-account</v-icon>
-          </v-btn>
+          <LoginButton />
           <!-- v-btn icon>
             <v-icon>mdi-heart</v-icon>
           </v-btn -->
@@ -103,11 +101,11 @@ import zvezda from "./assets/zvezda.png"
 import media from "./assets/media.png"
 import newFilm from "./assets/newfilm.png"
 import Search from "./components/Search"
-import Login from "./components/Login"
+import LoginButton from "./components/LoginButton"
 
 export default {
   name: "App",
-  components: { Search },
+  components: { Search, LoginButton },
   data: () => ({
     drawer: false,
     group: null,
@@ -121,14 +119,10 @@ export default {
     show: false,
     search:'',
     filmsAndSerials:[],
+    userName: ''
   }),
   beforeCreate() {
     document.body.className = "app"
-  },
-  methods: {
-    login() {
-      this.$router.push({ name: 'Login'})
-    }
   }
 };
 </script>
