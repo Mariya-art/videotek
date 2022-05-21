@@ -3,9 +3,9 @@
     <div class="form-registration">
       <div class="win-name-box">
         <div class="slot"></div>
-        <div class="win-name"><h2>Вход</h2></div>
+        <div class="win-name"><h2>Регистрации</h2></div>
         <button class=" btn-close" @click="onClose">
-          x
+          &#10006;
         </button>
       </div>
         
@@ -188,15 +188,17 @@ export default {
   width: 50px;
 }
 .btn-close {
-  align-self: end;
-  border-radius: 50%;
-  transition: 0.2s;
-  margin-bottom: 5px;
-  padding: 7px;
-  size: 16px;
+    background-color: black;
+    color: #eb5804;
+    font-size: 24px;
+    align-self: end;
+    border-radius: 50%;
+    transition: 0.2s;
+    padding: 0px 6px;
 }
 .btn-close:hover {
-  background-color: #d66c08;
+  background-color: #eb5804;
+  color: black;
 }
 .btn {
     padding: 5px;

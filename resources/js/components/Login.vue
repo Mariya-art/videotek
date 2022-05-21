@@ -3,13 +3,15 @@
     <div class="form-registration">
       <div class="win-name-box">
         <div class="slot"></div>
-        <div class="win-name"><h2>Вход</h2></div>
+        <div class=" win-name"><h2 v-if="!token">Вход</h2><h2 v-else>Вход выполнен</h2></div>
         <button class="btn-close" @click="onClose">
+          &#10006;
         </button>
       </div>
 
       <div class="if-box">
        <v-text-field
+       v-if="!token"
           solo
           dark
           v-model="email"
@@ -19,6 +21,7 @@
           required
         ></v-text-field>
         <v-text-field
+        v-if="!token"
           class="cc"
           solo
           dark
@@ -179,14 +182,13 @@ export default {
   width: 50px;
 }
 .btn-close {
-  align-self: end;
-  position: relative;
-  border-radius: 50%;
-  height: 25px;
-  width: 25px;
-  transition: 0.2s;
-  margin-bottom: 5px;
-  padding: 5px;
+    background-color: black;
+    color: #eb5804;
+    font-size: 24px;
+    align-self: end;
+    border-radius: 50%;
+    transition: 0.2s;
+    padding: 0px 6px;
 }
 .btn-close:before {
   content: '\00D7';
@@ -198,6 +200,9 @@ export default {
 .btn-close:hover {
   background-color: #eb5804;
   color: black;
+}
+.btn-close-text{
+  size: 16px;
 }
 .btn {
     padding: 5px 10px;
