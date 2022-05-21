@@ -1,20 +1,32 @@
 <template>
   <div v-if="pageVisible" class="form-registration-block">
     <div class="form-registration">
-      <input v-if="!token"
-        type="email"
-        name="email"
-        placeholder="Email"
-        class="input-login"
-        v-model="email"
-      />
-      <input v-if="!token"
-        type="password"
-        name="password"
-        placeholder="Пароль"
-        class="input-login"
-        v-model="password"
-      />
+      <button class="btn-close" @click="onClose">×</button>
+      <div class="vuetify-container">
+        <v-text-field
+          solo
+          dark
+          v-model="email"
+          name="email"
+          autocomplete="off"
+          label="Электр. почта"
+          required
+        ></v-text-field>
+        <v-text-field
+          class="cc"
+          solo
+          dark
+          v-model="password"
+          :append-icon="showpass ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showpass ? 'text' : 'password'"
+          name="password"
+          label="Пароль"
+          hint="Не менее 8 символов"
+          counter
+          @click:append="showpass = !showpass"
+          required
+        ></v-text-field>
+      </div>
       <button v-if="!token" value="login" class="button" @click.prevent="onLog">Войти</button>
       <router-link v-if="!token" class="button" :to="{ name: 'Reg' }">Зарегистрироваться</router-link>
       <button v-if="!token" class="button" @click="onClose">
@@ -35,6 +47,7 @@ export default {
       password: null,
       pageVisible: true,
       token: null,
+      showpass: false
     }
   },
   methods: {
@@ -74,11 +87,14 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .form-registration-block {
   height: auto;
   position: fixed;
   background-color: rgba(44, 44, 44, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   top: 0;
   bottom: 0;
   width: 100%;
@@ -119,5 +135,19 @@ export default {
   height: 25px;
   font-size: 20px;
   font-family: cursive;
+}
+.btn-close {
+  align-self: end;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: 0.2s;
+  margin-bottom: 5px;
+  padding: 7px;
+  background-color: #d66c08;
+  width: 20px;
+  height: 20px;
+
 }
 </style>
