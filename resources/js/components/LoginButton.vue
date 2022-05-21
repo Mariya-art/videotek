@@ -1,10 +1,8 @@
 <template>
-  <div >
     <button class="loginbtn" @click="login()">
       <p v-if="userName" class="username">{{ userName }}</p>
       <v-icon>mdi-account</v-icon>
     </button>
-  </div>
 </template>
 
 <script>
