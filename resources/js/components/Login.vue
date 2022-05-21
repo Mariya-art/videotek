@@ -3,10 +3,11 @@
     <div class="form-registration">
       <div class="win-name-box">
         <div class="slot"></div>
-        <div class="win-name"><h2 v-if="!token">Вход</h2><h2 v-else>Вход выполнен</h2></div>
-        <button class="btn-close" @click="onClose">
-          &#10006;
-        </button>
+        <div class="win-name">
+          <p v-if="token">Покинуть учётную запись?</p>
+          <h2 v-else="token">Вход</h2>
+        </div>
+        <CloseButton v-if="!token" />
       </div>
 
       <div class="if-box">
@@ -38,7 +39,10 @@
         <div class="btn-box">
           <button v-if="!token" value="login" class="btn" @click="onLog">Вход</button>
           <router-link v-if="!token" class="btn" :to="{ name: 'Registration' }">Регистрация</router-link>
-          <button v-if="token" @click="logout" class="btn">Выход</button>
+          <div v-if="token" class="btn-row" >
+            <button @click="logout" class="btn">Да</button>
+            <button @click="onClose" class="btn">Нет</button>
+          </div>
         </div>
       </div>
     </div>
@@ -47,8 +51,11 @@
 </template>
 
 <script>
+import CloseButton from './CloseButton.vue'
+
 export default {
   name: 'Login',
+  components: { CloseButton },
   data () {
     return {
       email: null,
@@ -145,22 +152,6 @@ export default {
 .slot{
   width: 50px;
 }
-.btn-close {
-    background-color: black;
-    color: #eb5804;
-    font-size: 24px;
-    align-self: end;
-    border-radius: 50%;
-    transition: 0.2s;
-    padding: 0px 6px;
-}
-.btn-close:hover {
-  background-color: #eb5804;
-  color: black;
-}
-.btn-close-text{
-  size: 16px;
-}
 .btn {
     padding: 5px 10px;
     background-color: black;
@@ -201,6 +192,10 @@ export default {
   flex-direction: column;
   width: 100%;
   align-items: center;
+}
+.btn-row {
+    display: flex;
+    justify-content: space-between;
 }
 .err{
     position: absolute;

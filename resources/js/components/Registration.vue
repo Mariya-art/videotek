@@ -4,9 +4,7 @@
       <div class="win-name-box">
         <div class="slot"></div>
         <div class="win-name"><h2>Регистрации</h2></div>
-        <button class=" btn-close" @click="onClose">
-          &#10006;
-        </button>
+        <CloseButton />
       </div>
 
        <div class="if-box">
@@ -64,8 +62,11 @@
 </template>
 
 <script>
+import CloseButton from './CloseButton.vue'
+
 export default {
   name: 'Registration',
+  components: { CloseButton },
   data: () => ({
       name: null,
       email: null,
