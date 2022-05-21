@@ -119,7 +119,9 @@ export default {
   },
   created () {
     this.getFeedbacks()
+    if(localStorage.getItem('x_xsrf_token')){
     this.getData()
+    }
   }
 }
 </script>
