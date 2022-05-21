@@ -26,6 +26,7 @@
           ref="email"
           v-model="email"
           :rules="[() => !!email || 'Обязательное поле']"
+          :label="email?'':'Email'"
           required
         ></v-text-field>
         <v-text-field
@@ -37,6 +38,7 @@
           :type="showpass ? 'text' : 'password'"
           :rules="[() => !!password || 'Обязательное поле']"
           @click:append="showpass = !showpass"
+          :label="password?'':'Пароль'"
           required
         ></v-text-field>
         <v-text-field
@@ -49,7 +51,6 @@
           label="Подтвердите пароль"
           required
         ></v-text-field>
-        <v-divider class="mt-12"></v-divider>
         <v-card-actions class="space-between">
           <button class="btn" text @click="onClose">Назад</button>
           <button value="register" class="btn" @click.prevent="onReg">
@@ -58,6 +59,7 @@
         </v-card-actions>
     </div>
   </div>
+   <p v-if="message" class="err">{{message}}</p>
   </div>
 </template>
 
@@ -70,6 +72,7 @@ export default {
       password: null,
       password_confirmation: null,
       showpass: false,
+      message: null,
     }),
   methods: {
     onReg () {
@@ -86,6 +89,7 @@ export default {
         })
         .catch(err => {
           console.log(err.response)
+          this.message= err.response.data.message
         })
       })
     },
@@ -112,6 +116,7 @@ export default {
   bottom: 0;
   width: 100%;
   z-index: 10;
+  flex-direction: column;
 }
 .form-registration {
   display: flex;
@@ -197,5 +202,13 @@ export default {
   flex-direction: column;
   width: 100%;
   align-items: center;
+}
+.err{
+    position: absolute;
+    bottom: 17%;
+    border: solid 1px #eb5804;
+    padding: 10px 15px;
+    border-radius: 6px;
+    background-color: black;
 }
 </style>

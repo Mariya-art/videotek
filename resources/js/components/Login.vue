@@ -42,6 +42,7 @@
         </div>
       </div>
     </div>
+     <p v-if="message" class="err">{{message}}</p>
   </div>
 </template>
 
@@ -53,7 +54,8 @@ export default {
       email: null,
       password: null,
       token: null,
-      showpass: false
+      showpass: false,
+      message:'',
     }
   },
   methods: {
@@ -67,6 +69,7 @@ export default {
         })
         .catch(err => {
           console.log(err.response)
+          this.message= err.response.data.message
         })
       })
     },
@@ -110,6 +113,7 @@ export default {
   bottom: 0;
   width: 100%;
   z-index: 10;
+  flex-direction: column;
 }
 .form-registration {
   display: flex;
@@ -197,5 +201,13 @@ export default {
   flex-direction: column;
   width: 100%;
   align-items: center;
+}
+.err{
+    position: absolute;
+    bottom: 17%;
+    border: solid 1px #eb5804;
+    padding: 10px 15px;
+    border-radius: 6px;
+    background-color: black;
 }
 </style>
