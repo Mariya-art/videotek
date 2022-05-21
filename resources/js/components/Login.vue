@@ -3,7 +3,7 @@
     <div class="form-registration">
       <div class="win-name-box">
         <div class="slot"></div>
-        <div class=" win-name"><h2 v-if="!token">Вход</h2><h2 v-else>Вход выполнен</h2></div>
+        <div class="win-name"><h2 v-if="!token">Вход</h2></div>
         <button class="btn-close" @click="onClose">
           &#10006;
         </button>
@@ -36,53 +36,14 @@
           required
         ></v-text-field>
         <div class="btn-box">
-          <button v-if="!token" value="login" class="btn" @click="onLog">Войти</button>
-          <router-link v-if="!token" class="btn" :to="{ name: 'Reg' }">Зарегистрироваться</router-link>
+          <button v-if="!token" value="login" class="btn" @click="onLog">Вход</button>
+          <router-link v-if="!token" class="btn" :to="{ name: 'Registration' }">Регистрация</router-link>
           <button v-if="token" @click="logout" class="btn">Выход</button>
         </div>
       </div>
     </div>
   </div>
 </template>
-<!--<template>
-  <div v-if="pageVisible" class="form-registration-block">
-    <div class="form-registration">
-      <button class="btn-close" @click="onClose">×</button>
-      <div class="vuetify-container">
-        <v-text-field
-          solo
-          dark
-          v-model="email"
-          name="email"
-          autocomplete="off"
-          label="Электр. почта"
-          required
-        ></v-text-field>
-        <v-text-field
-          class="cc"
-          solo
-          dark
-          v-model="password"
-          :append-icon="showpass ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="showpass ? 'text' : 'password'"
-          name="password"
-          label="Пароль"
-          hint="Не менее 8 символов"
-          counter
-          @click:append="showpass = !showpass"
-          required
-        ></v-text-field>
-      </div>
-      <button v-if="!token" value="login" class="button" @click.prevent="onLog">Войти</button>
-      <router-link v-if="!token" class="button" :to="{ name: 'Reg' }">Зарегистрироваться</router-link>
-      <button v-if="!token" class="button" @click="onClose">
-        Продолжить без регистрации
-      </button>
-      <router-link v-if="token" class="button" :to="{ name: 'Account' }">Account</router-link>
-      <a v-if="token" @click.prevent="logout" class="button" href="#">Выход</a>
-    </div>
-  </div>
-</template>-->
 
 <script>
 export default {
@@ -91,7 +52,6 @@ export default {
     return {
       email: null,
       password: null,
-      pageVisible: true,
       token: null,
       showpass: false
     }
@@ -111,8 +71,7 @@ export default {
       })
     },
     onClose () {
-      this.pageVisible = false;
-      this.$router.push('/main')
+      this.$router.go(-1)
     },
     logout() {
       axios.post('/logout')

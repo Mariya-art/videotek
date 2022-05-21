@@ -8,7 +8,7 @@
           &#10006;
         </button>
       </div>
-        
+
        <div class="if-box">
         <v-text-field
         class="marg"
@@ -26,7 +26,6 @@
           ref="email"
           v-model="email"
           :rules="[() => !!email || 'Обязательное поле']"
-          label="Email"
           required
         ></v-text-field>
         <v-text-field
@@ -37,7 +36,6 @@
           :append-icon="showpass ? 'mdi-eye' : 'mdi-eye-off'"
           :type="showpass ? 'text' : 'password'"
           :rules="[() => !!password || 'Обязательное поле']"
-          label="Пароль"
           @click:append="showpass = !showpass"
           required
         ></v-text-field>
@@ -53,47 +51,12 @@
         ></v-text-field>
         <v-divider class="mt-12"></v-divider>
         <v-card-actions class="space-between">
-          <button class="btn" text @click="login">Отмена</button>
+          <button class="btn" text @click="onClose">Назад</button>
           <button value="register" class="btn" @click.prevent="onReg">
-            Зарегистрироваться
+            Отправить
           </button>
         </v-card-actions>
-    </div> <!--
-      <input
-        type="text"
-        name="name"
-        placeholder="Имя"
-        class="input-login"
-        v-model="name"
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        class="input-login"
-        v-model="email"
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Пароль"
-        class="input-login"
-        v-model="password"
-      />
-      <input
-        type="password"
-        name="password_confirmation"
-        placeholder="Подтвердите пароль"
-        class="input-login"
-        v-model="password_confirmation"
-      />
-      <button value="register" class="button" @click.prevent="onReg">Зарегистрироваться</button>
-      <button class="button" @click="onClose">
-        Продолжить без регистрации
-      </button>
-      <router-link class="button" :to="{ name: 'Account' }">Account</router-link>
     </div>
-  </div>-->
   </div>
   </div>
 </template>
@@ -101,16 +64,13 @@
 <script>
 export default {
   name: 'Registration',
-  data () {
-    return {
+  data: () => ({
       name: null,
       email: null,
       password: null,
       password_confirmation: null,
-      pageVisible: true,
       showpass: false,
-    }
-  },
+    }),
   methods: {
     onReg () {
       axios.get('/sanctum/csrf-cookie').then(response => {
@@ -122,7 +82,7 @@ export default {
         })
         .then(result => {
           localStorage.setItem('x_xsrf_token', result.config.headers['X-XSRF-TOKEN'])
-          this.$router.push({ name: 'Account'})
+          this.$router.push({ name: 'MainPage'})
         })
         .catch(err => {
           console.log(err.response)
@@ -130,11 +90,7 @@ export default {
       })
     },
     onClose () {
-      this.pageVisible = false;
-      this.$router.push('/main')
-    },
-    login() {
-      this.$router.push({ name: 'Login'})
+      this.$router.go(-1)
     }
   }
 };
