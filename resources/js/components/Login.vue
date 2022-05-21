@@ -103,6 +103,7 @@ export default {
         .then(result => {
           localStorage.setItem('x_xsrf_token', result.config.headers['X-XSRF-TOKEN'])
           this.$router.push({ name: 'MainPage'})
+          window.location.reload()
         })
         .catch(err => {
           console.log(err.response)
@@ -189,13 +190,6 @@ export default {
     border-radius: 50%;
     transition: 0.2s;
     padding: 0px 6px;
-}
-.btn-close:before {
-  content: '\00D7';
-  position: absolute;
-  top: -10.25px;
-  left: 2.5px;
-  font-size: 22pt;
 }
 .btn-close:hover {
   background-color: #eb5804;
