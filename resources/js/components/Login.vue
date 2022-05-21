@@ -3,9 +3,8 @@
     <div class="form-registration">
       <div class="win-name-box">
         <div class="slot"></div>
-        <div class=" win-name"><h2>Вход</h2></div>
+        <div class="win-name"><h2>Вход</h2></div>
         <button class="btn-close" @click="onClose">
-          x
         </button>
       </div>
 
@@ -33,7 +32,7 @@
           @click:append="showpass = !showpass"
           required
         ></v-text-field>
-        <div class="but-box">
+        <div class="btn-box">
           <button v-if="!token" value="login" class="btn" @click="onLog">Войти</button>
           <router-link v-if="!token" class="btn" :to="{ name: 'Reg' }">Зарегистрироваться</router-link>
           <button v-if="token" @click="logout" class="btn">Выход</button>
@@ -181,24 +180,33 @@ export default {
 }
 .btn-close {
   align-self: end;
+  position: relative;
   border-radius: 50%;
+  height: 25px;
+  width: 25px;
   transition: 0.2s;
   margin-bottom: 5px;
-  padding: 7px;
-  size: 16px;
+  padding: 5px;
+}
+.btn-close:before {
+  content: '\00D7';
+  position: absolute;
+  top: -10.25px;
+  left: 2.5px;
+  font-size: 22pt;
 }
 .btn-close:hover {
-  background-color: #d66c08;
+  background-color: #eb5804;
+  color: black;
 }
 .btn {
-    padding: 5px;
+    padding: 5px 10px;
     background-color: black;
     border: solid 1px #eb5804;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #eb5804;
-    font-size: 20px;
     border-radius: 10px 0 10px 0;
     height: 30px;
     margin: 5px;
@@ -226,7 +234,7 @@ export default {
   font-size: 20px;
   font-family: cursive;
 }
-.but-box {
+.btn-box {
   display: flex;
   flex-direction: column;
   width: 100%;
