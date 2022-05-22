@@ -5,7 +5,7 @@
         <div class="slot"></div>
         <div class="win-name">
           <p v-if="token">Покинуть учётную запись?</p>
-          <h2 v-else="token">Вход</h2>
+          <h2 v-else>Вход</h2>
         </div>
         <CloseButton v-if="!token" />
       </div>
@@ -32,7 +32,7 @@
           name="password"
           label="Пароль"
           hint="Не менее 8 символов"
-          :counter = password ? true : false
+          :counter="password ? true : false"
           @click:append="showpass = !showpass"
           required
         ></v-text-field>
