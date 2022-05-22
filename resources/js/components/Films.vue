@@ -61,15 +61,18 @@ export default {
       if (item.id === 0) {
         this.genreFilms = null
         this.genre = 'Жанры'
+        this.page = 1
+        this.refreshData()
       } else {
           this.genreId = item.id
           this.genre = item.title
+          this.page = 1
           this.refreshData()
         }
     },
     updateAllFilms(result) {
       this.allFilms = result.data.data
-      window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))  
+      window.sessionStorage.setItem('allFilms', JSON.stringify(this.allFilms))
     },
     updateGenres(result) {
       this.genres = result.data.data
@@ -88,7 +91,7 @@ export default {
           .then((result) => {
             this.updateGenres(result)
           })
-        if(this.genre == 'Жанры'){
+        if(this.genre === 'Жанры'){
           axios
           .get('/api/films?page=' + this.page)
           .then((result) => {
