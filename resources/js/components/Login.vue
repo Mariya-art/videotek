@@ -1,65 +1,52 @@
 <template>
-  <div class="form-registration-block">
+  <div  class="form-registration-block">
     <div class="form-registration">
       <div class="win-name-box">
         <div class="slot"></div>
-        <div class="win-name"><h2>Регистрации</h2></div>
-        <CloseButton />
+        <div class="win-name">
+          <p v-if="token">Покинуть учётную запись?</p>
+          <h2 v-else="token">Вход</h2>
+        </div>
+        <CloseButton v-if="!token" />
       </div>
 
-       <div class="if-box">
-        <v-text-field
-        class="marg"
+      <div class="if-box">
+       <v-text-field
+       v-if="!token"
           solo
           dark
-          ref="name"
-          v-model="name"
-          :rules="[() => !!name || 'Обязательное поле']"
-          label="Имя пользователя"
-          required
-        ></v-text-field>
-        <v-text-field
-          solo
-          dark
-          ref="email"
           v-model="email"
-          :rules="[() => !!email || 'Обязательное поле']"
-          :label="email?'':'Email'"
+          name="email"
+          autocomplete="off"
+          label="Электр. почта"
           required
         ></v-text-field>
         <v-text-field
+        v-if="!token"
+          class="cc"
           solo
           dark
-          ref="password"
           v-model="password"
           :append-icon="showpass ? 'mdi-eye' : 'mdi-eye-off'"
           :type="showpass ? 'text' : 'password'"
-          :rules="[() => !!password || 'Обязательное поле']"
+          name="password"
+          label="Пароль"
+          hint="Не менее 8 символов"
+          :counter = password ? true : false
           @click:append="showpass = !showpass"
-          :label="password?'':'Пароль'"
-          :counter = password ? true : false
           required
         ></v-text-field>
-        <v-text-field
-          solo
-          dark
-          type="password"
-          ref="conformpassword"
-          v-model="password_confirmation"
-          :rules="[() => !!password_confirmation || 'Обязательное поле']"
-          label="Подтвердите пароль"
-          :counter = password ? true : false
-          required
-        ></v-text-field>
-        <v-card-actions class="space-between">
-          <button class="btn" text @click="onClose">Назад</button>
-          <button value="register" class="btn" @click.prevent="onReg">
-            Отправить
-          </button>
-        </v-card-actions>
+        <div class="btn-box">
+          <button v-if="!token" value="login" class="btn" @click="onLog">Вход</button>
+          <router-link v-if="!token" class="btn" :to="{ name: 'Registration' }">Регистрация</router-link>
+          <div v-if="token" class="btn-row" >
+            <button @click="logout" class="btn">Да</button>
+            <button @click="onClose" class="btn">Нет</button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-   <p v-if="message" class="err">{{message}}</p>
+     <p v-if="message" class="err">{{message}}</p>
   </div>
 </template>
 
@@ -67,28 +54,25 @@
 import CloseButton from './CloseButton.vue'
 
 export default {
-  name: 'Registration',
+  name: 'Login',
   components: { CloseButton },
-  data: () => ({
-      name: null,
+  data () {
+    return {
       email: null,
       password: null,
-      password_confirmation: null,
+      token: null,
       showpass: false,
-      message: null,
-    }),
+      message:'',
+    }
+  },
   methods: {
-    onReg () {
+    onLog () {
       axios.get('/sanctum/csrf-cookie').then(response => {
-        axios.post('/register', {
-          name: this.name,
-          email: this.email,
-          password: this.password,
-          password_confirmation: this.password_confirmation
-        })
+        axios.post('/login', { email: this.email, password: this.password})
         .then(result => {
           localStorage.setItem('x_xsrf_token', result.config.headers['X-XSRF-TOKEN'])
           this.$router.push({ name: 'MainPage'})
+          window.location.reload()
         })
         .catch(err => {
           console.log(err.response)
@@ -98,8 +82,25 @@ export default {
     },
     onClose () {
       this.$router.go(-1)
-    }
-  }
+    },
+    logout() {
+      axios.post('/logout')
+      .then(response => {
+        localStorage.removeItem('x_xsrf_token')
+        this.$router.push({ name: 'MainPage'})
+        window.location.reload()
+      })
+    },
+    getToken() {
+      this.token = localStorage.getItem('x_xsrf_token')
+    },
+  },
+  mounted() {
+    this.getToken()
+  },
+  updated() {
+    this.getToken()
+  },
 };
 </script>
 
@@ -151,28 +152,14 @@ export default {
 .slot{
   width: 50px;
 }
-.btn-close {
-    background-color: black;
-    color: #eb5804;
-    font-size: 24px;
-    align-self: end;
-    border-radius: 50%;
-    transition: 0.2s;
-    padding: 0px 6px;
-}
-.btn-close:hover {
-  background-color: #eb5804;
-  color: black;
-}
 .btn {
-    padding: 5px;
+    padding: 5px 10px;
     background-color: black;
     border: solid 1px #eb5804;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #eb5804;
-    font-size: 20px;
     border-radius: 10px 0 10px 0;
     height: 30px;
     margin: 5px;
@@ -200,11 +187,15 @@ export default {
   font-size: 20px;
   font-family: cursive;
 }
-.but-box {
+.btn-box {
   display: flex;
   flex-direction: column;
   width: 100%;
   align-items: center;
+}
+.btn-row {
+    display: flex;
+    justify-content: space-between;
 }
 .err{
     position: absolute;

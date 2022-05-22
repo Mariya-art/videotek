@@ -50,9 +50,10 @@
 
           <v-spacer />
           <Search />
-          <v-btn icon>
+          <LoginButton />
+          <!-- v-btn icon>
             <v-icon>mdi-heart</v-icon>
-          </v-btn>
+          </v-btn -->
         </v-app-bar>
         <router-view />
       </v-main>
@@ -100,10 +101,11 @@ import zvezda from "./assets/zvezda.png"
 import media from "./assets/media.png"
 import newFilm from "./assets/newfilm.png"
 import Search from "./components/Search"
+import LoginButton from "./components/LoginButton"
 
 export default {
   name: "App",
-  components: { Search },
+  components: { Search, LoginButton },
   data: () => ({
     drawer: false,
     group: null,
@@ -117,6 +119,7 @@ export default {
     show: false,
     search:'',
     filmsAndSerials:[],
+    userName: ''
   }),
   beforeCreate() {
     document.body.className = "app"
