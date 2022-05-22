@@ -53,6 +53,7 @@ export default {
     page: 1,
     paginationLength: 1,
     showPagination: false,
+    genreId: null,
   }),
   components: {CardFilm},
   methods: {
@@ -61,22 +62,10 @@ export default {
         this.genreFilms = null
         this.genre = 'Жанры'
       } else {
-        if (this.filmsOrSerials === 'Films'){
-        axios
-        .get('api/films/genres/' + item.id)
-        .then((result) => {
-          this.genreFilms = result.data.data
+          this.genreId = item.id
           this.genre = item.title
-        })}
-        if(this.filmsOrSerials === 'Serials'){
-        axios
-        .get('api/serials/genres/' + item.id)
-        .then((result) => {
-          this.genreFilms = result.data.data
-          this.genre = item.title
-        })
+          this.refreshData()
         }
-      }
     },
     updateAllFilms(result) {
       this.allFilms = result.data.data
@@ -95,26 +84,41 @@ export default {
       this.showPagination = this.paginationLength > 0 && this.filmsOrSerials === 'Films'
       if (this.filmsOrSerials === 'Films') {
         axios
-          .get('/api/films?page=' + this.page)
-          .then((result) => {
-            this.updateAllFilms(result)
-          })
-        axios
           .get('/api/filmsGenres')
           .then((result) => {
             this.updateGenres(result)
           })
-      } else if (this.filmsOrSerials === 'Serials') {
-        axios
-          .get('/api/serials')
+        if(this.genre == 'Жанры'){
+          axios
+          .get('/api/films?page=' + this.page)
           .then((result) => {
             this.updateAllFilms(result)
           })
+        } else {
+         axios
+        .get('api/films/genres/' + this.genreId +'?page='+ this.page)
+        .then((result) => {
+          this.genreFilms = result.data.data
+        })
+        }
+      } else if (this.filmsOrSerials === 'Serials') {
         axios
           .get('/api/serialsGenres')
           .then((result) => {
             this.updateGenres(result)
           })
+        axios
+          .get('/api/serials')
+          .then((result) => {
+            this.updateAllFilms(result)
+          })
+          if(this.genreId != null){
+        axios
+        .get('api/serials/genres/' + this.genreId )
+        .then((result) => {
+          this.genreFilms = result.data.data
+        })
+      }
       }
     }
   },
@@ -122,8 +126,9 @@ export default {
     $route(to, from) {
       this.filmsOrSerials = this.$route.name
       window.sessionStorage.setItem('filmsOrSerials', JSON.stringify(this.filmsOrSerials))
-      this.refreshData()
       this.genre = 'Жанры'
+      this.genreId = null
+      this.refreshData()
       this.show = false
       this.genreFilms = null
     },
