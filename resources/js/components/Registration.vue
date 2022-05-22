@@ -39,6 +39,7 @@
           :rules="[() => !!password || 'Обязательное поле']"
           @click:append="showpass = !showpass"
           :label="password?'':'Пароль'"
+          :counter = password ? true : false
           required
         ></v-text-field>
         <v-text-field
@@ -49,6 +50,7 @@
           v-model="password_confirmation"
           :rules="[() => !!password_confirmation || 'Обязательное поле']"
           label="Подтвердите пароль"
+          :counter = password ? true : false
           required
         ></v-text-field>
         <v-card-actions class="space-between">

@@ -31,7 +31,7 @@
           name="password"
           label="Пароль"
           hint="Не менее 8 символов"
-          counter
+          :counter = password ? true : false
           @click:append="showpass = !showpass"
           required
         ></v-text-field>
