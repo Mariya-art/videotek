@@ -63,19 +63,17 @@ export default {
         this.genre = 'Жанры'
         this.page = 1
         this.refreshData()
+        axios
+            .get('/api/filmsPageCount')
+            .then(result => {
+                this.paginationLength = +result.data
+            })
       } else {
           this.genreId = item.id
           this.genre = item.title
           this.page = 1
           this.refreshData()
-        } 
-        if( item.title === 'Все'){
-          axios
-          .get('/api/filmsPageCount')
-          .then(result => {
-          this.paginationLength = +result.data
-      })
-        }
+      }
     },
     updateAllFilms(result) {
       this.allFilms = result.data.data
