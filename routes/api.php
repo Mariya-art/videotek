@@ -42,7 +42,9 @@ Route::get('/main/new', [FilmController::class, 'getNewItems']); // items по �
 
 Route::get('/filmsPageCount', [FilmController::class, 'getFilmsPageCount']); // кол-во страниц пагинации фильмов
 Route::get('/films', [FilmController::class, 'getNewFilms']); // все фильмы
+Route::get('/serialsPageCount', [FilmController::class, 'getSerialsPageCount']); // кол-во страниц пагинации сериалов
 Route::get('/serials', [FilmController::class, 'getNewSerials']); // все сериалы
+Route::get('/videosPageCount', [FilmController::class, 'getVideosPageCount']); // кол-во страниц пагинации видео
 Route::get('/videos', [FilmController::class, 'getNewVideos']); // все видео
 Route::get('/news', [NewsController::class, 'index']); // все новости
 Route::get('/articles', [ArticleController::class, 'index']); // все статьи
@@ -55,8 +57,12 @@ Route::get('/articles/{article}', [ArticleController::class, 'show']); // кон
 
 Route::get('/filmsGenres', [CategoryController::class, 'getFilmsCategories']); // жанры фильмов (в которых есть хотя бы 1 фильм)
 Route::get('/serialsGenres', [CategoryController::class, 'getSerialsCategories']); // жанры сериалов (в которых есть хотя бы 1 сериал)
+
+Route::get('/filmsPageCount/{categoryId}', [FilmController::class, 'getGenreFilmsPageCount']); // к-во страниц пагинации фильмов опред.жанра
 Route::get('/films/genres/{categoryId}', [FilmController::class, 'getCategoryFilms']); // фильмы определенного жанра
+Route::get('/serialsPageCount/{categoryId}', [FilmController::class, 'getGenreSerialsPageCount']); // к-во страниц пагинации сериалов опред.жанра
 Route::get('/serials/genres/{categoryId}', [FilmController::class, 'getCategorySerials']); // сериалы определенного жанра
+Route::get('/videosPageCount/{categoryId}', [FilmController::class, 'getGenreVideosPageCount']); // к-во страниц пагинации видео опред.жанра
 Route::get('/videos/genres/{categoryId}', [FilmController::class, 'getCategoryVideos']); // видео определенного жанра
 
 Route::get('/filmFeedbacks/{film_id}', [FeedbackController::class, 'getFilmFeedbacks']); // отзывы на фильм

@@ -63,12 +63,17 @@ export default {
         this.genre = 'Жанры'
         this.page = 1
         this.refreshData()
+        axios
+            .get('/api/filmsPageCount')
+            .then(result => {
+                this.paginationLength = +result.data
+            })
       } else {
           this.genreId = item.id
           this.genre = item.title
           this.page = 1
           this.refreshData()
-        }
+      }
     },
     updateAllFilms(result) {
       this.allFilms = result.data.data
@@ -98,8 +103,13 @@ export default {
             this.updateAllFilms(result)
           })
         } else {
+          axios
+        .get('api/filmsPageCount/' + this.genreId)
+        .then(result => {
+          this.paginationLength = +result.data
+        })
          axios
-        .get('api/films/genres/' + this.genreId +'?page='+ this.page)
+        .get('api/films/genres/' + this.genreId + '?page=' + this.page)
         .then((result) => {
           this.genreFilms = result.data.data
         })
@@ -154,6 +164,7 @@ export default {
         this.paginationLength = +result.data
         window.sessionStorage.setItem('paginationLength', JSON.stringify(this.paginationLength))
       })
+    
   },
 };
 </script>

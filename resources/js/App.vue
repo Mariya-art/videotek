@@ -30,12 +30,12 @@
           ><p><img :src="newfilm" class="iconList" />Новинки</p></router-link
         > -->
           <hr class="line" />
-          <router-link class="link" to="/"
+         <!-- <router-link class="link" to="/"
             ><p>
               <img :src="zvezda" class="iconList" />Ваша подборка
             </p></router-link
           >
-          <hr class="line" />
+          <hr class="line" /> -->
         </div>
       </v-navigation-drawer>
       <v-main>
