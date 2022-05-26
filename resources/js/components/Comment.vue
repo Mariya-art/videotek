@@ -90,32 +90,42 @@ export default {
         this.errored = true
       })
     },
-    async sendComment () {
-      await axios.post('/api/feedbacks', {
-        film_id: this.filmId,
-        username: this.username,
-        text: this.text,
-      })
-      .then(response => {
-        this.username = ''
-        this.text = ''
-        this.errorUsername = null
-        this.errorText = null
-        this.getFeedbacks()
-      })
-      .catch(error => {
-        if (error.response.data.errors.username) {
-          this.errorUsername = error.response.data.errors.username
-        } else {
-          this.errorUsername = null
-        }
-        if (error.response.data.errors.text) {
-          this.errorText = error.response.data.errors.text
-        }  else {
-          this.errorText = null
-        }
-      })
+    textReplacer(text) {
+      return text
+        .replace(/\.\.\./g, '…')
+        .replace(/(^)\x22(\s)/g, '$1»$2')
+        .replace(/(^|\s|\()"/g, '$1«')
+        .replace(/"(;|!|\?|:|\.|…|,|$|\)|\{|\s)/g, '»$1')
+        .replace(/(?<!»,) - /g, ' — ')
+        .replace(/(«[^»]*)«([^»]*)»/g, '$1„$2“')
     },
+    sendComment () {
+      axios
+        .post('/api/feedbacks', {
+          film_id: this.filmId,
+          username: this.username,
+          text: this.textReplacer(this.text),
+        })
+        .then(response => {
+          this.username = ''
+          this.text = ''
+          this.errorUsername = null
+          this.errorText = null
+          this.getFeedbacks()
+        })
+        .catch(error => {
+          if (error.response.data.errors.username) {
+            this.errorUsername = error.response.data.errors.username
+          } else {
+            this.errorUsername = null
+          }
+          if (error.response.data.errors.text) {
+            this.errorText = error.response.data.errors.text
+          }  else {
+            this.errorText = null
+          }
+        })
+    }
   },
   created () {
     this.getFeedbacks()
