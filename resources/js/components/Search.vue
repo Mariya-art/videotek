@@ -34,14 +34,16 @@ export default {
       this.search = ''
     },
     searchFilm() {
-      console.log('search for ' + this.search)
-      const found = this.allVideoItems.find(
+      let found = this.allVideoItems.find(
         item => item.title.toLocaleLowerCase() == this.search.toLocaleLowerCase()
       )
-      console.log('found: ', found)
+      if (!found) {
+        found = this.allVideoItems.find(
+          item => item.title.toLocaleLowerCase().includes(this.search.toLocaleLowerCase())
+        )
+      }
       if (found) {
         this.jumpCounter++
-        console.log(this.jumpCounter)
         this.$router.push('/films/' + found.route)
         if (this.jumpCounter > 0) this.$router.go()
       }
